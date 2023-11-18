@@ -20,12 +20,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.example.demo.daos.BrandRepository;
 import com.example.demo.daos.ProductRepository;
-import com.example.demo.daos.SubCategoryRepository;
-import com.example.demo.model.Brand;
 import com.example.demo.model.Product;
-import com.example.demo.model.SubCategory;
 
 import jakarta.validation.Valid;
 
@@ -33,12 +29,6 @@ import jakarta.validation.Valid;
 public class ProductController {
 	@Autowired
 	private ProductRepository productRepository;
-
-	@Autowired
-	private BrandRepository brandRepository;
-
-	@Autowired
-	private SubCategoryRepository subCategoryRepository;
 
 	@GetMapping("/product")
 	public String products(Model model) {
@@ -49,12 +39,7 @@ public class ProductController {
 
 	@GetMapping("/product/add")
 	public String addProduct(Model model) {
-		List<Brand> brands = brandRepository.findAll();
-		List<SubCategory> subCategories = subCategoryRepository.findAll();
 		Product product = new Product();
-		model.addAttribute("brands", brands);
-		model.addAttribute("subCategories", subCategories);
-
 		model.addAttribute("product", product);
 		return "admin/product/add";
 	}
@@ -64,10 +49,6 @@ public class ProductController {
 			@Valid @ModelAttribute("product") Product product, BindingResult bindingResult,
 			RedirectAttributes redirectAttributes, Model model) {
 		if (bindingResult.hasErrors()) {
-			List<Brand> brands = brandRepository.findAll();
-			List<SubCategory> subCategories = subCategoryRepository.findAll();
-			model.addAttribute("brands", brands);
-			model.addAttribute("subCategories", subCategories);
 			return "/admin/product/add";
 		}
 		String imageName = imagesFile.getOriginalFilename();
@@ -105,10 +86,6 @@ public class ProductController {
 	@GetMapping("/product/edit/{id}")
 	public String productEdit(@PathVariable("id") Integer id, Model model) {
 		Product product = productRepository.getReferenceById(id);
-		List<Brand> brands = brandRepository.findAll();
-		List<SubCategory> subCategories = subCategoryRepository.findAll();
-		model.addAttribute("brands", brands);
-		model.addAttribute("subCategories", subCategories);
 		model.addAttribute("product", product);
 		return "admin/product/update";
 	}
@@ -117,32 +94,29 @@ public class ProductController {
 	public String productUpdate(@PathVariable("id") Integer id, @RequestParam("thumbImages") MultipartFile imagesFile,
 			@Valid @ModelAttribute("product") Product product, BindingResult bindingResult,
 			RedirectAttributes redirectAttributes, Model model) {
-		if(bindingResult.hasErrors()) {
-			List<Brand> brands = brandRepository.findAll();
-			List<SubCategory> subCategories = subCategoryRepository.findAll();
-			model.addAttribute("brands", brands);
-			model.addAttribute("subCategories", subCategories);
+		if (bindingResult.hasErrors()) {
 			return "/admin/product/update";
 		}
 		Product existingProduct = productRepository.getReferenceById(id);
-		
-		if(existingProduct.getThumbnailImage() != null) {
-			try {
-				String photoPath = "src/main/resources/static/uploads/products/" + existingProduct.getId() + "/" + existingProduct.getThumbnailImage();
-	            // Create a File object with the photo path
-	            File photoFile = new File(photoPath);
 
-	            // Delete the file associated with the photo path
-	            if (photoFile.exists()) {
-	                photoFile.delete();
-	            }
+		if (existingProduct.getThumbnailImage() != null) {
+			try {
+				String photoPath = "src/main/resources/static/uploads/products/" + existingProduct.getId() + "/"
+						+ existingProduct.getThumbnailImage();
+				// Create a File object with the photo path
+				File photoFile = new File(photoPath);
+
+				// Delete the file associated with the photo path
+				if (photoFile.exists()) {
+					photoFile.delete();
+				}
 
 			} catch (Exception e) {
 
 				e.printStackTrace();
 			}
 		}
-		
+
 		String imageName = imagesFile.getOriginalFilename();
 		existingProduct.setName(product.getName());
 		existingProduct.setBrand(product.getBrand());
@@ -152,7 +126,7 @@ public class ProductController {
 		existingProduct.setStock(product.getStock());
 		existingProduct.setSubCategory(product.getSubCategory());
 		existingProduct.setThumbnailImage(imageName);
-		
+
 		Product savedImage = productRepository.save(existingProduct);
 		try {
 
@@ -174,27 +148,29 @@ public class ProductController {
 		return "redirect:/product";
 
 	}
-	
-	@PostMapping("/product/delete")
-	public String deleteProduct(@ModelAttribute("product") Product product,RedirectAttributes redirectAttributes,Model model) {
-		Product existingProduct = productRepository.getReferenceById(product.getId());
-		if(existingProduct.getThumbnailImage() != null) {
-			try {
-				String photoPath = "src/main/resources/static/uploads/products/" + existingProduct.getId() + "/" + existingProduct.getThumbnailImage();
-	            // Create a File object with the photo path
-	            File photoFile = new File(photoPath);
 
-	            // Delete the file associated with the photo path
-	            if (photoFile.exists()) {
-	                photoFile.delete();
-	            }
+	@PostMapping("/product/delete")
+	public String deleteProduct(@ModelAttribute("product") Product product, RedirectAttributes redirectAttributes,
+			Model model) {
+		Product existingProduct = productRepository.getReferenceById(product.getId());
+		if (existingProduct.getThumbnailImage() != null) {
+			try {
+				String photoPath = "src/main/resources/static/uploads/products/" + existingProduct.getId() + "/"
+						+ existingProduct.getThumbnailImage();
+				// Create a File object with the photo path
+				File photoFile = new File(photoPath);
+
+				// Delete the file associated with the photo path
+				if (photoFile.exists()) {
+					photoFile.delete();
+				}
 
 			} catch (Exception e) {
 
 				e.printStackTrace();
 			}
 		}
-		
+
 		redirectAttributes.addFlashAttribute("success", "Product Deleted Successful!");
 		return "redirect:/product";
 	}

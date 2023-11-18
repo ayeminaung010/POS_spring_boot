@@ -12,9 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.example.demo.daos.CategoryRepository;
 import com.example.demo.daos.SubCategoryRepository;
-import com.example.demo.model.Category;
 import com.example.demo.model.SubCategory;
 
 import jakarta.validation.Valid;
@@ -23,8 +21,6 @@ import jakarta.validation.Valid;
 public class SubCategoryController {
 	@Autowired
 	private SubCategoryRepository subcategoryRepo;
-	@Autowired
-	private CategoryRepository categoryRepo;
 
 	@GetMapping("/subcategory")
 	public String viewSubCategory(Model model) {
@@ -37,8 +33,6 @@ public class SubCategoryController {
 	public String addSubCategory(Model model) {
 		SubCategory subcategory = new SubCategory();
 		model.addAttribute("subcategory", subcategory);
-		List<Category> categoryList = categoryRepo.findAll();
-		model.addAttribute("categoryList", categoryList);
 
 		return "admin/subCategory/add";
 	}
@@ -48,18 +42,11 @@ public class SubCategoryController {
 			Model model,RedirectAttributes redirectAttributes) {
 		
 		if (bindingResult.hasErrors()) {
-			
-			List<Category> categoryList = categoryRepo.findAll();
-			model.addAttribute("categoryList", categoryList);
-			
+		
 			return "admin/subCategory/add";
 		}
 		SubCategory existingsubcategory = subcategoryRepo.findBySubCategoryName(subcategory.getSubCategoryName());
 		if (existingsubcategory != null) {
-			
-			List<Category> categoryList = categoryRepo.findAll();
-			model.addAttribute("categoryList", categoryList);
-			
 			bindingResult.rejectValue("subCategoryName", "error.subcategory", "SubCategory with this name already exists");
 			return "admin/subCategory/add";
 		}
@@ -82,9 +69,6 @@ public class SubCategoryController {
 		SubCategory subcategory = subcategoryRepo.getReferenceById(id);
 		model.addAttribute("subcategory", subcategory);
 
-		List<Category> categoryList = categoryRepo.findAll();
-		model.addAttribute("categoryList", categoryList);
-
 		return "admin/subCategory/update";
 	}
 
@@ -93,23 +77,16 @@ public class SubCategoryController {
 			RedirectAttributes redirectAttributes) {
 		
 		if (bindingResult.hasErrors()) {
-			List<Category> categoryList = categoryRepo.findAll();
-			model.addAttribute("categoryList", categoryList);
 			return "admin/subCategory/update";
 		}
 		SubCategory existingsubcategory = subcategoryRepo.findBySubCategoryName(subcategory.getSubCategoryName());
 		
 		if (existingsubcategory != null) {
 			if (id != existingsubcategory.getSubCategoryId()) {
-				
-				List<Category> categoryList = categoryRepo.findAll();
-				model.addAttribute("categoryList", categoryList);
-				
 				bindingResult.rejectValue("subCategoryName", "error.subcategory", "SubCategory with this name already exists");
 				return "admin/subCategory/update";
 			}
 		}
-		
 		
 		SubCategory subcategoryById = subcategoryRepo.getReferenceById(id);
 		subcategoryById.setSubCategoryName(subcategory.getSubCategoryName());
