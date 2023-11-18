@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<title>Update Product</title>
+<link th:replace="admin/layout/assets :: css" />
+</head>
+
+<body>
+	<div id="container">
+		<!-- side navbar   -->
+		<div th:replace="admin/layout/assets :: sideBar"></div>
+		<div id="content_wrap">
+			<div class="content_box">
+				<!-- header   -->
+				<div th:replace="admin/layout/assets :: header"></div>
+
+			</div>
+			<a th:href="@{/product}" class="btn btn-dark rounded-0 my-3"> <i
+				class="fa-solid fa-chevron-left"></i> Back
+			</a>
+
+
+			<div id="sub_content">
+				<h5 class="fw-bold">Update Product</h5>
+				<div class="row justify-content-center">
+					<div class="col-lg-8 bg-gray p-5 mt-5 rounded-5">
+						<form class="needs-validation" enctype="multipart/form-data"
+							th:action="@{/product/update/{id}(id=${product.id})}" method="post" th:object="${product}">
+							<div class="mb-3">
+								<label for="exampleInputEmail1" class="form-label">Name</label>
+								<input type="text" class="form-control"
+									placeholder="Enter Product Name" th:field="*{name}" />
+								<p class="text-danger" th:if="${#fields.hasErrors('name')}"
+									th:errors="*{name}"></p>
+							</div>
+
+							<div class="mb-3">
+								<label for="exampleInputEmail1" class="form-label">Description</label>
+
+								<textarea rows="4" cols="50" class="form-control"
+									maxlength="200" placeholder="Enter Description"
+									th:field="*{description}"></textarea>
+								<p class="text-danger"
+									th:if="${#fields.hasErrors('description')}"
+									th:errors="*{description}"></p>
+							</div>
+							<div class="mb-3">
+								<label for="exampleInputEmail1" class="form-label">Sub
+									Category</label> <select th:field="*{subCategory.subCategoryId}"
+									class="form-select">
+									<option value="0" disabled>Select One</option>
+									<option th:each="s : ${subCategories}"
+										th:value="${s.subCategoryId}" th:text="${s.subCategoryName}"></option>
+								</select>
+
+								<p class="text-danger"
+									th:if="${#fields.hasErrors('subCategory.subCategoryId')}"
+									th:errors="*{subCategory.subCategoryId}"></p>
+							</div>
+
+							<div class="mb-3">
+								<label for="exampleInputEmail1" class="form-label">Brand</label>
+
+								<select th:field="*{brand.brandId}" class="form-select">
+									<option value="0">Select One</option>
+
+									<option th:each="b : ${brands}" th:value="${b.brandId}"
+										th:text="${b.brandName}"></option>
+								</select>
+
+								<p class="text-danger"
+									th:if="${#fields.hasErrors('brand.brandId')}"
+									th:errors="*{brand.brandId}"></p>
+							</div>
+
+							<div class="mb-3">
+								<label for="exampleInputEmail1" class="form-label">Price</label>
+								<input type="number" class="form-control"
+									placeholder="Enter Price" th:field="*{price}" 
+									min="0" step="1" />
+
+								<p class="text-danger" th:if="${#fields.hasErrors('price')}"
+									th:errors="*{price}"></p>
+							</div>
+
+							<div class="mb-3">
+								<label for="exampleInputEmail1" class="form-label">Discount
+									%</label> <input type="number" class="form-control"
+									placeholder="Enter Discount" th:field="*{discount}" min="0" />
+
+								<p class="text-danger" th:if="${#fields.hasErrors('discount')}"
+									th:errors="*{discount}"></p>
+							</div>
+
+							<div class="mb-3">
+								<label for="exampleInputEmail1" class="form-label">Stock</label>
+								<input type="number" class="form-control"
+									placeholder="Enter Stock" th:field="*{stock}" min="0" />
+
+								<p class="text-danger" th:if="${#fields.hasErrors('stock')}"
+									th:errors="*{stock}"></p>
+							</div>
+
+							<div class="mb-3">
+								<label for="thumbImages" class="form-label">Photo
+									(Thumbnail)</label> <input type="file" class="form-control"
+									id="thumbnailInput" name="thumbImages" accept="image/*"
+									 />
+							</div>
+
+							<div class="mb-3">
+								<img id="thumbnailPreview" alt="thumbnail preview" height="100"
+									width="100"
+									th:src="@{${product.thumbnailImage != null} ? '/uploads/products/' + ${product.id} + '/' + ${product.thumbnailImage} : '/images/product_default.png'}" />
+
+							</div>
+
+							<!-- <div class="mb-3">
+								<label for="images" class="form-label">Images (Preview)</label>
+								<input type="file" class="form-control" id="imagesInput"
+									th:field="*{images}" multiple accept="image/*"
+									onchange="previewImages()" />
+								<p class="text-danger" th:if="${#fields.hasErrors('images')}"
+									th:errors="*{images}"></p>
+								<p class="text-danger" id="imagesError"></p>
+							</div> -->
+
+							<div class="mb-3" id="previewContainer">
+								<!-- Preview images will be displayed here -->
+							</div>
+
+							<div class="text-end">
+								<a th:href="@{/product}" class="btn btn-secondary">Cancel</a>
+								<button type="submit" class="btn btn-primary">Update</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	<!-- js   -->
+	<script th:replace="admin/layout/assets :: js"></script>
+</body>
+
+</html>

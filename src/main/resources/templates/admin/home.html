@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<title>Dashboard</title>
+
+<link th:replace="admin/layout/assets :: css" />
+</head>
+
+<body>
+	<div id="container">
+		<!-- side navbar   -->
+		<link th:replace="admin/layout/assets :: sideBar" />
+
+		<div id="content_wrap">
+			<div class="content_box">
+				<!-- header  -->
+				<link th:replace="admin/layout/assets :: header" />
+
+				
+					
+				<div class="content_2">
+					<div class="text">
+						<p>Poroject statistic</p>
+						<i class="fa-solid fa-question"></i>
+					</div>
+					<div class="days">
+						<ul>
+							<li><a href="#"><span>30days</span></a></li>
+							<li><a href="#"><span>90days</span></a></li>
+							<li><a href="#"><span>6months</span></a></li>
+							<li><a href="#"><span>12months</span></a></li>
+						</ul>
+					</div>
+				</div>
+				<div id="group3">
+					<div class="rectangle_1">
+						<div class="ttl">
+							<h3>Total visits</h3>
+							<span class="num">42,43M</span>
+						</div>
+					</div>
+					<div class="rectangle_2">
+						<div>
+							<a href="#"> <span><i class="fa-solid fa-chart-column"></i></span>
+								<div>
+									42,34%<span>Bounce Rate</span>
+								</div>
+							</a>
+						</div>
+						<div>
+							<a href="#"> <span><i
+									class="fa-solid fa-calendar-days"></i></span>
+								<div>
+									42,34%<span>Pages per visit</span>
+								</div>
+							</a>
+						</div>
+						<div>
+							<a href="#"> <span><i class="fa-solid fa-user"></i></span>
+								<div>
+									326.60K<span>Total Monthly Visit</span>
+								</div>
+							</a>
+						</div>
+						<div>
+							<a href="#"> <span><i
+									class="fa-regular fa-hourglass-half"></i></span>
+								<div>
+									00:03:27<span>Avg.Visit Duration</span>
+								</div>
+							</a>
+						</div>
+					</div>
+					<div class="rectangle_3">
+						<h3>Traffic Sources</h3>
+					</div>
+					<div class="rectangle_4">
+						<h3>Traffic Sources</h3>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	<!-- js   -->
+	<link th:replace="admin/layout/assets :: js" />
+</body>
+
+</html>

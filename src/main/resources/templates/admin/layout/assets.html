@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+
+<body>
+	<div th:fragment="css">
+		<link rel="stylesheet" th:href="@{/admin/css/bootstrap.min.css}" />
+		<link rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+		<link rel="stylesheet" th:href="@{/admin/css/style.css}" />
+	</div>
+	<div th:fragment="header">
+		<div class="content_1">
+			<div
+				class="team d-flex gap-3 align-items-center justify-content-center ">
+				<i class="fa-sharp fa-solid fa-user-secret"></i>
+				<div class="">
+					<h5>Dashboard</h5>
+				</div>
+				<i class="fa-solid fa-circle-plus"></i>
+			</div>
+			<div class="admin d-flex ">
+				<i class="fa-solid fa-circle-user"></i>
+				<div class=" dropdown">
+					<button class="btn  dropdown-toggle" data-bs-toggle="dropdown"
+						aria-expanded="false">Your Name</button>
+					<ul class="dropdown-menu dropdown-menu-dark">
+						<li><a class="dropdown-item" href="#">Profile</a></li>
+						<li><a class="dropdown-item" href="#">Change Password</a></li>
+						<li><a class="dropdown-item" href="#">LogOut</a></li>
+					</ul>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	<div th:fragment="sideBar">
+		<div id="group_1">
+			<div class="concured_ttl d-flex align-items-center">
+				<a th:href="@{/dashboard}"><i
+					class="fa-solid fa-magnifying-glass"></i><span>ACE SHOP</span></a>
+			</div>
+			<div id="list_wrap">
+				<div class="top_list">
+					<ul>
+						<li><a th:href="@{/admin/home}"
+							th:class="${servletPath == '/admin/home'} ? 'active' : ''"><i
+								class="fa-solid fa-gauge"></i>Dashboard</a></li>
+						<li><a th:href="@{/category}"
+							th:class="${servletPath == '/category'} ? 'active' : ''"><i
+								class="fa-solid fa-list-check"></i>Category</a></li>
+						<li><a th:href="@{/subcategory}"
+							th:class="${servletPath == '/subcategory'} ? 'active' : ''"><i
+								class="fa-solid fa-table-list"></i>Sub Category</a></li>
+						<li><a th:href="@{/brand}"
+							th:class="${servletPath == '/brand'} ? 'active' : ''"><i
+								class="fa-brands fa-slack"></i>Brand</a></li>
+						<li><a th:href="@{/product}"
+							th:class="${servletPath == '/product'} ? 'active' : ''"><i
+								class="fa-brands fa-product-hunt"></i>Products</a></li>
+						<li><a th:href="@{/paymenttype}"
+							th:class="${servletPath == '/paymenttype'} ? 'active' : ''"><i
+								class="fa-brands fa-gratipay"></i>Payment Type</a></li>
+					</ul>
+				</div>
+				<div class="bottom_list">
+					<ul>
+						<li>
+							<form th:action="@{/logout}" sec:authorize="isAuthenticated()" class=" text-center" method="post">
+								<button type="submit" class="btn btn-secondary">
+									<i class="fa-solid fa-arrow-right-from-bracket"></i> Log out
+								</button>
+							</form>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:fragment="js">
+		<script th:src="@{/admin/js/bootstrap.min.js}"></script>
+	</div>
+</body>
+
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<title>Product Detail</title>
+<link th:replace="admin/layout/assets :: css" />
+</head>
+
+<body>
+	<div id="container">
+		<!-- side navbar   -->
+		<div th:replace="admin/layout/assets :: sideBar"></div>
+		<div id="content_wrap">
+			<div class="content_box">
+				<!-- header   -->
+				<div th:replace="admin/layout/assets :: header"></div>
+
+			</div>
+			<a th:href="@{/product}" class="btn btn-dark rounded-0 my-3"> <i class="fa-solid fa-chevron-left"></i> Back</a>
+			<div class="row">
+
+				<div class="col-lg-6">
+					<!-- Product Image -->
+					<img th:alt="${product.name}" class="img-fluid" width="400"
+						th:src="@{/uploads/products/{id}/{imageName}(id=${product.id},imageName=${product.thumbnailImage})}">
+				</div>
+				<div class="col-lg-6">
+					<!-- Product Details -->
+					<h2>[[${product.name}]]</h2>
+					<p class="text-muted">
+						Category: <span>[[${product.subCategory.category.categoryName}]]</span>
+					</p>
+					<p class="text-muted">
+						Brand: <span>[[${product.brand.brandName != null ?
+							product.brand.brandName : N/A}]]</span>
+					</p>
+					<p class="text-muted">
+						Stock: <span>[[${product.stock}]]</span>
+					</p>
+					<p class="lead">Price: [[${product.price}]] MMK</p>
+					<h5><b>Product Detail</b></h5>
+					<p>[[${product.description}]]</p>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	<!-- js   -->
+	<script th:replace="admin/layout/assets :: js"></script>
+</body>
+
+</html>

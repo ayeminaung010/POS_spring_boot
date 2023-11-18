@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+	<div th:fragment="css">
+		<!-- Google Font -->
+		<link
+			href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap"
+			rel="stylesheet" />
+
+		<!-- Css Styles -->
+		<link rel="stylesheet" th:href="@{/user/css/bootstrap.min.css}" type="text/css" />
+		<link rel="stylesheet" th:href="@{/user/css/font-awesome.min.css}" type="text/css" />
+		<link rel="stylesheet" th:href="@{/user/css/elegant-icons.css}" type="text/css" />
+		<link rel="stylesheet" th:href="@{/user/css/nice-select.css}" type="text/css" />
+		<link rel="stylesheet" th:href="@{/user/css/jquery-ui.min.css}" type="text/css" />
+		<link rel="stylesheet" th:href="@{/user/css/owl.carousel.min.css}" type="text/css" />
+		<link rel="stylesheet" th:href="@{/user/css/slicknav.min.css}" type="text/css" />
+		<link rel="stylesheet" th:href="@{/user/css/style.css}" type="text/css" />
+	</div>
+
+	<div th:fragment="header">
+		<!-- Page Preloder -->
+		<div id="preloder">
+			<div class="loader"></div>
+		</div>
+
+		<!-- Humberger Begin -->
+		<div class="humberger__menu__overlay"></div>
+		<div class="humberger__menu__wrapper">
+			<div class="humberger__menu__logo">
+				<a href="#"><img th:src="@{/user/img/logo.png}" alt="" /></a>
+			</div>
+			<div class="humberger__menu__cart">
+				<ul>
+					<li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a>
+					</li>
+					<li><a href="#"><i class="fa fa-shopping-bag"></i> <span>3</span></a>
+					</li>
+				</ul>
+				<div class="header__cart__price">
+					item: <span>$150.00</span>
+				</div>
+			</div>
+			<div class="humberger__menu__widget">
+				<div class="header__top__right__language">
+					<img th:src="@{/user/img/language.png}" alt="" />
+					<div>English</div>
+					<span class="arrow_carrot-down"></span>
+					<ul>
+						<li><a href="#">Spanis</a></li>
+						<li><a href="#">English</a></li>
+					</ul>
+				</div>
+				<div class="header__top__right__auth">
+					<a href="#"><i class="fa fa-user"></i> Login</a>
+				</div>
+			</div>
+			<nav class="humberger__menu__nav mobile-menu">
+				<ul>
+					<li class="active"><a href="./index.html">Home</a></li>
+					<li><a href="./shop-grid.html">Shop</a></li>
+					<li><a href="#">Pages</a>
+						<ul class="header__menu__dropdown">
+							<li><a href="./shop-details.html">Shop Details</a></li>
+							<li><a href="./shoping-cart.html">Shoping Cart</a></li>
+							<li><a href="./checkout.html">Check Out</a></li>
+							<li><a href="./blog-details.html">Blog Details</a></li>
+						</ul></li>
+					<li><a href="./contact.html">Contact</a></li>
+				</ul>
+			</nav>
+			<div id="mobile-menu-wrap"></div>
+		</div>
+		<!-- Humberger End -->
+
+		<!-- Header Section Begin -->
+		<header class="header">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-3">
+						<div class="header__logo">
+							<a href="./index.html"><img width="200" th:src="@{/user/img/logo.png}"
+								alt="" /></a>
+						</div>
+					</div>
+					<div class="col-lg-6">
+						<nav class="header__menu">
+							<ul>
+								<li class="active"><a href="./index.html">Home</a></li>
+								<li><a href="./shop-grid.html">Shop</a></li>
+							<!-- 	<li><a href="#">Pages</a>
+									<ul class="header__menu__dropdown">
+										<li><a href="./shop-details.html">Shop Details</a></li>
+										<li><a href="./shoping-cart.html">Shoping Cart</a></li>
+										<li><a href="./checkout.html">Check Out</a></li>
+									</ul></li> -->
+								<li><a href="./contact.html">Contact</a></li>
+							</ul>
+						</nav>
+					</div>
+					<div class="col-lg-3">
+						<div class="header__cart">
+							<ul>
+								<li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a>
+								</li>
+								<li><a href="#"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
+							</ul>
+							<div class="header__cart__price">
+								item: <span>$150.00</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="humberger__open">
+					<i class="fa fa-bars"></i>
+				</div>
+			</div>
+		</header>
+		<!-- Header Section End -->
+	</div>
+
+	<div th:fragment="js">
+		<!-- Js Plugins -->
+		<script th:src="@{/user/js/jquery-3.3.1.min.js}"></script>
+		<script th:src="@{/user/js/bootstrap.min.js}"></script>
+		<script th:src="@{/user/js/jquery.nice-select.min.js}"></script>
+		<script th:src="@{/user/js/jquery-ui.min.js}"></script>
+		<script th:src="@{/user/js/jquery.slicknav.js}"></script>
+		<script th:src="@{/user/js/mixitup.min.js}"></script>
+		<script th:src="@{/user/js/owl.carousel.min.js}"></script>
+		<script th:src="@{/user/js/main.js}"></script>
+	</div>
+
+
+
+</body>
+</html>

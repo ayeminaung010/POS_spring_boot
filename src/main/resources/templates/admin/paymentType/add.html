@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<title>Add Payment-Type</title>
+<link th:replace="admin/layout/assets :: css" />
+</head>
+
+<body>
+	<div id="container">
+		<!-- side navbar here  -->
+		<div th:replace="admin/layout/assets :: sideBar"></div>
+		<div id="content_wrap">
+			<div class="content_box">
+				<!-- header here  -->
+				<div th:replace="admin/layout/assets :: header"></div>
+
+			</div>
+			<div id="sub_content">
+				<h5 class="fw-bold">Add Payment-Type</h5>
+				<div class="row justify-content-center">
+					<div class="col-lg-8 bg-gray p-5 mt-5 rounded-5">
+
+
+
+						<form class="needs-validation" th:action="@{/paymenttype/save}"
+							method="post" th:object=${paymenttype}>
+
+							<div class="mb-3">
+								<label for="exampleInputEmail1" class="form-label">PaymentType</label>
+
+								<input type="text" class="form-control"
+									placeholder="Enter Payment-Type Name"
+									th:field="*{paymentTypeName}" />
+
+								<p class="text-danger"
+									th:if="${#fields.hasErrors('paymentTypeName')}"
+									th:errors="*{paymentTypeName}"></p>
+							</div>
+							<div class=" text-end">
+								<a th:href="@{/paymenttype}" class="btn btn-secondary ">Cancel</a>
+								<button type="submit" class="btn btn-primary ">Add</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- js   -->
+	<script th:replace="admin/layout/assets :: js"></script>
+</body>
+
+</html>

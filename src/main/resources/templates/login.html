@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<title>Login</title>
+
+<link rel="stylesheet" th:href="@{/admin/css/bootstrap.min.css}" />
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+<link rel="stylesheet" th:href="@{/admin/css/style.css}" />
+</head>
+
+<body class="container ">
+	<div id="login" class="d-flex align-items-center">
+		<form th:action="@{/login}" th:object="${user}" method="post"
+			class="row g-3 login">
+			<h1>Welcome!</h1>
+			<span class="form-label mb-3">Enter your Credentials to access
+				your account</span>
+
+			<div class="alert alert-success" role="alert" th:text="${success}"
+				th:if="${success}"></div>
+			<div th:if="${param.error}">
+				<div class="alert alert-danger" role="alert">
+					<small>[[${session.SPRING_SECURITY_LAST_EXCEPTION.message}]]</small>
+				</div>
+			</div>
+			<div th:if="${param.logout}">
+				<div class="alert alert-success" role="alert">
+					<small>You have been Logged out. </small>
+				</div>
+			</div>
+			<div class="mb-3">
+				<label for="exampleFormControlInput1" class="form-label">Email
+					address</label> <input type="email" th:field="*{email}"
+					class="form-control" placeholder="Enter your email">
+				<!-- 	<input type="email" th:field="*{email}"
+					class="form-control" placeholder="Enter your email"> -->
+				<small class="text-danger" th:if="${#fields.hasErrors('email')}"
+					th:errors="*{email}"></small>
+			</div>
+			<div class="mb-3">
+				<label for="exampleFormControlInput1" class="form-label">Password</label>
+				<input type="password" class="form-control" th:field="*{password}"
+					placeholder="Password"> <small class="text-danger"
+					th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></small>
+			</div>
+			<div class="form-check d-flex  align-items-center gap-2">
+				<input class="form-check-input" type="checkbox" value=""
+					th:field="*{rememberMe}" id="flexCheckChecked"> <label
+					class="form-check-label" for="flexCheckChecked">Remember
+					for 30 days</label>
+			</div>
+			<div class="d-grid gap-2">
+				<button class="btn form-btn" type="submit">Login</button>
+			</div>
+			<div class=" text-center">
+				<span>New Customer? <a th:href="@{/signup}"
+					class=" text-decoration-none">Sign Up Here </a></span>
+			</div>
+			
+		</form>
+		<div class="image">
+			<img th:src="@{/admin/images/mike-petrucci-c9FQyqIECds-unsplash.jpg}">
+		</div>
+	</div>
+</body>
+
+</html>

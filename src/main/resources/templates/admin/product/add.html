@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<title>Add Product</title>
+<link th:replace="admin/layout/assets :: css" />
+<style>
+#previewContainer img {
+	max-width: 100px; /* Adjust the maximum width of the preview images */
+	max-height: 100px;
+	margin: 5px; /* Add some margin between preview images */
+}
+</style>
+</head>
+
+<body>
+	<div id="container">
+		<!-- side navbar here  -->
+		<div th:replace="admin/layout/assets :: sideBar"></div>
+		<div id="content_wrap">
+			<div class="content_box">
+				<!-- header here  -->
+				<div th:replace="admin/layout/assets :: header"></div>
+			</div>
+			<div id="sub_content">
+				<h5 class="fw-bold">Add Product</h5>
+				<div class="row justify-content-center">
+					<div class="col-lg-8 bg-gray p-5 mt-5 rounded-5">
+						<form class="needs-validation" enctype="multipart/form-data"
+							th:action="@{/product/save}" method="post" th:object="${product}">
+							<div class="mb-3">
+								<label for="exampleInputEmail1" class="form-label">Name</label>
+								<input type="text" class="form-control"
+									placeholder="Enter Product Name" th:field="*{name}" />
+								<p class="text-danger" th:if="${#fields.hasErrors('name')}"
+									th:errors="*{name}"></p>
+							</div>
+
+							<div class="mb-3">
+								<label for="exampleInputEmail1" class="form-label">Description</label>
+
+								<textarea rows="4" cols="50" class="form-control"
+									maxlength="200" placeholder="Enter Description"
+									th:field="*{description}"></textarea>
+								<p class="text-danger"
+									th:if="${#fields.hasErrors('description')}"
+									th:errors="*{description}"></p>
+							</div>
+							<div class="mb-3">
+								<label for="exampleInputEmail1" class="form-label">Sub
+									Category</label> <select th:field="*{subCategory.subCategoryId}"
+									class="form-select">
+									<option value="0" disabled>Select One</option>
+									<option th:each="s : ${subCategories}"
+										th:value="${s.subCategoryId}" th:text="${s.subCategoryName}"></option>
+								</select>
+
+								<p class="text-danger"
+									th:if="${#fields.hasErrors('subCategory.subCategoryId')}"
+									th:errors="*{subCategory.subCategoryId}"></p>
+							</div>
+
+							<div class="mb-3">
+								<label for="exampleInputEmail1" class="form-label">Brand</label>
+
+								<select th:field="*{brand.brandId}" class="form-select">
+									<option value="0" >Select One</option>
+
+									<option th:each="b : ${brands}" th:value="${b.brandId}"
+										th:text="${b.brandName}"></option>
+								</select>
+
+								<p class="text-danger"
+									th:if="${#fields.hasErrors('brand.brandId')}"
+									th:errors="*{brand.brandId}"></p>
+							</div>
+
+							<div class="mb-3">
+								<label for="exampleInputEmail1" class="form-label">Price</label>
+								<input type="number" class="form-control"
+									placeholder="Enter Price" th:field="*{price}" required
+									min="0.1" step="0.01" />
+
+								<p class="text-danger" th:if="${#fields.hasErrors('price')}"
+									th:errors="*{price}"></p>
+							</div>
+
+							<div class="mb-3">
+								<label for="exampleInputEmail1" class="form-label">Discount %</label>
+								<input type="number" class="form-control"
+									placeholder="Enter Discount" th:field="*{discount}" min="0" />
+
+								<p class="text-danger" th:if="${#fields.hasErrors('discount')}"
+									th:errors="*{discount}"></p>
+							</div>
+
+							<div class="mb-3">
+								<label for="exampleInputEmail1" class="form-label">Stock</label>
+								<input type="number" class="form-control"
+									placeholder="Enter Stock" th:field="*{stock}" min="0" />
+
+								<p class="text-danger" th:if="${#fields.hasErrors('stock')}"
+									th:errors="*{stock}"></p>
+							</div>
+
+							<div class="mb-3">
+								<label for="thumbImages" class="form-label">Photo
+									(Thumbnail)</label> <input type="file" class="form-control"
+									id="thumbnailInput" name="thumbImages" accept="image/*"
+									required />
+							</div>
+
+							<!--<div class="mb-3">
+								<img id="thumbnailPreview" alt="thumbnail preview" height="100"
+									width="100" src="/images/product_default.png" />
+							</div>-->
+
+							<!-- <div class="mb-3">
+								<label for="images" class="form-label">Images (Preview)</label>
+								<input type="file" class="form-control" id="imagesInput"
+									th:field="*{images}" multiple accept="image/*"
+									onchange="previewImages()" />
+								<p class="text-danger" th:if="${#fields.hasErrors('images')}"
+									th:errors="*{images}"></p>
+								<p class="text-danger" id="imagesError"></p>
+							</div> -->
+
+							<div class="mb-3" id="previewContainer">
+								<!-- Preview images will be displayed here -->
+							</div>
+
+							<div class="text-end">
+								<a th:href="@{/product}" class="btn btn-secondary">Cancel</a>
+								<button type="submit" class="btn btn-primary">Add</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- js   -->
+	<script th:replace="admin/layout/assets :: js" ></script>
+</body>
+
+<script type="text/javascript">
+	function previewImage() {
+		const input = document.getElementById("thumbnailInput");
+		const errorElement = document.getElementById("thumbnailError");
+		const preview = document.getElementById("thumbnailPreview");
+
+		if (input.files && input.files[0]) {
+			const reader = new FileReader();
+
+			reader.onload = function(e) {
+				preview.src = e.target.result;
+				errorElement.innerText = ""; // Clear any previous error message
+			};
+
+			reader.readAsDataURL(input.files[0]);
+		} else {
+			preview.src = "/images/product_default.png"; // Default image if no file selected
+			errorElement.innerText = "Please select an image.";
+		}
+	}
+
+	function previewImages() {
+		const input = document.getElementById("imagesInput");
+		const errorElement = document.getElementById("imagesError");
+		const previewContainer = document.getElementById("previewContainer");
+
+		// Clear previous previews
+		previewContainer.innerHTML = "";
+
+		if (input.files && input.files.length > 0) {
+			for (let i = 0; i < input.files.length; i++) {
+				const reader = new FileReader();
+				const preview = document.createElement("img");
+
+				reader.onload = function(e) {
+					preview.src = e.target.result;
+					errorElement.innerText = ""; // Clear any previous error message
+				};
+
+				reader.readAsDataURL(input.files[i]);
+
+				// Add the preview image to the container
+				previewContainer.appendChild(preview);
+			}
+		} else {
+			errorElement.innerText = "Please select at least one image.";
+		}
+	}
+</script>
+</html>
