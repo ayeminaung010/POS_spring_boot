@@ -37,8 +37,8 @@
 					</div>
 				</form>
 
-				<div class="alert alert-success" role="alert" th:text="${message}"
-					th:if="${message}"></div>
+				<div class="alert alert-success" role="alert" th:text="${success}"
+					th:if="${success}"></div>
 
 				<table class="table table-striped" id="stduentTable">
 					<thead>
@@ -58,7 +58,8 @@
 								class="btn btn-link btn-lg btn-rounded"> <i
 									class="fa-solid fa-pen-to-square"></i>
 							</a> <a
-								th:href="@{/paymenttype/delete/{id}(id=${paymenttype.paymentTypeId})}"
+								th:attr="data-paymentTypeId=${paymenttype.paymentTypeId} , data-paymentTypeName=${paymenttype.paymentTypeName}"
+								th:onclick="openDeleteModal(this)"
 								class="btn btn-link text-danger btn-lg btn-rounded"> <i
 									class="fa-regular fa-trash-can"></i>
 							</a></td>
@@ -69,9 +70,44 @@
 			</div>
 		</div>
 	</div>
+	
+	<!-- Delete Modal -->
+	<div class="modal fade" id="deleteModal" tabindex="-1"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 class="modal-title fs-5" id="exampleModalLabel">Delete
+						Category</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					Are you sure want to delete? - <span id="deleteName"></span>
+				</div>
+				<div class="modal-footer">
+					<form th:action="@{/paymenttype/delete}" method="post" th:object="${paymenttype}">
+						<div class="btnGp">
+							<input type="hidden" th:field="*{paymentTypeId}" id="deleteId" />
+							<button type="button" class="btn btn-secondary"
+								data-bs-dismiss="modal">Close</button>
+							<button type="submit" class="btn btn-primary">Yes, Delete it</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<!-- js   -->
 	<script th:replace="admin/layout/assets :: js"></script>
+	<script type="text/javascript">
+		function openDeleteModal(button) {
+			$('#deleteId').val(button.getAttribute("data-paymentTypeId"));
+			$('#deleteName').text(button.getAttribute("data-paymentTypeName"));
+			$('#deleteModal').modal('show');
+		};
+	</script>
 </body>
 
 </html>

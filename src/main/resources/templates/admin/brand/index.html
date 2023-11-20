@@ -11,11 +11,11 @@
 <body>
 	<div id="container">
 		<!-- side navbar   -->
-		<div th:replace="admin/layout/assets :: sideBar" ></div>
+		<div th:replace="admin/layout/assets :: sideBar"></div>
 		<div id="content_wrap">
 			<div class="content_box">
 				<!-- header   -->
-				<div th:replace="admin/layout/assets :: header" ></div>
+				<div th:replace="admin/layout/assets :: header"></div>
 
 			</div>
 			<div id="sub_content">
@@ -37,8 +37,12 @@
 					</div>
 
 				</form>
-				<div class="alert alert-success" role="alert" th:text="${message}"
-					th:if="${message}"></div>
+				<div class="alert alert-success" role="alert" th:text="${success}"
+					th:if="${success}"></div>
+				
+				<div class="alert alert-danger" role="alert" th:text="${error}"
+					th:if="${error}"></div>
+					
 				<table class="table align-middle mb-0 bg-gray table-hover mt-3">
 					<thead class="bg-light">
 						<tr>
@@ -54,7 +58,9 @@
 							<td><a th:href="@{/brand/update/{id}(id =${brand.brandId})}"
 								class="btn btn-link btn-lg btn-rounded"> <i
 									class="fa-solid fa-pen-to-square"></i>
-							</a> <a th:href="@{/brand/delete/{id}(id=${brand.brandId})}"
+							</a> <a
+								th:attr="data-brandId=${brand.brandId} , data-brandName=${brand.brandName}"
+								th:onclick="openDeleteModal(this)"
 								class="btn btn-link text-danger btn-lg btn-rounded"> <i
 									class="fa-regular fa-trash-can"></i>
 							</a></td>
@@ -64,10 +70,46 @@
 
 			</div>
 		</div>
+	</div>
+	
+	<!-- Delete Modal -->
+	<div class="modal fade" id="deleteModal" tabindex="-1"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 class="modal-title fs-5" id="exampleModalLabel">Delete
+						Category</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					Are you sure want to delete? - <span id="deleteName"></span>
+				</div>
+				<div class="modal-footer">
+					<form th:action="@{/brand/delete}" method="post" th:object="${brand}">
+						<div class="btnGp">
+							<input type="hidden" th:field="*{brandId}" id="deleteId" />
+							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+							<button type="submit" class="btn btn-primary">Yes, Delete it</button>
+						</div>
+					</form>
+				</div>
+			</div>
 		</div>
+	</div>
 
-		<!-- js   -->
-		<script th:replace="admin/layout/assets :: js" ></script>
+	<!-- js   -->
+	<script th:replace="admin/layout/assets :: js"></script>
+	
+	<script type="text/javascript">
+		function openDeleteModal(button) {
+			$('#deleteId').val(button.getAttribute("data-brandId"));
+			$('#deleteName').text(button.getAttribute("data-brandName"));
+			$('#deleteModal').modal('show');
+		};
+	</script>
+
 </body>
 
 </html>

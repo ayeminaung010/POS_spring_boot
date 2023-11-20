@@ -14,6 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.daos.BrandRepository;
 import com.example.demo.model.Brand;
+import com.example.demo.model.Category;
 
 import jakarta.validation.Valid;
 
@@ -26,6 +27,8 @@ public class BrandController {
 	public String viewBrand(Model model) {
 		List<Brand> brands = brandRepo.findAll();
 		model.addAttribute("brands", brands);
+		Brand brand = new Brand();
+		model.addAttribute("brand", brand);
 		return "admin/brand/index";
 	}
 
@@ -48,14 +51,27 @@ public class BrandController {
 			return "admin/brand/add";
 		}
 		brandRepo.save(brand);
-		redirectAttributes.addFlashAttribute("message", "Brand Add successful!!");
+		redirectAttributes.addFlashAttribute("success", "Brand Add successful!!");
 		return "redirect:/brand";
 	}
+	
+	@PostMapping("/brand/delete")
+	public String deleteCategory(@ModelAttribute("brand") Brand brand, Model model, RedirectAttributes redirectAttributes) {
 
-	@GetMapping("/brand/delete/{id}")
-	public String deleteBrand(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
-		brandRepo.deleteById(id);
-		redirectAttributes.addFlashAttribute("message", "Brand Delete successful!!");
+		Brand ExistingBrand = brandRepo.findById(brand.getBrandId()).orElse(null);
+
+		System.out.println("Delete category: " + brand.getBrandId());
+		if (ExistingBrand != null) {
+			if (ExistingBrand.getProducts().isEmpty()) {
+				brandRepo.deleteById(brand.getBrandId());
+				redirectAttributes.addFlashAttribute("success", "Brand deleted successfully!");
+			} else {
+				redirectAttributes.addFlashAttribute("error", "Cannot delete brand with attached Products");
+			}
+		} else {
+			redirectAttributes.addFlashAttribute("error", "Brand not found");
+		}
+
 		return "redirect:/brand";
 	}
 
@@ -87,7 +103,7 @@ public class BrandController {
 		brandById.setBrandName(brand.getBrandName());
 		
 		brandRepo.save(brandById);
-		redirectAttributes.addFlashAttribute("message", "brand Update successful!!");
+		redirectAttributes.addFlashAttribute("success", "brand Update successful!!");
 		return "redirect:/brand";
 	}
 }

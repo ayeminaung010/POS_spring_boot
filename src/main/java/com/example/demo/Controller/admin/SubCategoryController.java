@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.daos.SubCategoryRepository;
+import com.example.demo.model.Category;
 import com.example.demo.model.SubCategory;
 
 import jakarta.validation.Valid;
@@ -24,6 +25,9 @@ public class SubCategoryController {
 
 	@GetMapping("/subcategory")
 	public String viewSubCategory(Model model) {
+		
+		SubCategory subcategory = new SubCategory();
+		model.addAttribute("subcategory", subcategory);
 		List<SubCategory> subcategories = subcategoryRepo.findAll();
 		model.addAttribute("subcategories", subcategories);
 		return "admin/subCategory/index";
@@ -33,7 +37,6 @@ public class SubCategoryController {
 	public String addSubCategory(Model model) {
 		SubCategory subcategory = new SubCategory();
 		model.addAttribute("subcategory", subcategory);
-
 		return "admin/subCategory/add";
 	}
 
@@ -54,15 +57,28 @@ public class SubCategoryController {
 		redirectAttributes.addFlashAttribute("success", "SubCategory Add successful!!");
 		return "redirect:/subcategory";
 	}
+	@PostMapping("/subcategory/delete")
+	public String deleteSubCategory(@ModelAttribute("subcategory") SubCategory subcategory, Model model, RedirectAttributes redirectAttributes) {
 
-	@GetMapping("/subcategory/delete/{id}")
-	public String deleteSubCategory(@PathVariable("id") Integer id, Model model,
-			RedirectAttributes redirectAttributes) {
-		subcategoryRepo.deleteById(id);
-		redirectAttributes.addFlashAttribute("success", "SubCategory Delete successful!!");
+		SubCategory ExistingSubCategory = subcategoryRepo.findById(subcategory.getSubCategoryId()).orElse(null);
+
+		System.out.println("Delete subcategory: " + subcategory.getSubCategoryId());
+		
+		if (ExistingSubCategory != null) {
+			if (ExistingSubCategory.getProducts().isEmpty()) {
+				subcategoryRepo.deleteById(subcategory.getSubCategoryId());
+				redirectAttributes.addFlashAttribute("success", "SubCategory deleted successfully!");
+			} else {
+				redirectAttributes.addFlashAttribute("error", "Cannot delete Subcategory with attached Products");
+			}
+		} else {
+			redirectAttributes.addFlashAttribute("error", "SubCategory not found");
+		}
+
 		return "redirect:/subcategory";
 	}
-
+	
+	
 	@GetMapping("/subcategory/update/{id}")
 	public String updateSubCategory(@PathVariable("id") Integer id, Model model) {
 
@@ -92,7 +108,6 @@ public class SubCategoryController {
 		subcategoryById.setSubCategoryName(subcategory.getSubCategoryName());
 		subcategoryById.setCategory(subcategory.getCategory());
 		subcategoryRepo.save(subcategoryById);
-
 		redirectAttributes.addFlashAttribute("success", "SubCategory Update successful!!");
 		return "redirect:/subcategory";
 	}

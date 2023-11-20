@@ -36,6 +36,13 @@ public class Brand {
 	@UpdateTimestamp
 	@Column(name = "updated_time")
 	private Timestamp updatedTime;
+  
+	public Set<Product> getProducts() {
+		return products;
+	}
+	public void setProducts(Set<Product> Products) {
+		this.products = Products;
+	}
 
 	public int getBrandId() {
 		return brandId;
