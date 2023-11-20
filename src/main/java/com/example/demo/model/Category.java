@@ -30,9 +30,7 @@ public class Category {
 	@OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<SubCategory> SubCategories;
 
-	public Set<SubCategory> getSubCategories() {
-		return SubCategories;
-	}
+	
 
 	@Column(name = "created_time", updatable = false)
 	@CreatedDate
@@ -41,7 +39,9 @@ public class Category {
 	@LastModifiedDate
 	private Date updatedTime;
 
-
+	public Set<SubCategory> getSubCategories() {
+		return SubCategories;
+	}
 	public void setSubCategories(Set<SubCategory> subCategories) {
 		SubCategories = subCategories;
 	}

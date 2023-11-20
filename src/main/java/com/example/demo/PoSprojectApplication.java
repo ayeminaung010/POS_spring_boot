@@ -35,7 +35,7 @@ public class PoSprojectApplication {
 	CommandLineRunner runner() {
 		return args -> {
 			
-//        	//admin account
+        	//admin account
 //        	User admin = new User();
 //            admin.setEmail("admin@gmail.com");
 //            admin.setName("Admin");

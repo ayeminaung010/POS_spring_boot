@@ -88,8 +88,7 @@
 					Are you sure want to delete? - <span id="deleteName"></span>
 				</div>
 				<div class="modal-footer">
-					<form th:action="@{/category/delete}" method="post"
-						th:object="${category}">
+					<form th:action="@{/category/delete}" method="post" th:object="${category}">
 						<div class="btnGp">
 							<input type="hidden" th:field="*{categoryId}" id="deleteId" />
 							<button type="button" class="btn btn-secondary"

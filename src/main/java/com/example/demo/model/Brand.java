@@ -31,7 +31,15 @@ public class Brand {
 	private Date createdTime;
 	@Column(name = "updated_time")
 	private Date updatedTime;
-
+	
+	public Set<Product> getProducts() {
+		return products;
+	}
+	public void setProducts(Set<Product> Products) {
+		this.products = Products;
+	}
+	
+	
 	public int getBrandId() {
 		return brandId;
 	}

@@ -37,7 +37,14 @@ public class SubCategory {
 	private Date createdTime;
 	@Column(name = "updated_time")
 	private Date updatedTime;
-
+	
+	public Set<Product> getProducts() {
+		return products;
+	}
+	public void setProducts(Set<Product> Products) {
+		this.products = Products;
+	}
+	
 	public Category getCategory() {
 		return category;
 	}
@@ -61,5 +68,6 @@ public class SubCategory {
 	public void setSubCategoryName(String subCategoryName) {
 		this.subCategoryName = subCategoryName;
 	}
+
 
 }

@@ -14,6 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.daos.BrandRepository;
 import com.example.demo.model.Brand;
+import com.example.demo.model.Category;
 
 import jakarta.validation.Valid;
 
@@ -26,6 +27,8 @@ public class BrandController {
 	public String viewBrand(Model model) {
 		List<Brand> brands = brandRepo.findAll();
 		model.addAttribute("brands", brands);
+		Brand brand = new Brand();
+		model.addAttribute("brand", brand);
 		return "admin/brand/index";
 	}
 
@@ -52,10 +55,30 @@ public class BrandController {
 		return "redirect:/brand";
 	}
 
-	@GetMapping("/brand/delete/{id}")
-	public String deleteBrand(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
-		brandRepo.deleteById(id);
-		redirectAttributes.addFlashAttribute("message", "Brand Delete successful!!");
+//	@GetMapping("/brand/delete/{id}")
+//	public String deleteBrand(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
+//		brandRepo.deleteById(id);
+//		redirectAttributes.addFlashAttribute("message", "Brand Delete successful!!");
+//		return "redirect:/brand";
+//	}
+	
+	@PostMapping("/brand/delete")
+	public String deleteCategory(@ModelAttribute("brand") Brand brand, Model model, RedirectAttributes redirectAttributes) {
+
+		Brand ExistingBrand = brandRepo.findById(brand.getBrandId()).orElse(null);
+
+		System.out.println("Delete category: " + brand.getBrandId());
+		if (ExistingBrand != null) {
+			if (ExistingBrand.getProducts().isEmpty()) {
+				brandRepo.deleteById(brand.getBrandId());
+				redirectAttributes.addFlashAttribute("message", "Brand deleted successfully!");
+			} else {
+				redirectAttributes.addFlashAttribute("message", "Cannot delete brand with attached Products");
+			}
+		} else {
+			redirectAttributes.addFlashAttribute("message", "Brand not found");
+		}
+
 		return "redirect:/brand";
 	}
 

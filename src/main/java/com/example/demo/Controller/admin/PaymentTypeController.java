@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.daos.PaymentTypeRepository;
+import com.example.demo.model.Category;
 import com.example.demo.model.PaymentType;
 
 import jakarta.validation.Valid;
@@ -26,6 +27,8 @@ public class PaymentTypeController {
 	public String viewPaymenttype(Model model) {
 		List<PaymentType> paymentTypeList = paymentTypeRepo.findAll();
 		model.addAttribute("paymentTypeList", paymentTypeList);
+		PaymentType paymenttype = new PaymentType();
+		model.addAttribute("paymenttype", paymenttype);
 		return "admin/paymenttype/index";
 	}
 
@@ -55,11 +58,19 @@ public class PaymentTypeController {
 		return "redirect:/paymenttype";
 	}
 
-	@GetMapping("/paymenttype/delete/{id}")
-	public String deletePaymenttype(@PathVariable("id") Integer id, Model model,
-			RedirectAttributes redirectAttributes) {
-
-		paymentTypeRepo.deleteById(id);
+//	@GetMapping("/paymenttype/delete/{id}")
+//	public String deletePaymenttype(@PathVariable("id") Integer id, Model model,
+//			RedirectAttributes redirectAttributes) {
+//
+//		paymentTypeRepo.deleteById(id);
+//		redirectAttributes.addFlashAttribute("message", "Payment-Type Delete successful!!");
+//		return "redirect:/paymenttype";
+//	}
+	
+	@PostMapping("/paymenttype/delete")
+	public String deleteCategory(@ModelAttribute("paymenttype") PaymentType paymenttype, Model model, RedirectAttributes redirectAttributes) {
+		
+		paymentTypeRepo.deleteById(paymenttype.getPaymentTypeId());
 		redirectAttributes.addFlashAttribute("message", "Payment-Type Delete successful!!");
 		return "redirect:/paymenttype";
 	}
