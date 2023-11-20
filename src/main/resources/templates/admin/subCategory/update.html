@@ -26,6 +26,7 @@
 						<form class="needs-validation"
 							th:action="@{/subcategory/update/{id} (id =${subcategory.subCategoryId})}"
 							method="post" th:object=${subcategory}>
+							<input type="hidden" th:field="*{subCategoryId}">
 							<div class="mb-3">
 								<label for="exampleInputEmail1" class="form-label">Name</label>
 								<input type="text" class="form-control"

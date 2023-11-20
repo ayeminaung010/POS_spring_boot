@@ -23,6 +23,7 @@
 					<div class="col-lg-8 bg-gray p-5 mt-5 rounded-5">
 						<form class="needs-validation" th:action="@{/paymenttype/update/{id}(id=${paymenttype.paymentTypeId})}" method="post" th:object=${paymenttype}>
 							<div class="mb-3">
+							<input type="hidden" th:field="*{paymentTypeId}">
 								<label for="categoryName" class="form-label">Name</label>
 								<input type="text" class="form-control" placeholder="Enter Payment-Type Name" th:field="*{paymentTypeName}" />
 								<p class="text-danger" th:if="${#fields.hasErrors('paymentTypeName')}" th:errors="*{paymentTypeName}"></p>

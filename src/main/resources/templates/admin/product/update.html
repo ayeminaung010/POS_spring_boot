@@ -30,6 +30,7 @@
 						<form class="needs-validation" enctype="multipart/form-data"
 							th:action="@{/product/update/{id}(id=${product.id})}" method="post" th:object="${product}">
 							<div class="mb-3">
+							<input type="hidden" th:field="*{id}">
 								<label for="exampleInputEmail1" class="form-label">Name</label>
 								<input type="text" class="form-control"
 									placeholder="Enter Product Name" th:field="*{name}" />

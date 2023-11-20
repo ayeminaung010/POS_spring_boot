@@ -26,6 +26,7 @@
 							th:action="@{/category/update/{id}(id=${category.categoryId})}"
 							method="post" th:object=${category}>
 							<div class="mb-3">
+							<input type="hidden" th:field="*{categoryId}">
 								<label for="categoryName" class="form-label">Name</label> <input
 									type="text" class="form-control"
 									placeholder="Enter Category Name" th:field="*{categoryName}" />
