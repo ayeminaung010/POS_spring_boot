@@ -5,7 +5,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -44,9 +43,11 @@ public class SecurityConfiguration {
 		http.logout((logout) -> logout.logoutUrl("/logout").permitAll());
 		http.authorizeHttpRequests(
 				(requests) -> requests.requestMatchers("/","/home").permitAll()
-				.requestMatchers("/admin/home").permitAll()
-				.requestMatchers("/user/**").permitAll()
-				.requestMatchers("/admin/**").permitAll()
+//				.requestMatchers("/admin/home").hasAuthority("ADMIN")
+				.requestMatchers("/admin/css/**","/admin/js/**","/admin/images/**").permitAll()
+				.requestMatchers("/user/css/**","/user/js/**","/user/img/**","/user/js/**").permitAll()
+				.requestMatchers("/admin/**","/category/**","/subcategory/**","/brand/**","/product/**","/paymenttype/**","/account/**").hasAuthority("ADMIN")
+				.requestMatchers("/user/**").hasAuthority("USER")
 				.requestMatchers("/login").permitAll()
 				.requestMatchers("/signup").permitAll()
 				.anyRequest().authenticated());
@@ -54,9 +55,6 @@ public class SecurityConfiguration {
 		return http.build();
 	}
 	
-	public void configure(WebSecurity web)  throws Exception {
-		web.ignoring().requestMatchers("/images/**","/js/**");
-	}
 	
 	public void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.authenticationProvider(authenticationProvider());
@@ -75,16 +73,4 @@ public class SecurityConfiguration {
 //	return new InMemoryUserDetailsManager(admin, user);
 //}
 
-//Image Save
-//String product_image_path=null;
-//if(multipartFile !=null && !multipartFile.isEmpty()){
-//
-//    //image type hoke lar ma hoke lar ko server backend mar htat sit tar
-//    if (!multipartFile.getContentType().startsWith("image/")) {
-//        // Invalid file type
-//        return "redirect:/product/productCreate"; // Return a view to display an error message
-//    }
-//    product_image_path = saveImage(multipartFile,request);
-//
-//}
 

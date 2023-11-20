@@ -1,8 +1,10 @@
 package com.example.demo.service;
 
+import java.util.Arrays;
 import java.util.Collection;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.example.demo.model.User;
@@ -28,7 +30,8 @@ public class UserOwnDetail implements UserDetails {
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return null;
+		SimpleGrantedAuthority authority=new SimpleGrantedAuthority(user.getRole());
+		return Arrays.asList(authority);
 	}
 
 	@Override
@@ -38,8 +41,10 @@ public class UserOwnDetail implements UserDetails {
 
 	@Override
 	public String getUsername() {
-		return user.getEmail();
+		return user.getName();
 	}
+	
+
 
 	@Override
 	public boolean isAccountNonExpired() {

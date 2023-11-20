@@ -18,6 +18,11 @@ import jakarta.validation.Valid;
 public class AuthController {
 	@Autowired
 	private UserRepository userRepository;
+	@GetMapping("/")
+	public String slahPage(Model model) {
+		return "user/home";
+	}
+	
 	@GetMapping("/login")
 	public String login(Model model) {
 		User user  = new User();
@@ -57,14 +62,6 @@ public class AuthController {
 		
 	}
 	
-//	@PostMapping("/login")
-//	public String userLogin(@Valid User user,BindingResult bindingResult,Model model) {
-//		if(bindingResult.hasErrors()) {
-//			return "/login";
-//		}
-//		
-//		System.out.println(user.getEmail() + user.getPassword() + user.isRememberMe());
-//		return "/user/home";
-//	}
+	
 
 }

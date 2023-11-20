@@ -8,20 +8,29 @@
 <body>
 
 	<div th:fragment="css">
+		
 		<!-- Google Font -->
 		<link
 			href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap"
 			rel="stylesheet" />
 
 		<!-- Css Styles -->
-		<link rel="stylesheet" th:href="@{/user/css/bootstrap.min.css}" type="text/css" />
-		<link rel="stylesheet" th:href="@{/user/css/font-awesome.min.css}" type="text/css" />
-		<link rel="stylesheet" th:href="@{/user/css/elegant-icons.css}" type="text/css" />
-		<link rel="stylesheet" th:href="@{/user/css/nice-select.css}" type="text/css" />
-		<link rel="stylesheet" th:href="@{/user/css/jquery-ui.min.css}" type="text/css" />
-		<link rel="stylesheet" th:href="@{/user/css/owl.carousel.min.css}" type="text/css" />
-		<link rel="stylesheet" th:href="@{/user/css/slicknav.min.css}" type="text/css" />
-		<link rel="stylesheet" th:href="@{/user/css/style.css}" type="text/css" />
+		<link rel="stylesheet" th:href="@{/user/css/bootstrap.min.css}"
+			type="text/css" />
+		<link rel="stylesheet" th:href="@{/user/css/font-awesome.min.css}"
+			type="text/css" />
+		<link rel="stylesheet" th:href="@{/user/css/elegant-icons.css}"
+			type="text/css" />
+		<link rel="stylesheet" th:href="@{/user/css/nice-select.css}"
+			type="text/css" />
+		<link rel="stylesheet" th:href="@{/user/css/jquery-ui.min.css}"
+			type="text/css" />
+		<link rel="stylesheet" th:href="@{/user/css/owl.carousel.min.css}"
+			type="text/css" />
+		<link rel="stylesheet" th:href="@{/user/css/slicknav.min.css}"
+			type="text/css" />
+		<link rel="stylesheet" th:href="@{/user/css/style.css}"
+			type="text/css" />
 	</div>
 
 	<div th:fragment="header">
@@ -34,14 +43,12 @@
 		<div class="humberger__menu__overlay"></div>
 		<div class="humberger__menu__wrapper">
 			<div class="humberger__menu__logo">
-				<a href="#"><img th:src="@{/user/img/logo.png}" alt="" /></a>
+				<a th:href="@{/}"><img th:src="@{/user/img/logo.png}" alt="" /></a>
 			</div>
 			<div class="humberger__menu__cart">
 				<ul>
-					<li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a>
-					</li>
-					<li><a href="#"><i class="fa fa-shopping-bag"></i> <span>3</span></a>
-					</li>
+					<li><a th:href="@{/cart}"><i class="fa fa-shopping-bag"></i>
+							<span>3</span></a></li>
 				</ul>
 				<div class="header__cart__price">
 					item: <span>$150.00</span>
@@ -63,16 +70,14 @@
 			</div>
 			<nav class="humberger__menu__nav mobile-menu">
 				<ul>
-					<li class="active"><a href="./index.html">Home</a></li>
-					<li><a href="./shop-grid.html">Shop</a></li>
-					<li><a href="#">Pages</a>
-						<ul class="header__menu__dropdown">
-							<li><a href="./shop-details.html">Shop Details</a></li>
-							<li><a href="./shoping-cart.html">Shoping Cart</a></li>
-							<li><a href="./checkout.html">Check Out</a></li>
-							<li><a href="./blog-details.html">Blog Details</a></li>
-						</ul></li>
-					<li><a href="./contact.html">Contact</a></li>
+					<li th:class="${servletPath == '/'} ? 'active' : ''"><a
+						th:href="@{/}">Home</a></li>
+					<li th:class="${servletPath == '/shop'} ? 'active' : ''"><a
+						th:href="@{/shop}">Shop</a></li>
+					<li th:class="${servletPath == '/contact'} ? 'active' : ''"><a
+						th:href="@{/contact}">Contact</a></li>
+					<li><a href="#">Login</a></li>
+					<li><a href="#">Sign Up</a></li>
 				</ul>
 			</nav>
 			<div id="mobile-menu-wrap"></div>
@@ -85,31 +90,29 @@
 				<div class="row">
 					<div class="col-lg-3">
 						<div class="header__logo">
-							<a href="./index.html"><img width="200" th:src="@{/user/img/logo.png}"
-								alt="" /></a>
+							<a th:href="@{/}"><img width="200"
+								th:src="@{/user/img/logo.png}" alt="" /></a>
 						</div>
 					</div>
 					<div class="col-lg-6">
 						<nav class="header__menu">
 							<ul>
-								<li class="active"><a href="./index.html">Home</a></li>
-								<li><a href="./shop-grid.html">Shop</a></li>
-							<!-- 	<li><a href="#">Pages</a>
-									<ul class="header__menu__dropdown">
-										<li><a href="./shop-details.html">Shop Details</a></li>
-										<li><a href="./shoping-cart.html">Shoping Cart</a></li>
-										<li><a href="./checkout.html">Check Out</a></li>
-									</ul></li> -->
-								<li><a href="./contact.html">Contact</a></li>
+								<li th:class="${servletPath == '/'} ? 'active' : ''"><a
+									th:href="@{/}">Home</a></li>
+								<li th:class="${servletPath == '/shop'} ? 'active' : ''"><a
+									th:href="@{/shop}">Shop</a></li>
+								<li th:class="${servletPath == '/contact'} ? 'active' : ''"><a
+									th:href="@{/contact}">Contact</a></li>
+								<li><a th:href="@{/login}">Login</a></li>
+								<li><a th:href="@{/signup}">Sign Up</a></li>
 							</ul>
 						</nav>
 					</div>
 					<div class="col-lg-3">
 						<div class="header__cart">
 							<ul>
-								<li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a>
-								</li>
-								<li><a href="#"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
+								<li><a th:href="@{/cart}" class="active"><i
+										class="fa fa-shopping-bag"></i> <span>3</span></a></li>
 							</ul>
 							<div class="header__cart__price">
 								item: <span>$150.00</span>

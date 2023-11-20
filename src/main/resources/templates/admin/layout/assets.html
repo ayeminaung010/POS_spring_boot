@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org">
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
 <meta charset="UTF-8">
@@ -29,11 +30,11 @@
 				<i class="fa-solid fa-circle-user"></i>
 				<div class=" dropdown">
 					<button class="btn  dropdown-toggle" data-bs-toggle="dropdown"
-						aria-expanded="false">Your Name</button>
+						aria-expanded="false">[[${#authentication.name}]]</button>
 					<ul class="dropdown-menu dropdown-menu-dark">
-						<li><a class="dropdown-item" href="#">Profile</a></li>
-						<li><a class="dropdown-item" href="#">Change Password</a></li>
-						<li><a class="dropdown-item" href="#">LogOut</a></li>
+						<li><a class="dropdown-item" th:href="@{/account/profile}">Profile</a></li>
+						<li><a class="dropdown-item"
+							th:href="@{/account/changePassword}">Change Password</a></li>
 					</ul>
 				</div>
 			</div>
@@ -43,12 +44,12 @@
 	<div th:fragment="sideBar">
 		<div id="group_1">
 			<div class="concured_ttl d-flex align-items-center">
-				<a th:href="@{/dashboard}"><i
-					class="fa-solid fa-magnifying-glass"></i><span>ACE SHOP</span></a>
+				<a th:href="@{/admin/home}"><i class="fa-solid fa-store"></i><span>ACE
+						SHOP</span></a>
 			</div>
 			<div id="list_wrap">
 				<div class="top_list">
-					<ul>
+					<!-- <ul>
 						<li><a th:href="@{/admin/home}"
 							th:class="${servletPath == '/admin/home'} ? 'active' : ''"><i
 								class="fa-solid fa-gauge"></i>Dashboard</a></li>
@@ -67,12 +68,57 @@
 						<li><a th:href="@{/paymenttype}"
 							th:class="${servletPath == '/paymenttype'} ? 'active' : ''"><i
 								class="fa-brands fa-gratipay"></i>Payment Type</a></li>
-					</ul>
+					</ul> -->
+
+					<div>
+						<a th:href="@{/admin/home}"
+							th:class="${servletPath == '/admin/home'} ? 'active' : ''"><i
+							class="fa-solid fa-gauge"></i>Dashboard</a>
+					</div>
+
+					<div class="dropdown">
+						<a class="btn " data-bs-toggle="collapse" href="#collapseExample"
+							role="button" aria-expanded="true"
+							aria-controls="collapseExample"> <i
+							class="fa-solid fa-users-line"></i> Admin Management <i
+							class="fa fa-caret-down"></i>
+						</a>
+					</div>
+
+					<div class="collapse" id="collapseExample">
+						<ul class="list-group bg-primary-subtle bg-opacity-75">
+							<li><a
+								th:class="${servletPath == '/category'} ? 'active' : ''"
+								class="dropdown-item" th:href="@{/category}"> <i
+									class="fa-solid fa-list-check"></i>Category
+							</a></li>
+							<li><a
+								th:class="${servletPath == '/subcategory'} ? 'active' : ''"
+								class="dropdown-item" th:href="@{/subcategory}"> <i
+									class="fa-solid fa-table-list"></i>Sub Category
+							</a></li>
+							<li><a th:class="${servletPath == '/brand'} ? 'active' : ''"
+								class="dropdown-item" th:href="@{/brand}"> <i
+									class="fa-brands fa-slack"></i>Brand
+							</a></li>
+							<li><a
+								th:class="${servletPath == '/product'} ? 'active' : ''"
+								class="dropdown-item" th:href="@{/product}"> <i
+									class="fa-brands fa-product-hunt"></i>Products
+							</a></li>
+							<li><a
+								th:class="${servletPath == '/paymenttype'} ? 'active' : ''"
+								class="dropdown-item" th:href="@{/paymenttype}"> <i
+									class="fa-brands fa-gratipay"></i>Payment Type
+							</a></li>
+						</ul>
+					</div>
 				</div>
 				<div class="bottom_list">
 					<ul>
 						<li>
-							<form th:action="@{/logout}" sec:authorize="isAuthenticated()" class=" text-center" method="post">
+							<form th:action="@{/logout}" sec:authorize="isAuthenticated()"
+								class=" text-center" method="post">
 								<button type="submit" class="btn btn-secondary">
 									<i class="fa-solid fa-arrow-right-from-bracket"></i> Log out
 								</button>
@@ -85,6 +131,7 @@
 	</div>
 	<div th:fragment="js">
 		<script th:src="@{/admin/js/bootstrap.min.js}"></script>
+		<script th:src="@{/admin/js/jquery.min.js}"></script>
 	</div>
 </body>
 
