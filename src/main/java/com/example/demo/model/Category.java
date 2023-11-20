@@ -1,10 +1,10 @@
 package com.example.demo.model;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.Set;
 
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -32,12 +32,12 @@ public class Category {
 
 	
 
-	@Column(name = "created_time", updatable = false)
-	@CreatedDate
-	private Date createdTime;
+	@CreationTimestamp
+	@Column(name = "created_time")
+	private Timestamp createdTime;
+	@UpdateTimestamp
 	@Column(name = "updated_time")
-	@LastModifiedDate
-	private Date updatedTime;
+	private Timestamp updatedTime;
 
 	public Set<SubCategory> getSubCategories() {
 		return SubCategories;

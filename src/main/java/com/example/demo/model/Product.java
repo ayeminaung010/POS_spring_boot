@@ -1,6 +1,9 @@
 package com.example.demo.model;
 
-import java.sql.Date;
+import java.sql.Timestamp;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -54,10 +57,12 @@ public class Product {
 	@NotNull
 	private SubCategory subCategory;
 	
+	@CreationTimestamp
 	@Column(name = "created_time")
-	private Date createdTime;
+	private Timestamp createdTime;
+	@UpdateTimestamp
 	@Column(name = "updated_time")
-	private Date updatedTime;
+	private Timestamp updatedTime;
 	
 	
 	public String getThumbnailImage() {
@@ -132,19 +137,5 @@ public class Product {
 		this.stock = stock;
 	}
 	
-	public Date getCreatedTime() {
-		return createdTime;
-	}
 
-	public void setCreatedTime(Date createdTime) {
-		this.createdTime = createdTime;
-	}
-
-	public Date getUpdatedTime() {
-		return updatedTime;
-	}
-
-	public void setUpdatedTime(Date updatedTime) {
-		this.updatedTime = updatedTime;
-	}
 }
