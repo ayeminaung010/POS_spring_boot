@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.daos.PaymentTypeRepository;
+import com.example.demo.model.Category;
 import com.example.demo.model.PaymentType;
 
 import jakarta.validation.Valid;
@@ -26,6 +27,8 @@ public class PaymentTypeController {
 	public String viewPaymenttype(Model model) {
 		List<PaymentType> paymentTypeList = paymentTypeRepo.findAll();
 		model.addAttribute("paymentTypeList", paymentTypeList);
+		PaymentType paymenttype = new PaymentType();
+		model.addAttribute("paymenttype", paymenttype);
 		return "admin/paymenttype/index";
 	}
 
@@ -39,28 +42,27 @@ public class PaymentTypeController {
 	@PostMapping("/paymenttype/save")
 	public String creatPaymenttype(@ModelAttribute("paymenttype") @Valid PaymentType paymenttype,
 			BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
+		
 		if (bindingResult.hasErrors()) {
-			return "admin/paymenttype/add"; // show error
+			return "admin/paymenttype/add";
 		}
 		PaymentType existingPaymentType = paymentTypeRepo.findByPaymentTypeName(paymenttype.getPaymentTypeName());
 		if (existingPaymentType != null) {
-
 			bindingResult.rejectValue("paymentTypeName", "error.paymenttype",
 					"PaymentType with this name already exists");
 			return "admin/paymenttype/add";
 		}
 		paymentTypeRepo.save(paymenttype);
-		redirectAttributes.addFlashAttribute("message", "Payment-Type Add successful!!");
+		redirectAttributes.addFlashAttribute("success", "Payment-Type Add successful!!");
 
 		return "redirect:/paymenttype";
 	}
-
-	@GetMapping("/paymenttype/delete/{id}")
-	public String deletePaymenttype(@PathVariable("id") Integer id, Model model,
-			RedirectAttributes redirectAttributes) {
-
-		paymentTypeRepo.deleteById(id);
-		redirectAttributes.addFlashAttribute("message", "Payment-Type Delete successful!!");
+	
+	@PostMapping("/paymenttype/delete")
+	public String deleteCategory(@ModelAttribute("paymenttype") PaymentType paymenttype, Model model, RedirectAttributes redirectAttributes) {
+		
+		paymentTypeRepo.deleteById(paymenttype.getPaymentTypeId());
+		redirectAttributes.addFlashAttribute("success", "Payment-Type Delete successful!!");
 		return "redirect:/paymenttype";
 	}
 
@@ -78,15 +80,14 @@ public class PaymentTypeController {
 			RedirectAttributes redirectAttributes) {
 
 		if (bindingResult.hasErrors()) {
-			System.out.println("Validation errors: " + bindingResult.getAllErrors());
 			return "admin/paymenttype/update";
 		}
 
 		PaymentType existingPaymentType = paymentTypeRepo.findByPaymentTypeName(paymenttype.getPaymentTypeName());
+		
 		if (existingPaymentType != null) {
 			if (id != existingPaymentType.getPaymentTypeId()) {
-				bindingResult.rejectValue("paymentTypeName", "error.paymenttype",
-						"PaymentType with this name already exists");
+				bindingResult.rejectValue("paymentTypeName", "error.paymenttype", "PaymentType with this name already exists");
 				return "admin/paymentType/update";
 			}
 		}
@@ -94,7 +95,7 @@ public class PaymentTypeController {
 		paymentTypeById.setPaymentTypeName(paymenttype.getPaymentTypeName());
 
 		paymentTypeRepo.save(paymentTypeById);
-		redirectAttributes.addFlashAttribute("message", "PaymentType Update successful!!");
+		redirectAttributes.addFlashAttribute("success", "PaymentType Update successful!!");
 		return "redirect:/paymenttype";
 	}
 
