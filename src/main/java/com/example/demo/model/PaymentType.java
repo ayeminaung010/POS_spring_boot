@@ -1,6 +1,9 @@
 package com.example.demo.model;
 
-import java.sql.Date;
+import java.sql.Timestamp;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -17,10 +20,12 @@ public class PaymentType {
 	private int paymentTypeId;
 	private String paymentTypeName;
 	
+	@CreationTimestamp
 	@Column(name = "created_time")
-	private Date createdTime;
+	private Timestamp createdTime;
+	@UpdateTimestamp
 	@Column(name = "updated_time")
-	private Date updatedTime;
+	private Timestamp updatedTime;
 	
 	public int getPaymentTypeId() {
 		return paymentTypeId;

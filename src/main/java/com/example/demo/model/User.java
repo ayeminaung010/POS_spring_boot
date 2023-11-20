@@ -1,5 +1,10 @@
 package com.example.demo.model;
 
+import java.sql.Timestamp;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -36,6 +41,13 @@ public class User {
 	private String role = "USER";
 	@Transient
 	private boolean rememberMe;
+	
+	@CreationTimestamp
+	@Column(name = "created_time")
+	private Timestamp createdTime;
+	@UpdateTimestamp
+	@Column(name = "updated_time")
+	private Timestamp updatedTime;
 
 	@Transient
 	private Boolean agreeTermAndPolicy;

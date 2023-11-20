@@ -1,7 +1,10 @@
 package com.example.demo.model;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.Set;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -33,10 +36,12 @@ public class SubCategory {
 	@OneToMany(mappedBy = "subCategory", cascade = CascadeType.ALL)
 	private Set<Product> products;
 	
+	@CreationTimestamp
 	@Column(name = "created_time")
-	private Date createdTime;
+	private Timestamp createdTime;
+	@UpdateTimestamp
 	@Column(name = "updated_time")
-	private Date updatedTime;
+	private Timestamp updatedTime;
 
 	public Category getCategory() {
 		return category;
