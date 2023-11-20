@@ -28,7 +28,6 @@ public class SubCategoryController {
 		
 		SubCategory subcategory = new SubCategory();
 		model.addAttribute("subcategory", subcategory);
-		
 		List<SubCategory> subcategories = subcategoryRepo.findAll();
 		model.addAttribute("subcategories", subcategories);
 		return "admin/subCategory/index";
@@ -38,7 +37,6 @@ public class SubCategoryController {
 	public String addSubCategory(Model model) {
 		SubCategory subcategory = new SubCategory();
 		model.addAttribute("subcategory", subcategory);
-
 		return "admin/subCategory/add";
 	}
 
@@ -56,17 +54,9 @@ public class SubCategoryController {
 			return "admin/subCategory/add";
 		}
 		subcategoryRepo.save(subcategory);
-		redirectAttributes.addFlashAttribute("message", "SubCategory Add successful!!");
+		redirectAttributes.addFlashAttribute("success", "SubCategory Add successful!!");
 		return "redirect:/subcategory";
 	}
-
-//	@GetMapping("/subcategory/delete/{id}")
-//	public String deleteSubCategory(@PathVariable("id") Integer id, Model model,
-//			RedirectAttributes redirectAttributes) {
-//		subcategoryRepo.deleteById(id);
-//		redirectAttributes.addFlashAttribute("success", "SubCategory Delete successful!!");
-//		return "redirect:/subcategory";
-//	}
 	@PostMapping("/subcategory/delete")
 	public String deleteSubCategory(@ModelAttribute("subcategory") SubCategory subcategory, Model model, RedirectAttributes redirectAttributes) {
 
@@ -77,12 +67,12 @@ public class SubCategoryController {
 		if (ExistingSubCategory != null) {
 			if (ExistingSubCategory.getProducts().isEmpty()) {
 				subcategoryRepo.deleteById(subcategory.getSubCategoryId());
-				redirectAttributes.addFlashAttribute("message", "SubCategory deleted successfully!");
+				redirectAttributes.addFlashAttribute("success", "SubCategory deleted successfully!");
 			} else {
-				redirectAttributes.addFlashAttribute("message", "Cannot delete Subcategory with attached Products");
+				redirectAttributes.addFlashAttribute("error", "Cannot delete Subcategory with attached Products");
 			}
 		} else {
-			redirectAttributes.addFlashAttribute("message", "SubCategory not found");
+			redirectAttributes.addFlashAttribute("error", "SubCategory not found");
 		}
 
 		return "redirect:/subcategory";
@@ -118,8 +108,7 @@ public class SubCategoryController {
 		subcategoryById.setSubCategoryName(subcategory.getSubCategoryName());
 		subcategoryById.setCategory(subcategory.getCategory());
 		subcategoryRepo.save(subcategoryById);
-
-		redirectAttributes.addFlashAttribute("message", "SubCategory Update successful!!");
+		redirectAttributes.addFlashAttribute("success", "SubCategory Update successful!!");
 		return "redirect:/subcategory";
 	}
 

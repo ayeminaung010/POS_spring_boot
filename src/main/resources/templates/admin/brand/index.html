@@ -37,8 +37,12 @@
 					</div>
 
 				</form>
-				<div class="alert alert-success" role="alert" th:text="${message}"
-					th:if="${message}"></div>
+				<div class="alert alert-success" role="alert" th:text="${success}"
+					th:if="${success}"></div>
+				
+				<div class="alert alert-danger" role="alert" th:text="${error}"
+					th:if="${error}"></div>
+					
 				<table class="table align-middle mb-0 bg-gray table-hover mt-3">
 					<thead class="bg-light">
 						<tr>

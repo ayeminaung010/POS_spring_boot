@@ -8,6 +8,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "payment_type")
@@ -15,6 +17,9 @@ public class PaymentType {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int paymentTypeId;
+	
+	@NotNull
+	@NotEmpty(message = "PaymentTypeName is required!!")
 	private String paymentTypeName;
 	
 	@Column(name = "created_time")

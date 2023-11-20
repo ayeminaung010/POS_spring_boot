@@ -37,13 +37,15 @@
 						<a th:href="@{/category/add}" class="btn btn-info">Add New</a>
 					</div>
 				</form>
-				<div class="alert alert-success" role="alert" th:text="${message}"
-					th:if="${message}"></div>
+				<div class="alert alert-success" role="alert" th:text="${success}"
+					th:if="${success}"></div>
+
+				<div class="alert alert-danger" role="alert" th:text="${error}"
+					th:if="${error}"></div>
 
 				<table class="table table-striped" id="stduentTable">
 					<thead>
 						<tr>
-
 							<th scope="col">Id</th>
 							<th scope="col">Category Name</th>
 							<th scope="col">Actions</th>
@@ -88,7 +90,8 @@
 					Are you sure want to delete? - <span id="deleteName"></span>
 				</div>
 				<div class="modal-footer">
-					<form th:action="@{/category/delete}" method="post" th:object="${category}">
+					<form th:action="@{/category/delete}" method="post"
+						th:object="${category}">
 						<div class="btnGp">
 							<input type="hidden" th:field="*{categoryId}" id="deleteId" />
 							<button type="button" class="btn btn-secondary"

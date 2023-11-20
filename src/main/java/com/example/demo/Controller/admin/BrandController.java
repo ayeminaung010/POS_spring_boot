@@ -51,16 +51,9 @@ public class BrandController {
 			return "admin/brand/add";
 		}
 		brandRepo.save(brand);
-		redirectAttributes.addFlashAttribute("message", "Brand Add successful!!");
+		redirectAttributes.addFlashAttribute("success", "Brand Add successful!!");
 		return "redirect:/brand";
 	}
-
-//	@GetMapping("/brand/delete/{id}")
-//	public String deleteBrand(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
-//		brandRepo.deleteById(id);
-//		redirectAttributes.addFlashAttribute("message", "Brand Delete successful!!");
-//		return "redirect:/brand";
-//	}
 	
 	@PostMapping("/brand/delete")
 	public String deleteCategory(@ModelAttribute("brand") Brand brand, Model model, RedirectAttributes redirectAttributes) {
@@ -71,12 +64,12 @@ public class BrandController {
 		if (ExistingBrand != null) {
 			if (ExistingBrand.getProducts().isEmpty()) {
 				brandRepo.deleteById(brand.getBrandId());
-				redirectAttributes.addFlashAttribute("message", "Brand deleted successfully!");
+				redirectAttributes.addFlashAttribute("success", "Brand deleted successfully!");
 			} else {
-				redirectAttributes.addFlashAttribute("message", "Cannot delete brand with attached Products");
+				redirectAttributes.addFlashAttribute("error", "Cannot delete brand with attached Products");
 			}
 		} else {
-			redirectAttributes.addFlashAttribute("message", "Brand not found");
+			redirectAttributes.addFlashAttribute("error", "Brand not found");
 		}
 
 		return "redirect:/brand";
@@ -110,7 +103,7 @@ public class BrandController {
 		brandById.setBrandName(brand.getBrandName());
 		
 		brandRepo.save(brandById);
-		redirectAttributes.addFlashAttribute("message", "brand Update successful!!");
+		redirectAttributes.addFlashAttribute("success", "brand Update successful!!");
 		return "redirect:/brand";
 	}
 }

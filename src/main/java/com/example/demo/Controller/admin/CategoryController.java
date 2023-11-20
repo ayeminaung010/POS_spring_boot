@@ -52,28 +52,9 @@ public class CategoryController {
 			return "admin/category/add";
 		}
 		categoryRepository.save(category);
-		redirectAttributes.addFlashAttribute("message", "Category Add successful!!");
+		redirectAttributes.addFlashAttribute("success", "Category Add successful!!");
 		return "redirect:/category";
 	}
-
-//	@GetMapping("/category/delete/{id}")
-//	public String deleteCategory(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
-//
-//		Category category = categoryRepository.findById(id).orElse(null);
-//
-//		if (category != null) {
-//			if (category.getSubCategories().isEmpty()) {
-//				categoryRepository.deleteById(id);
-//				redirectAttributes.addFlashAttribute("message", "Category deleted successfully!");
-//			} else {
-//				redirectAttributes.addFlashAttribute("message", "Cannot delete category with attached SubCategories");
-//			}
-//		} else {
-//			redirectAttributes.addFlashAttribute("message", "Category not found");
-//		}
-//
-//		return "redirect:/category";
-//	}
 
 	@GetMapping("/category/update/{id}")
 	public String updateCategory(@PathVariable("id") Integer id, Model model) {
@@ -102,7 +83,7 @@ public class CategoryController {
 		categoryById.setCategoryName(category.getCategoryName());
 
 		categoryRepository.save(categoryById);
-		redirectAttributes.addFlashAttribute("message", "Category Update successful!!");
+		redirectAttributes.addFlashAttribute("success", "Category Update successful!!");
 
 		return "redirect:/category";
 	}
@@ -111,17 +92,15 @@ public class CategoryController {
 	public String deleteCategory(@ModelAttribute("category") Category category, Model model, RedirectAttributes redirectAttributes) {
 
 		Category ExistingCategory = categoryRepository.findById(category.getCategoryId()).orElse(null);
-
-		System.out.println("Delete category: " + category.getCategoryId());
 		if (ExistingCategory != null) {
 			if (ExistingCategory.getSubCategories().isEmpty()) {
 				categoryRepository.deleteById(category.getCategoryId());
-				redirectAttributes.addFlashAttribute("message", "Category deleted successfully!");
+				redirectAttributes.addFlashAttribute("success", "Category deleted successfully!");
 			} else {
-				redirectAttributes.addFlashAttribute("message", "Cannot delete category with attached SubCategories");
+				redirectAttributes.addFlashAttribute("error", "Cannot delete category with attached SubCategories");
 			}
 		} else {
-			redirectAttributes.addFlashAttribute("message", "Category not found");
+			redirectAttributes.addFlashAttribute("error", "Category not found");
 		}
 
 		return "redirect:/category";
