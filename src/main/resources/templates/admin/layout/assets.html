@@ -30,7 +30,7 @@
 				<i class="fa-solid fa-circle-user"></i>
 				<div class=" dropdown">
 					<button class="btn  dropdown-toggle" data-bs-toggle="dropdown"
-						aria-expanded="false">[[${#authentication.name}]]</button>
+						aria-expanded="false" sec:authentication="principal.username"></button>
 					<ul class="dropdown-menu dropdown-menu-dark">
 						<li><a class="dropdown-item" th:href="@{/account/profile}">Profile</a></li>
 						<li><a class="dropdown-item"
