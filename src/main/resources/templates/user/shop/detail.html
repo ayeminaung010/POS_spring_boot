@@ -12,18 +12,21 @@
 	<!-- header -->
 	<div th:replace="user/layout/assets :: header"></div>
 
+	<!--  hero section -->
+	<div th:replace="user/layout/assets :: hero-section"></div>
 
 	<!-- Breadcrumb Section Begin -->
 	<section class="breadcrumb-section set-bg"
-		data-setbg="img/breadcrumb.jpg">
+		th:data-setbg="@{/client/img/breadcrumb.jpg}	">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12 text-center">
 					<div class="breadcrumb__text">
-						<h2>Vegetable’s Package</h2>
+						<h2>Product Detail</h2>
 						<div class="breadcrumb__option">
-							<a href="./index.html">Home</a> <a href="./index.html">Vegetables</a>
-							<span>Vegetable’s Package</span>
+							<a href="./index.html">Home</a> <a href="./index.html"
+								class="text-capitalize">[[${product.subCategory.category.categoryName}]]</a>
+							<span class="text-capitalize">[[${product.name}]]</span>
 						</div>
 					</div>
 				</div>
@@ -40,7 +43,8 @@
 					<div class="product__details__pic">
 						<div class="product__details__pic__item">
 							<img class="product__details__pic__item--large"
-								src="img/product/details/product-details-1.jpg" alt="">
+								th:src="@{/uploads/products/{id}/{imageName}(id=${product.id},imageName=${product.thumbnailImage})}"
+								alt="">
 						</div>
 						<div class="product__details__pic__slider owl-carousel">
 							<img data-imgbigurl="img/product/details/product-details-2.jpg"
@@ -56,18 +60,15 @@
 				</div>
 				<div class="col-lg-6 col-md-6">
 					<div class="product__details__text">
-						<h3>Vetgetable’s Package</h3>
+						<h3 class=" text-capitalize">[[${product.name}]]</h3>
 						<div class="product__details__rating">
 							<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
 								class="fa fa-star"></i> <i class="fa fa-star"></i> <i
 								class="fa fa-star-half-o"></i> <span>(18 reviews)</span>
 						</div>
-						<div class="product__details__price">$50.00</div>
-						<p>Mauris blandit aliquet elit, eget tincidunt nibh pulvinar
-							a. Vestibulum ac diam sit amet quam vehicula elementum sed sit
-							amet dui. Sed porttitor lectus nibh. Vestibulum ac diam sit amet
-							quam vehicula elementum sed sit amet dui. Proin eget tortor
-							risus.</p>
+						<div class="product__details__price">[[${product.price}]]
+							MMK</div>
+						<p>[[${product.description}]]</p>
 						<div class="product__details__quantity">
 							<div class="quantity">
 								<div class="pro-qty">
@@ -78,8 +79,10 @@
 						<a href="#" class="primary-btn">ADD TO CARD</a> <a href="#"
 							class="heart-icon"><span class="icon_heart_alt"></span></a>
 						<ul>
-							<li><b>Availability</b> <span>In Stock</span></li>
-							<li><b>Weight</b> <span>0.5 kg</span></li>
+							<li><b>Brand</b> <span>[[${product.brand.brandName !=
+									null ? product.brand.brandName : N/A}]]</span></li>
+							<li><b>Availability</b> <span>In Stock -
+									[[${product.stock}]]</span></li>
 						</ul>
 					</div>
 				</div>
