@@ -14,7 +14,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.daos.BrandRepository;
 import com.example.demo.model.Brand;
-import com.example.demo.model.Category;
 
 import jakarta.validation.Valid;
 

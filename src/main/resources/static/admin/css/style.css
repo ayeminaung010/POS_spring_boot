@@ -504,3 +504,8 @@ body {
 	background-color: var(--bg-gray-color);
 }
 
+#deleteName{
+	font-weight: 600;
+	color: red;
+}
+
