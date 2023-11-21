@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.daos.PaymentTypeRepository;
-import com.example.demo.model.Category;
 import com.example.demo.model.PaymentType;
 
 import jakarta.validation.Valid;

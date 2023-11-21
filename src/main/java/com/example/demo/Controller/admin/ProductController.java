@@ -34,6 +34,8 @@ public class ProductController {
 	public String products(Model model) {
 		List<Product> products = productRepository.findAll();
 		model.addAttribute("products", products);
+		Product product = new Product();
+		model.addAttribute("product", product);
 		return "admin/product/index";
 	}
 
@@ -152,6 +154,7 @@ public class ProductController {
 	@PostMapping("/product/delete")
 	public String deleteProduct(@ModelAttribute("product") Product product, RedirectAttributes redirectAttributes,
 			Model model) {
+		System.out.println("Product Delete id" + product.getId());
 		Product existingProduct = productRepository.getReferenceById(product.getId());
 		if (existingProduct.getThumbnailImage() != null) {
 			try {
@@ -170,7 +173,7 @@ public class ProductController {
 				e.printStackTrace();
 			}
 		}
-
+		productRepository.deleteById(product.getId());
 		redirectAttributes.addFlashAttribute("success", "Product Deleted Successful!");
 		return "redirect:/product";
 	}
