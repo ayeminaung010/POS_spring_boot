@@ -43,7 +43,6 @@ public class SecurityConfiguration {
 		http.logout((logout) -> logout.logoutUrl("/logout").permitAll());
 		http.authorizeHttpRequests(
 				(requests) -> requests.requestMatchers("/","/home").permitAll()
-//				.requestMatchers("/admin/home").hasAuthority("ADMIN")
 				.requestMatchers("/admin/css/**","/admin/js/**","/admin/images/**").permitAll()
 				.requestMatchers("/user/css/**","/user/js/**","/user/img/**","/user/js/**").permitAll()
 				.requestMatchers("/admin/**","/category/**","/subcategory/**","/brand/**","/product/**","/paymenttype/**","/account/**").hasAuthority("ADMIN")
