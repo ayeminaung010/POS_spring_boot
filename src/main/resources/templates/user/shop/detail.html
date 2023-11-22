@@ -43,7 +43,7 @@
 					<div class="product__details__pic">
 						<div class="product__details__pic__item">
 							<img class="product__details__pic__item--large"
-								th:src="@{/uploads/products/{id}/{imageName}(id=${product.id},imageName=${product.thumbnailImage})}"
+								th:src="@{${product.thumbnailImage}}"
 								alt="">
 						</div>
 						<div class="product__details__pic__slider owl-carousel">
@@ -60,23 +60,24 @@
 				</div>
 				<div class="col-lg-6 col-md-6">
 					<div class="product__details__text">
-						<h3 class=" text-capitalize">[[${product.name}]]</h3>
-						<div class="product__details__rating">
+						<h3 class=" text-capitalize productName">[[${product.name}]]</h3>
+						<!-- <div class="product__details__rating">
 							<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
 								class="fa fa-star"></i> <i class="fa fa-star"></i> <i
 								class="fa fa-star-half-o"></i> <span>(18 reviews)</span>
-						</div>
-						<div class="product__details__price">[[${product.price}]]
-							MMK</div>
+						</div> -->
+						<div class="product__details__price "><span class="productPrice">[[${discountPrice} != null ? ${discountPrice} :  ${product.price}]]</span>
+							 Ks  <del th:if="${discountPrice}" > <small>[[${product.price}]] Ks</small> </del></div>
+							 <span th:if="${discountPrice}" class="badge badge-warning">[[${#numbers.formatInteger(product.discount,1,'POINT')}]] % OFF</span>
 						<p>[[${product.description}]]</p>
 						<div class="product__details__quantity">
 							<div class="quantity">
 								<div class="pro-qty">
-									<input type="text" value="1">
+									<input type="number" class="quantity" th:max="${product.stock}" min="1" value="1">
 								</div>
 							</div>
 						</div>
-						<a href="#" class="primary-btn">ADD TO CARD</a> <a href="#"
+						<a href="#" class="primary-btn addToCartBtn">ADD TO CARD</a> <a href="#"
 							class="heart-icon"><span class="icon_heart_alt"></span></a>
 						<ul>
 							<li><b>Brand</b> <span>[[${product.brand.brandName !=

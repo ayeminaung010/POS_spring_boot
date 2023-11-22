@@ -24,7 +24,7 @@
 				<div class="col-lg-6">
 					<!-- Product Image -->
 					<img th:alt="${product.name}" class="img-fluid" width="400"
-						th:src="@{/uploads/products/{id}/{imageName}(id=${product.id},imageName=${product.thumbnailImage})}">
+						th:src="@{${product.thumbnailImage}}">
 				</div>
 				<div class="col-lg-6">
 					<!-- Product Details -->

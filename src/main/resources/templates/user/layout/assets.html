@@ -9,12 +9,10 @@
 <body>
 
 	<div th:fragment="css">
-
 		<!-- Google Font -->
 		<link
 			href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap"
 			rel="stylesheet" />
-
 		<!-- Css Styles -->
 		<link rel="stylesheet" th:href="@{/client/css/bootstrap.min.css}"
 			type="text/css" />
@@ -32,6 +30,10 @@
 			type="text/css" />
 		<link rel="stylesheet" th:href="@{/client/css/style.css}"
 			type="text/css" />
+		<link rel="stylesheet" th:href="@{/app/css/sweetAlert2.css}"
+			type="text/css" />
+			
+			<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.10.1/sweetalert2.min.css" integrity="sha512-l1vPIxNzx1pUOKdZEe4kEnWCBzFVVYX5QziGS7zRZE4Gi5ykXrfvUgnSBttDbs0kXe2L06m9+51eadS+Bg6a+A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 	</div>
 
 	<div th:fragment="header">
@@ -214,6 +216,7 @@
 		<script th:src="@{/client/js/jquery.slicknav.js}"></script>
 		<script th:src="@{/client/js/mixitup.min.js}"></script>
 		<script th:src="@{/client/js/owl.carousel.min.js}"></script>
+		<script th:src="@{/app/js/sweetAlert2.js}"></script>
 		<script th:src="@{/client/js/main.js}"></script>
 	</div>
 
