@@ -22,6 +22,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.daos.ProductRepository;
 import com.example.demo.model.Product;
+import com.example.demo.service.CloudinaryImageService;
 
 import jakarta.validation.Valid;
 
@@ -29,6 +30,9 @@ import jakarta.validation.Valid;
 public class ProductController {
 	@Autowired
 	private ProductRepository productRepository;
+	
+	@Autowired
+	private CloudinaryImageService cloudinaryImageService;
 
 	@GetMapping("/product")
 	public String products(Model model) {
@@ -53,25 +57,17 @@ public class ProductController {
 		if (bindingResult.hasErrors()) {
 			return "/admin/product/add";
 		}
-		String imageName = imagesFile.getOriginalFilename();
-		product.setThumbnailImage(imageName);
-		Product savedImage = productRepository.save(product);
+
 		try {
-
-			String uploadDir = "src/main/resources/static/uploads/products/" + savedImage.getId();
-			Path uploadPath = (Path) Paths.get(uploadDir);
-
-			if (!Files.exists(uploadPath)) {
-				Files.createDirectories(uploadPath);
-			}
-
-			Path fileToCreatePath = uploadPath.resolve(imageName);
-
-			Files.copy(imagesFile.getInputStream(), fileToCreatePath, StandardCopyOption.REPLACE_EXISTING);
-		} catch (IOException e) {
+			String imageURL  = cloudinaryImageService.uploadFile(imagesFile);
+			product.setThumbnailImage(imageURL);
+			productRepository.save(product);
+			
+		} catch (Exception e) {
 
 			e.printStackTrace();
 		}
+		
 		redirectAttributes.addFlashAttribute("success", "Product Add Successful!");
 		return "redirect:/product";
 	}
@@ -100,25 +96,17 @@ public class ProductController {
 			return "/admin/product/update";
 		}
 		Product existingProduct = productRepository.getReferenceById(id);
-		if (imagesFile != null) {
+		if (imagesFile != null && !imagesFile.isEmpty()) {
 			try {
-				String photoPath = "src/main/resources/static/uploads/products/" + existingProduct.getId() + "/"
-						+ existingProduct.getThumbnailImage();
-				// Create a File object with the photo path
-				File photoFile = new File(photoPath);
-
-				// Delete the file associated with the photo path
-				if (photoFile.exists()) {
-					photoFile.delete();
-				}
-
+				cloudinaryImageService.deleteFile(existingProduct.getThumbnailImage()); //delete img
+				String imageURL  = cloudinaryImageService.uploadFile(imagesFile);
+				product.setThumbnailImage(imageURL);
 			} catch (Exception e) {
 
 				e.printStackTrace();
 			}
 		}
 
-		String imageName = imagesFile.getOriginalFilename();
 		existingProduct.setName(product.getName());
 		existingProduct.setBrand(product.getBrand());
 		existingProduct.setDescription(product.getDescription());
@@ -126,25 +114,8 @@ public class ProductController {
 		existingProduct.setPrice(product.getPrice());
 		existingProduct.setStock(product.getStock());
 		existingProduct.setSubCategory(product.getSubCategory());
-		existingProduct.setThumbnailImage(imageName);
 
-		Product savedImage = productRepository.save(existingProduct);
-		try {
-
-			String uploadDir = "src/main/resources/static/uploads/products/" + savedImage.getId();
-			Path uploadPath = (Path) Paths.get(uploadDir);
-
-			if (!Files.exists(uploadPath)) {
-				Files.createDirectories(uploadPath);
-			}
-
-			Path fileToCreatePath = uploadPath.resolve(imageName);
-
-			Files.copy(imagesFile.getInputStream(), fileToCreatePath, StandardCopyOption.REPLACE_EXISTING);
-		} catch (IOException e) {
-
-			e.printStackTrace();
-		}
+		productRepository.save(product);
 		redirectAttributes.addFlashAttribute("success", "Product Update Successful!");
 		return "redirect:/product";
 
@@ -157,15 +128,7 @@ public class ProductController {
 		Product existingProduct = productRepository.getReferenceById(product.getId());
 		if (existingProduct.getThumbnailImage() != null) {
 			try {
-				String photoPath = "src/main/resources/static/uploads/products/" + existingProduct.getId() + "/"
-						+ existingProduct.getThumbnailImage();
-				// Create a File object with the photo path
-				File photoFile = new File(photoPath);
-
-				// Delete the file associated with the photo path
-				if (photoFile.exists()) {
-					photoFile.delete();
-				}
+				cloudinaryImageService.deleteFile(existingProduct.getThumbnailImage()); //delete img
 
 			} catch (Exception e) {
 

@@ -43,7 +43,7 @@
 					<div class="product__details__pic">
 						<div class="product__details__pic__item">
 							<img class="product__details__pic__item--large"
-								th:src="@{/uploads/products/{id}/{imageName}(id=${product.id},imageName=${product.thumbnailImage})}"
+								th:src="@{${product.thumbnailImage}}"
 								alt="">
 						</div>
 						<div class="product__details__pic__slider owl-carousel">
