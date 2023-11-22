@@ -21,10 +21,8 @@ public class PageController {
 	
 	@GetMapping("/shop/detail/{id}") // To show with id & change this path 
 	public String shopDetail(@PathVariable("id") Integer id,Model model) {
-		System.out.println("Product Id : " + id);
 		Product detailProduct = productRepository.getReferenceById(id);
 		Double discount = detailProduct.getDiscount();
-		System.out.println("Discount : " + discount);
 		if(discount != 0.0) {
 			double discountPrice = calculateDiscountPrice(discount,detailProduct.getPrice());
 			model.addAttribute("discountPrice", discountPrice);
