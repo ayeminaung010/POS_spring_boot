@@ -100,8 +100,7 @@ public class ProductController {
 			return "/admin/product/update";
 		}
 		Product existingProduct = productRepository.getReferenceById(id);
-
-		if (existingProduct.getThumbnailImage() != null) {
+		if (imagesFile != null) {
 			try {
 				String photoPath = "src/main/resources/static/uploads/products/" + existingProduct.getId() + "/"
 						+ existingProduct.getThumbnailImage();

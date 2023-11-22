@@ -23,6 +23,12 @@ public class PageController {
 	public String shopDetail(@PathVariable("id") Integer id,Model model) {
 		System.out.println("Product Id : " + id);
 		Product detailProduct = productRepository.getReferenceById(id);
+		Double discount = detailProduct.getDiscount();
+		System.out.println("Discount : " + discount);
+		if(discount != 0.0) {
+			double discountPrice = calculateDiscountPrice(discount,detailProduct.getPrice());
+			model.addAttribute("discountPrice", discountPrice);
+		}
 		model.addAttribute("product", detailProduct);
 		return "user/shop/detail";
 	}
@@ -45,5 +51,15 @@ public class PageController {
 	@GetMapping("/cart/address")
 	public String address() {
 		return "user/cart/address";
+	}
+	
+	public Double calculateDiscountPrice(double discount,double originalPrice) {
+		if (discount < 0 || discount > 100) {
+            return null;
+        }
+		double discountAmount = (originalPrice * discount) / 100;
+        double discountedPrice = originalPrice - discountAmount;
+
+		return discountedPrice;
 	}
 }
