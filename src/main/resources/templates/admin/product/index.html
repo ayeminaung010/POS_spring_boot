@@ -60,8 +60,9 @@
 							<td>[[${product.price}]] MMK</td>
 							<td>[[${product.stock}]]</td>
 							<td>[[${product.discount}]]</td>
-							<td><img th:alt="${product.name}" width="80"
-								th:src="@{/uploads/products/{id}/{imageName}(id=${product.id},imageName=${product.thumbnailImage})}">
+							<td>
+								<img th:alt="${product.name}" width="80"
+								th:src="@{${product.thumbnailImage}}">
 							</td>
 							<td><a th:href="@{/product/details/{id}(id=${product.id})}"
 								class="btn btn-link btn-lg btn-rounded"> <i
