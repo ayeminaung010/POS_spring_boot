@@ -5,37 +5,45 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
+<div th:fragment="css">
+	<!-- Favicon -->
+	<link rel="shortcut icon" th:href="@{/client/img/favicon.ico}"
+		type="image/x-icon" />
+	<!-- Google Font -->
+	<link
+		href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap"
+		rel="stylesheet" />
+
+	<!-- Css Styles -->
+	<link rel="stylesheet" th:href="@{/client/css/bootstrap.min.css}"
+		type="text/css" />
+	<link rel="stylesheet" th:href="@{/client/css/font-awesome.min.css}"
+		type="text/css" />
+	<link rel="stylesheet" th:href="@{/client/css/elegant-icons.css}"
+		type="text/css" />
+	<link rel="stylesheet" th:href="@{/client/css/nice-select.css}"
+		type="text/css" />
+	<link rel="stylesheet" th:href="@{/client/css/jquery-ui.min.css}"
+		type="text/css" />
+	<link rel="stylesheet" th:href="@{/client/css/owl.carousel.min.css}"
+		type="text/css" />
+	<link rel="stylesheet" th:href="@{/client/css/slicknav.min.css}"
+		type="text/css" />
+	<link rel="stylesheet" th:href="@{/client/css/style.css}"
+		type="text/css" />
+
+	<!-- SweetAlert2 CSS -->
+	<link rel="stylesheet" th:href="@{/app/css/sweetAlert2.css}"
+		type="text/css" />
+	<link rel="stylesheet"
+		href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.10.1/sweetalert2.min.css"
+		integrity="sha512-l1vPIxNzx1pUOKdZEe4kEnWCBzFVVYX5QziGS7zRZE4Gi5ykXrfvUgnSBttDbs0kXe2L06m9+51eadS+Bg6a+A=="
+		crossorigin="anonymous" referrerpolicy="no-referrer" />
+</div>
+
 </head>
 <body>
-
-	<div th:fragment="css">
-		<!-- Google Font -->
-		<link
-			href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap"
-			rel="stylesheet" />
-		<!-- Css Styles -->
-		<link rel="stylesheet" th:href="@{/client/css/bootstrap.min.css}"
-			type="text/css" />
-		<link rel="stylesheet" th:href="@{/client/css/font-awesome.min.css}"
-			type="text/css" />
-		<link rel="stylesheet" th:href="@{/client/css/elegant-icons.css}"
-			type="text/css" />
-		<link rel="stylesheet" th:href="@{/client/css/nice-select.css}"
-			type="text/css" />
-		<link rel="stylesheet" th:href="@{/client/css/jquery-ui.min.css}"
-			type="text/css" />
-		<link rel="stylesheet" th:href="@{/client/css/owl.carousel.min.css}"
-			type="text/css" />
-		<link rel="stylesheet" th:href="@{/client/css/slicknav.min.css}"
-			type="text/css" />
-		<link rel="stylesheet" th:href="@{/client/css/style.css}"
-			type="text/css" />
-		<link rel="shortcut icon" th:href="@{/client/img/favicon.ico}">
-		<link rel="stylesheet" th:href="@{/app/css/sweetAlert2.css}"
-			type="text/css" />
-			
-			<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.10.1/sweetalert2.min.css" integrity="sha512-l1vPIxNzx1pUOKdZEe4kEnWCBzFVVYX5QziGS7zRZE4Gi5ykXrfvUgnSBttDbs0kXe2L06m9+51eadS+Bg6a+A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-	</div>
 
 	<div th:fragment="header">
 		<!-- Page Preloder -->
@@ -99,7 +107,7 @@
 						</div>
 					</div>
 					<div class="col-lg-6">
-						
+
 						<nav class="header__menu">
 							<ul>
 								<li th:class="${servletPath == '/'} ? 'active' : ''"><a
@@ -109,10 +117,12 @@
 								<li th:class="${servletPath == '/contact'} ? 'active' : ''"><a
 									th:href="@{/contact}">Contact</a></li>
 
-								<li sec:authorize="isAuthenticated()"><a href="#">Account <span class=" d-none " id="username" sec:authentication="principal.username"></span>
+								<li sec:authorize="isAuthenticated()"><a href="#">Account
+										<span class=" d-none " id="username"
+										sec:authentication="principal.username"></span>
 								</a>
 									<ul class="header__menu__dropdown">
-										<li><a href="#" >Profile</a></li>
+										<li><a href="#">Profile</a></li>
 										<li><a href="#">Password Change</a></li>
 										<li class=" text-center mt-3">
 											<form th:action="@{/logout}" method="POST"

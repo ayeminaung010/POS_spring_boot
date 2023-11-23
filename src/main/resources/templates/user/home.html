@@ -4,7 +4,8 @@
 <head>
 <meta charset="UTF-8">
 <title>SHOP</title>
-<link th:replace="user/layout/assets :: css"></link>
+
+<link th:replace="user/layout/assets :: css" />
 </head>
 <body>
 
@@ -131,13 +132,15 @@
 
 								} else {
 									foundProduct.quantity++;
-									var index = storedCart.findIndex(function (product) {
-									    return product.productId === productId;
+									var index = storedCart.findIndex(function(
+											product) {
+										return product.productId === productId;
 									});
-									sessionStorage.setItem("cart", JSON.stringify(storedCart));
+									sessionStorage.setItem("cart", JSON
+											.stringify(storedCart));
 								}
 								console.log("Updated Cart:", storedCart);
-								
+
 							});
 				});
 	</script>
