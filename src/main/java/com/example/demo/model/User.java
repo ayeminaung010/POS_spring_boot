@@ -56,6 +56,8 @@ public class User {
 	@Column(name = "updated_time")
 	private Timestamp updatedTime;
 
+
+
 	@Transient
 	private Boolean agreeTermAndPolicy;
 
@@ -130,6 +132,24 @@ public class User {
 	public void setRememberMe(boolean rememberMe) {
 		this.rememberMe = rememberMe;
 	}
+	
+	public Timestamp getCreatedTime() {
+		return createdTime;
+	}
+
+	public void setCreatedTime(Timestamp createdTime) {
+		this.createdTime = createdTime;
+	}
+
+	public Timestamp getUpdatedTime() {
+		return updatedTime;
+	}
+
+	public void setUpdatedTime(Timestamp updatedTime) {
+		this.updatedTime = updatedTime;
+	}
+	
+	
 //	private boolean enabled;
 //
 //	public boolean isEnabled() {

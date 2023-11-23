@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.daos.UserRepository;
-import com.example.demo.model.Category;
-import com.example.demo.model.SubCategory;
 import com.example.demo.model.User;
 
 import jakarta.validation.Valid;
@@ -48,36 +46,38 @@ public class ManageUserController {
 		model.addAttribute("user", user);
 		return "admin/manageuser/update";
 	}
-	@PostMapping("/manageuser/update/{id}")
-	public String editUser(@ModelAttribute("user") @Valid User user, BindingResult bindingResult,
-			@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
-
+	
+	@PostMapping("/manageuser/updating/{id}")
+	public String editUser(@PathVariable("id") Integer id,@ModelAttribute("user") @Valid User updateUser,BindingResult bindingResult,
+			 Model model, RedirectAttributes redirectAttributes) {
 		if (bindingResult.hasErrors()) {
+			System.out.println("eror validation error");
 	        return "admin/manageuser/update";
 	    }
-	    User existingUser = userRepo.findByEmail(user.getEmail());
-
-	    if (existingUser != null) {
-	    	if(existingUser.getId() != id) {
-	    		bindingResult.rejectValue("email", "error.user", "Email already exists");
-		        //model.addAttribute("error", "Email already exists");
-		        return "admin/manageuser/update";
-	    	}
-	    }
-	    User userById = userRepo.findById(id).orElse(null);
-	    
-	    userById.setName(user.getName());
-	    userById.setEmail(user.getEmail());
-	    
-		userRepo.save(user);
-		redirectAttributes.addFlashAttribute("success", "User Update successful!!");
+		User alreadyUser = userRepo.findById(updateUser.getId()).orElse(null);
+		User emailCheckUser = userRepo.findByEmail(updateUser.getEmail());
+		
+		alreadyUser.setName(updateUser.getName());
+		if(emailCheckUser == null) {
+			alreadyUser.setEmail(updateUser.getEmail());
+			userRepo.save(alreadyUser);
+			model.addAttribute("success", "Update Profile Success ... !");
+		}else {
+			if(emailCheckUser.getId() == updateUser.getId()) {
+				alreadyUser.setEmail(updateUser.getEmail());
+				userRepo.save(alreadyUser);
+				model.addAttribute("success", "Update Profile Success ... !");
+			}else{
+				model.addAttribute("error", "Email already exists ... !");
+			}
+		}
 		return "redirect:/manageuser";
 	}
 
 	@PostMapping("/manageuser/delete")
 	public String deleteUser(@ModelAttribute("user") User user, Model model, RedirectAttributes redirectAttributes) {
 		userRepo.deleteById(user.getId());
-		redirectAttributes.addFlashAttribute("success", "User Delete successful!!");
+		redirectAttributes.addFlashAttribute("success", "User Account Delete successful!!");
 		return "redirect:/manageuser";
 		
 	}

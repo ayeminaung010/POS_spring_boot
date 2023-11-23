@@ -44,26 +44,26 @@
 				<table class="table table-striped" id="stduentTable">
 					<thead>
 						<tr>
-
 							<th scope="col">Id</th>
 							<th scope="col">Name</th>
 							<th scope="col">Email</th>
+							<th scope="col">Create Time</th>
 							<th scope="col">Actions</th>
-						
 						</tr>
 					</thead>
 					<tbody>
 
 						<tr th:each="user,state : ${userList}">
-							<td th:text="${state.count}"></td>
-							<td th:text="${user.name}"></td>
-							<td th:text="${user.email}"></td>
-							<td><a
+							<td >[[${state.count}]]</td>
+							<td >[[${user.name}]]</td>
+							<td >[[${user.email}]]</td>
+							<td >[[${#dates.format(user.createdTime,'dd-MMM-yyyy HH:mm')}]]</td>
+							<td ><a th:if="${user.id !=  #authentication.principal.id}"
 								th:href="@{/manageuser/update/{id}(id =${user.id})}"
 								class="btn btn-link btn-lg btn-rounded"> <i
 									class="fa-solid fa-pen-to-square"></i>
 							</a> 
-							<a
+							<a th:if="${user.id !=  #authentication.principal.id}"
 								th:attr="data-id=${user.id}, data-name=${user.name}" 
 								th:onclick="openDeleteModal(this)"
 								class="btn btn-link text-danger btn-lg btn-rounded">

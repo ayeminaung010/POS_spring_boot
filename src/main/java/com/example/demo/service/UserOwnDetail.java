@@ -48,6 +48,10 @@ public class UserOwnDetail implements UserDetails {
 		return user.getEmail();
 	}
 	
+	public Integer getId() {
+		return user.getId();
+	}
+	
 
 
 	@Override
