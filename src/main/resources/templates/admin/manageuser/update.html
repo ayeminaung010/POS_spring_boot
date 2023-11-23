@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<title>Update ManageUser</title>
+<link th:replace="admin/layout/assets :: css" />
+</head>
+
+<body>
+	<div id="container">
+		<!-- side navbar here  -->
+		<div th:replace="admin/layout/assets :: sideBar"></div>
+		<div id="content_wrap">
+			<div class="content_box">
+				<!-- header here  -->
+				<div th:replace="admin/layout/assets :: header"></div>
+
+			</div>
+			<div id="sub_content">
+				<h5 class="fw-bold">Update ManageUser</h5>
+				<div class="row justify-content-center">
+
+					<div class="alert alert-success" role="alert" th:text="${error}"
+						th:if="${error}"></div>
+
+					<div class="alert alert-success" role="alert" th:text="${success}"
+						th:if="${success}"></div>
+
+					<div class="col-lg-8 bg-gray p-5 mt-5 rounded-5">
+						<form class="needs-validation"
+							th:action="@{/manageuser/updating/{id}(id =${user.id})}"
+							method="post" th:object=${user}>
+
+							<div class="mb-3">
+								<label for="userName" class="form-label">Name</label> <input
+									type="text" class="form-control" placeholder="Enter Name"
+									th:field="*{name}" />
+								<p class="text-danger" th:if="${#fields.hasErrors('name')}"
+									th:errors="*{name}"></p>
+
+							</div>
+							<div class="mb-3">
+								<label for="userEmail" class="form-label">Email</label> <input
+									type="email" class="form-control"
+									placeholder="Enter Email Address" th:field="*{email}" />
+								<p class="text-danger" th:if="${#fields.hasErrors('email')}"
+									th:errors="*{email}"></p>
+							</div>
+							<input type="hidden" th:field="*{id}" />
+							<div class=" text-end">
+								<a th:href="@{/manageuser}" class="btn btn-secondary ">Cancel</a>
+								<button type="submit" class="btn btn-primary ">Update</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- js   -->
+	<script th:replace="admin/layout/assets :: js"></script>
+</body>
+
+</html>

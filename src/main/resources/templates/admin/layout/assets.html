@@ -113,13 +113,19 @@
 							</a></li>
 						</ul>
 					</div>
+					<div>
+						<a th:href="@{/manageuser}"
+							th:class="${servletPath == '/manageuser'} ? 'active' : ''"> <i
+							class="fa-solid fa-users-gear"></i>UserManagement
+						</a>
+					</div>
 				</div>
 				<div class="bottom_list">
 					<ul>
 						<li>
 							<form th:action="@{/logout}" sec:authorize="isAuthenticated()"
 								class=" text-center" method="post">
-								<button type="submit" class="btn btn-secondary">
+								<button type="submit" id="logout">
 									<i class="fa-solid fa-arrow-right-from-bracket"></i> Log out
 								</button>
 							</form>

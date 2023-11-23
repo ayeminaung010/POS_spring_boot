@@ -24,8 +24,7 @@
 						<form class="needs-validation" th:action="@{/category/add}" method="post" th:object=${category}>
 							<div class="mb-3">
 								<label for="exampleInputEmail1" class="form-label">Name</label>
-								<input type="text" class="form-control" placeholder="Enter Category Name"
-									th:field="*{categoryName}" />
+								<input type="text" class="form-control" placeholder="Enter Category Name" th:field="*{categoryName}" />
 								<p class="text-danger" th:if="${#fields.hasErrors('categoryName')}"
 									th:errors="*{categoryName}"></p>
 							</div>

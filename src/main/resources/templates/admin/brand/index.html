@@ -58,12 +58,14 @@
 							<td><a th:href="@{/brand/update/{id}(id =${brand.brandId})}"
 								class="btn btn-link btn-lg btn-rounded"> <i
 									class="fa-solid fa-pen-to-square"></i>
-							</a> <a
+							</a> 
+							<!--<a
 								th:attr="data-brandId=${brand.brandId} , data-brandName=${brand.brandName}"
 								th:onclick="openDeleteModal(this)"
 								class="btn btn-link text-danger btn-lg btn-rounded"> <i
 									class="fa-regular fa-trash-can"></i>
-							</a></td>
+							</a>-->
+							</td>
 						</tr>
 					</tbody>
 				</table>
