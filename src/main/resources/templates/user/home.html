@@ -21,7 +21,7 @@
 				<div class="categories__slider owl-carousel">
 					<div th:each="product : ${products}" class="col-lg-3">
 						<div class="categories__item set-bg"
-							th:data-setbg="@{/uploads/products/{id}/{imageName}(id=${product.id},imageName=${product.thumbnailImage})}">
+							th:data-setbg="@{${product.thumbnailImage}}">
 							<h5>
 								<a href="#">[[${product.name}]]</a>
 							</h5>
@@ -58,7 +58,7 @@
 					<div class="featured__item">
 						<input type="hidden" class="productId" th:value="${product.id}" />
 						<div class="featured__item__pic set-bg productImg"
-							th:data-setbg="@{/uploads/products/{id}/{imageName}(id=${product.id},imageName=${product.thumbnailImage})}">
+							th:data-setbg="@{${product.thumbnailImage}}">
 							<ul class="featured__item__pic__hover">
 								<li><a href="#"><i class="fa fa-heart"></i></a></li>
 								<li><a th:href="@{/shop/detail/{id}(id=${product.id})}"><i
@@ -74,6 +74,8 @@
 							</h6>
 							<h5 class="productPrice">[[${product.price}]]</h5>
 						</div>
+						<input type="hidden" class="productStock"
+							th:value="${product.stock}" />
 					</div>
 				</div>
 
@@ -86,36 +88,59 @@
 	<script th:replace="user/layout/assets :: js"></script>
 
 	<script type="text/javascript">
-		$cart = [];
-		$(".addToCartBtn").click(
-				function(event) {
-					event.preventDefault();
-					
-					var productElement = $(this).closest(".featured__item");
-					var productId = productElement.find(".productId").val();
-					var productImg = productElement.find(".productImg").attr(
-							"data-setbg");
-					var productPrice = productElement.find(".productPrice")
-							.text();
-					var productName = productElement.find(".productName")
-							.text();
-					
-				 	var alreadyCart = JSON.parse(sessionStorage.getItem("cart"));
-				 	var foundProduct = alreadyCart.find(function(product) {
-				 	    return product.productId === productId;
-				 	});
-				 	console.log("foundProduct :", foundProduct);
-					/* $data = {
-						'productId' : productId,
-						'productName' : productName,
-						'productPrice' : productPrice,
-						'productImg' : productImg,
-					}
-					console.log("data :", $data);
-					$cart.push($data);
-					sessionStorage.setItem("cart", JSON.stringify($cart)); */
+		$(document).ready(
+				function() {
+					$(".addToCartBtn").click(
+							function(event) {
+								event.preventDefault();
 
+								var productElement = $(this).closest(
+										".featured__item");
+								var productId = productElement.find(
+										".productId").val();
+								var productImg = productElement.find(
+										".productImg").attr("data-setbg");
+								var productPrice = productElement.find(
+										".productPrice").text();
+								var productName = productElement.find(
+										".productName").text();
+								var productStock = productElement.find(
+										".productStock").val();
+
+								var storedCart = JSON.parse(sessionStorage
+										.getItem("cart"))
+										|| [];
+
+								var foundProduct = storedCart.find(function(
+										product) {
+									return product.productId === productId;
+								});
+
+								if (!foundProduct) {
+									var newProduct = {
+										'productId' : productId,
+										'productName' : productName,
+										'productPrice' : productPrice,
+										'productImg' : productImg,
+										'productStock' : productStock,
+										'quantity' : 1
+									};
+									storedCart.push(newProduct);
+									sessionStorage.setItem("cart", JSON
+											.stringify(storedCart));
+
+								} else {
+									foundProduct.quantity++;
+									var index = storedCart.findIndex(function (product) {
+									    return product.productId === productId;
+									});
+									sessionStorage.setItem("cart", JSON.stringify(storedCart));
+								}
+								console.log("Updated Cart:", storedCart);
+								
+							});
 				});
 	</script>
+
 </body>
 </html>

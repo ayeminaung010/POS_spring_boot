@@ -42,9 +42,8 @@
 				<div class="col-lg-6 col-md-6">
 					<div class="product__details__pic">
 						<div class="product__details__pic__item">
-							<img class="product__details__pic__item--large"
-								th:src="@{/uploads/products/{id}/{imageName}(id=${product.id},imageName=${product.thumbnailImage})}"
-								alt="">
+							<img class="product__details__pic__item--large productImg"
+								th:src="@{${product.thumbnailImage}}" alt="">
 						</div>
 						<div class="product__details__pic__slider owl-carousel">
 							<img data-imgbigurl="img/product/details/product-details-2.jpg"
@@ -60,29 +59,39 @@
 				</div>
 				<div class="col-lg-6 col-md-6">
 					<div class="product__details__text">
-						<h3 class=" text-capitalize">[[${product.name}]]</h3>
-						<div class="product__details__rating">
+						<h3 class=" text-capitalize productName">[[${product.name}]]</h3>
+						<!-- <div class="product__details__rating">
 							<i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
 								class="fa fa-star"></i> <i class="fa fa-star"></i> <i
 								class="fa fa-star-half-o"></i> <span>(18 reviews)</span>
+						</div> -->
+						<input type="hidden" th:value="${product.id}" class="productId" />	
+						<div class="product__details__price ">
+							<span class="productPrice">[[${discountPrice} != null ?
+								${discountPrice} : ${product.price}]]</span> Ks
+							<del th:if="${discountPrice}">
+								<small class="originalPrice">[[${product.price}]]</small><small>Ks</small>
+							</del>
 						</div>
-						<div class="product__details__price">[[${product.price}]]
-							MMK</div>
+						<span th:if="${discountPrice}" class="badge badge-warning">[[${#numbers.formatInteger(product.discount,1,'POINT')}]]
+							% OFF</span>
 						<p>[[${product.description}]]</p>
 						<div class="product__details__quantity">
 							<div class="quantity">
 								<div class="pro-qty">
-									<input type="text" value="1">
+									<input type="number" class="productQty"
+										th:max="${product.stock}" min="1" value="1">
 								</div>
 							</div>
 						</div>
-						<a href="#" class="primary-btn">ADD TO CARD</a> <a href="#"
-							class="heart-icon"><span class="icon_heart_alt"></span></a>
+						<button class="primary-btn border-0 shadow-sm addToCartBtn">ADD
+							TO CARD</button>
 						<ul>
 							<li><b>Brand</b> <span>[[${product.brand.brandName !=
 									null ? product.brand.brandName : N/A}]]</span></li>
-							<li><b>Availability</b> <span>In Stock -
-									[[${product.stock}]]</span></li>
+							<li><b>Availability</b> <span>In Stock - <span
+									class="productStock">[[${product.stock}]]</span>
+							</span></li>
 						</ul>
 					</div>
 				</div>
@@ -182,6 +191,84 @@
 
 	<!-- js files  -->
 	<script th:replace="user/layout/assets :: js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			var Toast = Swal.mixin({
+				toast: true,
+				position: "top-end",
+				showConfirmButton: false,
+				timer: 3000,
+				timerProgressBar: true,
+				didOpen: (toast) => {
+					toast.onmouseenter = Swal.stopTimer;
+					toast.onmouseleave = Swal.resumeTimer;
+				}
+			});
+			$(".addToCartBtn").click(function() {
+	            var productId = $(".productId").val();
+	            var productName = $(".productName").text();
+	            var productPrice = $(".productPrice").text();
+	            var quantity = parseInt($(".productQty").val());
+	            var productStock = parseInt($(".productStock").text());
+	            var productImg = $(".productImg").attr("src");
 
+				var storedCart = JSON.parse(sessionStorage.getItem("cart")) || [];
+
+				var foundProduct = storedCart.find(function(product) {
+					return product.id === productId;
+				});
+
+				if (!foundProduct) {
+					var data = {
+		                    'id': productId,
+		                    'name': productName,
+		                    'price': productPrice,
+		                    'image': productImg,
+		                    'stock': productStock,
+		                    'quantity': quantity
+		                };
+		                storedCart.push(data);
+		                sessionStorage.setItem("cart", JSON.stringify(storedCart));
+		                Toast.fire({
+		                    icon: 'success',
+		                    title: 'Product added to the cart!'
+		                });
+				} else {
+					var totalQty = foundProduct.quantity + quantity;
+					if(totalQty > productStock){
+						Swal.fire({
+							  title: "<strong>This product already on the Cart with this quantity</strong>",
+							  icon: "warning",
+							  html: `
+		                            The requested quantity exceeds the available stock. 
+		                            Current stock: ${productStock},
+		                            Quantity in cart: ${foundProduct.quantity}
+		                        `,
+							  showCloseButton: true,
+							  showCancelButton: true,
+							  focusConfirm: false,
+							  confirmButtonText: `
+							    <a href="/cart" class=" text-decoration-none text-white ">  Go to the Cart</a>
+							  `,
+							  confirmButtonAriaLabel: "Go to Cart",
+							  cancelButtonText: `
+							    Cancel
+							  `,
+							  cancelButtonAriaLabel: "Cancel"
+							});
+					}else{
+						foundProduct.quantity = totalQty;
+						var index = storedCart.findIndex(function(product) {
+							return product.id === productId;
+						});
+						sessionStorage.setItem("cart", JSON.stringify(storedCart));
+					}
+				}
+				console.log("Cart :", storedCart);
+
+			})
+
+		});
+	</script>
 </body>
 </html>
