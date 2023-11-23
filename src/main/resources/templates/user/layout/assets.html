@@ -64,7 +64,7 @@
 					<div>English</div>
 					<span class="arrow_carrot-down"></span>
 					<ul>
-						<li><a href="#">Spanis</a></li>
+						<li><a href="#">Spanish</a></li>
 						<li><a href="#">English</a></li>
 					</ul>
 				</div>
@@ -99,6 +99,7 @@
 						</div>
 					</div>
 					<div class="col-lg-6">
+						
 						<nav class="header__menu">
 							<ul>
 								<li th:class="${servletPath == '/'} ? 'active' : ''"><a
@@ -108,10 +109,10 @@
 								<li th:class="${servletPath == '/contact'} ? 'active' : ''"><a
 									th:href="@{/contact}">Contact</a></li>
 
-								<li sec:authorize="isAuthenticated()"><a href="#">Account
+								<li sec:authorize="isAuthenticated()"><a href="#">Account <span class=" d-none " id="username" sec:authentication="principal.username"></span>
 								</a>
 									<ul class="header__menu__dropdown">
-										<li><a href="#">Profile</a></li>
+										<li><a href="#" >Profile</a></li>
 										<li><a href="#">Password Change</a></li>
 										<li class=" text-center mt-3">
 											<form th:action="@{/logout}" method="POST"

@@ -3438,3 +3438,8 @@ ol {
 		font-size: 24px;
 	}
 }
+
+.btn-main{
+	background-color : var(--main-color);
+	color: #fff;
+}
