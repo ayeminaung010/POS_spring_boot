@@ -51,6 +51,7 @@ public class SecurityConfiguration {
 				.requestMatchers("/client/**").permitAll()
 				.requestMatchers("/app/**").permitAll()
 				.requestMatchers("/uploads/**").permitAll()
+				.requestMatchers("/api/**").permitAll()
 				.requestMatchers("/admin/css/**","/admin/js/**","/admin/images/**").permitAll()
 				.anyRequest().authenticated());
 			

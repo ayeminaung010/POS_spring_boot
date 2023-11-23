@@ -3,6 +3,11 @@
 	xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
+
+<meta name="_csrf" th:content="${_csrf.token}"/>
+<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+
+
 <title>Shop Details</title>
 <!-- css -->
 <link th:replace="user/layout/assets :: css" />
@@ -204,6 +209,10 @@
 					toast.onmouseleave = Swal.resumeTimer;
 				}
 			});
+			
+			var csrfToken = $("meta[name='_csrf']").attr("content");
+            var csrfHeader = $("meta[name='_csrf_header']").attr("content");
+            
 			$(".addToCartBtn").click(function() {
 	            var productId = $(".productId").val();
 	            var productName = $(".productName").text();
@@ -213,6 +222,7 @@
 	            var productImg = $(".productImg").attr("src");
 
 				var storedCart = JSON.parse(sessionStorage.getItem("cart")) || [];
+				
 
 				var foundProduct = storedCart.find(function(product) {
 					return product.id === productId;
@@ -229,10 +239,14 @@
 		                };
 		                storedCart.push(data);
 		                sessionStorage.setItem("cart", JSON.stringify(storedCart));
+		                
 		                Toast.fire({
-		                    icon: 'success',
-		                    title: 'Product added to the cart!'
-		                });
+        					icon: "success",
+        					title: "Added to the Cart"
+        				}); 
+		                $(".productQty").val(1); //reset quantity in ui
+		                sendCartToBackend(); //send data to backend
+		                 
 				} else {
 					var totalQty = foundProduct.quantity + quantity;
 					if(totalQty > productStock){
@@ -248,7 +262,7 @@
 							  showCancelButton: true,
 							  focusConfirm: false,
 							  confirmButtonText: `
-							    <a href="/cart" class=" text-decoration-none text-white ">  Go to the Cart</a>
+							    <a href="/cart" class=" text-decoration-none text-white "> Go to the Cart</a>
 							  `,
 							  confirmButtonAriaLabel: "Go to Cart",
 							  cancelButtonText: `
@@ -261,14 +275,62 @@
 						var index = storedCart.findIndex(function(product) {
 							return product.id === productId;
 						});
-						sessionStorage.setItem("cart", JSON.stringify(storedCart));
+						sessionStorage.setItem("cart", JSON.stringify(storedCart)); 
+						$(".productQty").val(1); //reset quantity in ui
+						sendCartToBackend(); //send data to backend
+						Toast.fire({
+        					icon: "success",
+        					title: "Added to the Cart"
+        				});
+						
+						
 					}
 				}
 				console.log("Cart :", storedCart);
 
 			})
 
+			function sendCartToBackend(){
+				var storedCart = JSON.parse(sessionStorage.getItem("cart")) || [];
+				
+				$.ajax({
+                    url: "/api/v1/updateCart",
+                    type: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify(storedCart),
+                    dataType: 'json',
+                    beforeSend: function(xhr) {
+                        xhr.setRequestHeader(csrfHeader, csrfToken);
+                    },
+                    success: function(data) {
+                        console.log(data);
+                        
+                    }
+                });
+			}
 		});
+		
+		
 	</script>
 </body>
 </html>
+
+							<!-- $.ajax({
+		                    url: "/api/v1/updateCart",
+		                    type: "POST",
+		                    contentType: "application/json",
+		                    data: JSON.stringify(data),
+		                    dataType: 'json',
+		                    beforeSend: function(xhr) {
+		                        xhr.setRequestHeader(csrfHeader, csrfToken);
+		                    },
+		                    success: function(data) {
+		                        console.log(data);
+		                        if(data?.status){
+		                        	Toast.fire({
+		            					icon: "success",
+		            					title: "Added to the Cart"
+		            				});
+		                        }
+		                    }
+		                });  -->

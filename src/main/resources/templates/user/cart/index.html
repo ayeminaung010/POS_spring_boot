@@ -6,19 +6,24 @@
 <title>Cart</title>
 <!-- css -->
 <link th:replace="user/layout/assets :: css" />
+<style type="text/css">
+#checkoutBtn{
+	cursor: pointer;
+}
+</style>
 </head>
 <body>
 
 	<!-- header -->
 	<div th:replace="user/layout/assets :: header"></div>
-	
+
 	<!--  hero section -->
 	<div th:replace="user/layout/assets :: hero-section"></div>
 
 
 	<!-- Breadcrumb Section Begin -->
 	<section class="breadcrumb-section set-bg"
-		data-setbg="img/breadcrumb.jpg">
+		th:data-setbg="@{client/img/breadcrumb.jpg}">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12 text-center">
@@ -51,54 +56,24 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr>
+								<tr th:each="cartItem : ${cartItems}">
 									<td class="shoping__cart__item"><img
-										src="img/cart/cart-1.jpg" alt="">
-										<h5>Vegetable’s Package</h5></td>
-									<td class="shoping__cart__price">$55.00</td>
+										th:src="${cartItem.image}" width="150" alt="">
+										<h5>[[${cartItem.name}]]</h5></td>
+									<td class="shoping__cart__price">[[${cartItem.price}]]</td>
 									<td class="shoping__cart__quantity">
 										<div class="quantity">
 											<div class="pro-qty">
-												<input type="text" value="1">
+												<input type="text" th:value="${cartItem.quantity}">
 											</div>
 										</div>
 									</td>
-									<td class="shoping__cart__total">$110.00</td>
+									<td class="shoping__cart__total">[[${cartItem.price} *
+										${cartItem.quantity} ]]</td>
 									<td class="shoping__cart__item__close"><span
 										class="icon_close"></span></td>
 								</tr>
-								<tr>
-									<td class="shoping__cart__item"><img
-										src="img/cart/cart-2.jpg" alt="">
-										<h5>Fresh Garden Vegetable</h5></td>
-									<td class="shoping__cart__price">$39.00</td>
-									<td class="shoping__cart__quantity">
-										<div class="quantity">
-											<div class="pro-qty">
-												<input type="text" value="1">
-											</div>
-										</div>
-									</td>
-									<td class="shoping__cart__total">$39.99</td>
-									<td class="shoping__cart__item__close"><span
-										class="icon_close"></span></td>
-								</tr>
-								<tr>
-									<td class="shoping__cart__item"><img
-										src="img/cart/cart-3.jpg" alt="">
-										<h5>Organic Bananas</h5></td>
-									<td class="shoping__cart__price">$69.00</td>
-									<td class="shoping__cart__quantity">
-										<div class="quantity">
-											<div class="pro-qty">
-												<input type="text" value="1">
-											</div>
-										</div>
-									</td>
-									<td class="shoping__cart__total">$69.99</td>
-									<td class="shoping__cart__item__close"><span
-										class="icon_close"></span></td>
-								</tr>
+
 							</tbody>
 						</table>
 					</div>
@@ -114,10 +89,13 @@
 					<div class="shoping__checkout">
 						<h5>Cart Total</h5>
 						<ul>
-							<li>Subtotal <span>$454.98</span></li>
-							<li>Total <span>$454.98</span></li>
+							<li>Subtotal <span>_Ks</span> <span>[[${totalPrice}]]</span>
+							</li>
+							<li>Total <span>_Ks</span> <span>[[${totalPrice} +
+									5000]]</span></li>
 						</ul>
-						<a th:href="@{/cart/payment}" class="primary-btn">PROCEED TO CHECKOUT</a>
+						<a class="primary-btn text-white cursor-pointer" id="checkoutBtn">PROCEED
+							TO CHECKOUT</a>
 					</div>
 				</div>
 			</div>
@@ -127,6 +105,13 @@
 
 	<!-- js files  -->
 	<script th:replace="user/layout/assets :: js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$("#checkoutBtn").click(function() {
+				console.log('click checkout...');
+			});
+		});
+	</script>
 
 </body>
 </html>
