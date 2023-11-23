@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org">
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <meta charset="UTF-8">
 <title>Cart</title>
 <!-- css -->
 <link th:replace="user/layout/assets :: css" />
 <style type="text/css">
-#checkoutBtn{
+#checkoutBtn {
 	cursor: pointer;
 }
 </style>
@@ -41,10 +42,10 @@
 
 	<!-- Shoping Cart Section Begin -->
 	<section class="shoping-cart spad">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-12">
-					<div class="shoping__cart__table">
+		<div th:if="${cartItems != null}" class="container">
+			<div  class="row">
+				<div  class="col-lg-12">
+					<div  class="shoping__cart__table">
 						<table>
 							<thead>
 								<tr>
@@ -94,21 +95,62 @@
 							<li>Total <span>_Ks</span> <span>[[${totalPrice} +
 									5000]]</span></li>
 						</ul>
-						<a class="primary-btn text-white cursor-pointer" id="checkoutBtn">PROCEED
-							TO CHECKOUT</a>
+
+						<a sec:authorize="isAuthenticated()"
+							class="primary-btn text-white " id="checkoutBtn">PROCEED TO
+							CHECKOUT</a> <a sec:authorize="isAnonymous()"
+							class="primary-btn text-white " id="checkoutBtn">PROCEED TO
+							CHECKOUT</a>
 					</div>
 				</div>
 			</div>
 		</div>
+		
+		<div th:if="${cartItems == null}">
+			<div class=" text-center">
+				<i class="fa fa-shopping-bag " style="font-size: 50px;"></i>
+				<h2>Empty Cart</h2>
+				<a href="/shop" class="btn btn-main mt-5">Go To Shopping</a>
+			</div>
+		</div>
 	</section>
 	<!-- Shoping Cart Section End -->
+
+
+	<!-- Anonymous User Modal -->
+	<div class="modal fade" id="AnonymousModal" tabindex="-1" role="dialog"
+		aria-labelledby="AnonymousModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title font-weight-bold" id="exampleModalLabel">Welcome! Please Login to continue.</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+				We need an account to save your order.
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">Close</button>
+					<a href="/login" class="btn btn-primary">Login</a>
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<!-- js files  -->
 	<script th:replace="user/layout/assets :: js"></script>
 	<script type="text/javascript">
 		$(document).ready(function() {
 			$("#checkoutBtn").click(function() {
-				console.log('click checkout...');
+				//check user login or not 
+				var username = $("#username").text();
+				if(username == ""){
+					$("#AnonymousModal").modal('show');
+				}
 			});
 		});
 	</script>

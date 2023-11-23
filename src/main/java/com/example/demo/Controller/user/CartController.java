@@ -30,7 +30,6 @@ public class CartController {
         try {
         	String jsonStr = objectMapper.writeValueAsString(cartItem);
             session.setAttribute("cart", jsonStr);
-            System.out.println("cart session :"+ session.getAttribute("cart"));
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}

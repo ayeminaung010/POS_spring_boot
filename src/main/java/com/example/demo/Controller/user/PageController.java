@@ -4,7 +4,6 @@ package com.example.demo.Controller.user;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +15,6 @@ import com.example.demo.model.Product;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 
@@ -59,16 +57,17 @@ public class PageController {
 		try {
 			Double totalPrice = 0.0;
 			String cartItemJson = (String) session.getAttribute("cart");
-
-            List<CartItem> cartItems = objectMapper.readValue(cartItemJson,new TypeReference<List<CartItem>>() {});
-            
-            for (CartItem cartItem : cartItems) {
-				System.out.println(cartItem.getPrice());
-				totalPrice += cartItem.getPrice();
-			}
-            System.out.println(totalPrice);
+            if(cartItemJson != null) {
+            	List<CartItem> cartItems = objectMapper.readValue(cartItemJson,new TypeReference<List<CartItem>>() {});
+                
+            	for (CartItem cartItem : cartItems) {
+    				System.out.println(cartItem.getPrice());
+    				totalPrice += cartItem.getPrice();
+    			}
+            	model.addAttribute("cartItems",cartItems);
+            }
             model.addAttribute("totalPrice",totalPrice);
-            model.addAttribute("cartItems",cartItems);
+            
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
