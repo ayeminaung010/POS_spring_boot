@@ -30,15 +30,22 @@ public class User {
 	@NotEmpty(message = "Email address is required..!")
 	@Column(unique = true)
 	private String email;
+	
 	@NotNull
 	@NotEmpty(message = "Password is required..!")
 	private String password;
-	@NotNull
-	@NotEmpty(message = "Confirm Password is required..!")
+//	@NotNull
+//	@NotEmpty(message = "Confirm Password is required..!")
 //	@Size(min = 6, message = "Password must be at least 6 characters long")
 	@Transient
 	private String confirmPassword;
 	private String role = "USER";
+	
+	
+	@Transient
+	private String currentPassword;
+	
+
 	@Transient
 	private boolean rememberMe;
 	
@@ -98,6 +105,14 @@ public class User {
 
 	public void setConfirmPassword(String confirmPassword) {
 		this.confirmPassword = confirmPassword;
+	}
+	
+	public String getCurrentPassword() {
+		return currentPassword;
+	}
+
+	public void setCurrentPassword(String currentPassword) {
+		this.currentPassword = currentPassword;
 	}
 
 	public String getRole() {

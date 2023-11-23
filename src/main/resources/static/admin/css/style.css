@@ -508,4 +508,17 @@ body {
 	font-weight: 600;
 	color: red;
 }
+/* logout-btn css  */
+.bottom_list ul li button#logout {
+	display: block;
+	width: 100%;
+    padding: 20px 25px 15px 35px;
+    border: none;
+    border-radius: 0px;
+    border-right: 4px solid var(--bg-blue-soft);
+    word-wrap: break-word;
+     background: linear-gradient(270deg, #E9E8FB 0%, rgba(113, 102, 249, 0.03) 100%);
+    color: var(--bg-blue-soft);
+}
+
 

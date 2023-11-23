@@ -84,7 +84,7 @@ public class PaymentTypeController {
 
 		PaymentType existingPaymentType = paymentTypeRepo.findByPaymentTypeName(paymenttype.getPaymentTypeName());
 		
-		if (existingPaymentType != null) {
+		if(existingPaymentType != null) {
 			if (id != existingPaymentType.getPaymentTypeId()) {
 				bindingResult.rejectValue("paymentTypeName", "error.paymenttype", "PaymentType with this name already exists");
 				return "admin/paymentType/update";

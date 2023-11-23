@@ -4,7 +4,8 @@
 
 <head>
 <meta charset="UTF-8">
-<title>Category</title>
+<title>Manage_User</title>
+
 <link th:replace="admin/layout/assets :: css" />
 </head>
 
@@ -22,9 +23,9 @@
 
 				<form class="row g-3">
 					<div class="col-auto">
-						<label for="inputPassword2" class="visually-hidden">Category
+						<label for="inputPassword2" class="visually-hidden">
 							Name</label> <input type="text" class="form-control"
-							placeholder="Category Name">
+							placeholder="User Name">
 					</div>
 
 					<div class="col-auto">
@@ -34,40 +35,40 @@
 						<button type="submit" class="btn btn-danger mb-3">Reset</button>
 					</div>
 					<div class="col-auto">
-						<a th:href="@{/category/add}" class="btn btn-info">Add New</a>
+						<a th:href="@{/manageuser/add}" class="btn btn-info">Add New</a>
 					</div>
 				</form>
 				<div class="alert alert-success" role="alert" th:text="${success}"
 					th:if="${success}"></div>
 
-				<div class="alert alert-danger" role="alert" th:text="${error}"
-					th:if="${error}"></div>
-
 				<table class="table table-striped" id="stduentTable">
 					<thead>
 						<tr>
+
 							<th scope="col">Id</th>
-							<th scope="col">Category Name</th>
+							<th scope="col">Name</th>
+							<th scope="col">Email</th>
 							<th scope="col">Actions</th>
+						
 						</tr>
 					</thead>
 					<tbody>
 
-						<tr th:each="category,state : ${categoryList}">
+						<tr th:each="user,state : ${userList}">
 							<td th:text="${state.count}"></td>
-							<td th:text="${category.categoryName}"></td>
-							<td>
-								<a
-									th:href="@{/category/update/{id}(id =${category.categoryId})}"
-									class="btn btn-link btn-lg btn-rounded"> <i
-										class="fa-solid fa-pen-to-square"></i>
-								</a> 
-								<!--<a
-									th:attr="data-categoryId=${category.categoryId} , data-categoryName=${category.categoryName}"
-									th:onclick="openDeleteModal(this)"
-									class="btn btn-link text-danger btn-lg btn-rounded"> <i
-										class="fa-regular fa-trash-can"></i>
-								</a>-->
+							<td th:text="${user.name}"></td>
+							<td th:text="${user.email}"></td>
+							<td><a
+								th:href="@{/manageuser/update/{id}(id =${user.id})}"
+								class="btn btn-link btn-lg btn-rounded"> <i
+									class="fa-solid fa-pen-to-square"></i>
+							</a> 
+							<a
+								th:attr="data-id=${user.id}, data-name=${user.name}" 
+								th:onclick="openDeleteModal(this)"
+								class="btn btn-link text-danger btn-lg btn-rounded">
+								<i class="fa-regular fa-trash-can"></i>
+							</a>
 							</td>
 						</tr>
 					</tbody>
@@ -85,34 +86,31 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<h1 class="modal-title fs-5" id="exampleModalLabel">Delete
-						Category</h1>
-					<button type="button" class="btn-close" data-bs-dismiss="modal"
-						aria-label="Close"></button>
+						User</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
 					Are you sure want to delete? - <span id="deleteName"></span>
 				</div>
 				<div class="modal-footer">
-					<form th:action="@{/category/delete}" method="post" th:object="${category}">
+					<form th:action="@{/manageuser/delete}" method="post" th:object="${user}">
 						<div class="btnGp">
-							<input type="hidden" th:field="*{categoryId}" id="deleteId" />
-							<button type="button" class="btn btn-secondary"
-								data-bs-dismiss="modal">Close</button>
-							<button type="submit" class="btn btn-danger">Yes,
-								Delete it</button>
+							<input type="hidden" th:field="*{id}" id="deleteId" />
+							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+							<button type="submit" class="btn btn-danger">Yes, Delete it</button>
 						</div>
 					</form>
 				</div>
 			</div>
 		</div>
-	</div>
+	</div> 
 
 	<!-- js   -->
 	<script th:replace="admin/layout/assets :: js"></script>
 	<script type="text/javascript">
 		function openDeleteModal(button) {
-			$('#deleteId').val(button.getAttribute("data-categoryId"));
-			$('#deleteName').text(button.getAttribute("data-categoryName"));
+			$('#deleteId').val(button.getAttribute("data-id"));
+			$('#deleteName').text(button.getAttribute("data-name"));
 			$('#deleteModal').modal('show');
 		};
 	</script>

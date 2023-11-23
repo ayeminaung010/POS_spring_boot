@@ -45,7 +45,7 @@ public class AuthController {
 			return "/signup";
 		}
 		User alreadyUser = userRepository.findByEmail(user.getEmail());
-		if(alreadyUser != null) {
+		if(alreadyUser == null) {
 			if(user.getPassword().equals(user.getConfirmPassword())) {
 				BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 				

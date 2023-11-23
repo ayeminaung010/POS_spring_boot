@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="UTF-8">
-	<title>Add Category</title>
+	<title>Add User</title>
 	<link th:replace="admin/layout/assets :: css" />
 </head>
 
@@ -18,18 +18,22 @@
 
 			</div>
 			<div id="sub_content">
-				<h5 class="fw-bold">Add Category</h5>
+				<h5 class="fw-bold">Add User</h5>
 				<div class="row justify-content-center">
 					<div class="col-lg-8 bg-gray p-5 mt-5 rounded-5">
-						<form class="needs-validation" th:action="@{/category/add}" method="post" th:object=${category}>
+						<form class="needs-validation" th:action="@{/manageuser/add}" method="post" th:object=${user}>
 							<div class="mb-3">
-								<label for="exampleInputEmail1" class="form-label">Name</label>
-								<input type="text" class="form-control" placeholder="Enter Category Name" th:field="*{categoryName}" />
-								<p class="text-danger" th:if="${#fields.hasErrors('categoryName')}"
-									th:errors="*{categoryName}"></p>
+								<label for="name" class="form-label">Name</label>
+								<input type="text" class="form-control" placeholder="Enter Name" th:field="*{name}" />
+								<p class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
+							</div>
+							<div class="mb-3">
+								<label for="name" class="form-label">Email</label>
+								<input type="text" class="form-control" placeholder="Enter email" th:field="*{email}" />
+								<p class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
 							</div>
 							<div class=" text-end">
-								<a th:href="@{/category}" class="btn btn-secondary ">Cancel</a>
+								<a th:href="@{/manageuser}" class="btn btn-secondary ">Cancel</a>
 								<button type="submit" class="btn btn-primary ">Add</button>
 							</div>
 						</form>
