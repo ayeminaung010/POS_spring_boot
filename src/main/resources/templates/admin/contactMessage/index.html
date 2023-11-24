@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Contact Message</title>
+<link th:replace="admin/layout/assets :: css" />
+</head>
+<body>
+	<div id="container">
+		<!-- side navbar   -->
+		<div th:replace="admin/layout/assets :: sideBar"></div>
+		<div id="content_wrap">
+			<div class="content_box">
+				<!-- header   -->
+				<div th:replace="admin/layout/assets :: header"></div>
+
+			</div>
+			<div id="sub_content">
+
+				<form class="row g-3">
+					<div class="col-auto">
+						<label for="inputPassword2" class="visually-hidden">Category
+							Name</label> <input type="text" class="form-control"
+							placeholder="Category Name">
+					</div>
+
+					<div class="col-auto">
+						<button type="submit" class="btn btn-primary mb-3">Search</button>
+					</div>
+					<div class="col-auto">
+						<button type="submit" class="btn btn-danger mb-3">Reset</button>
+					</div>
+					
+				</form>
+				<div class="alert alert-success" role="alert" th:text="${success}"
+					th:if="${success}"></div>
+
+				<div class="alert alert-danger" role="alert" th:text="${error}"
+					th:if="${error}"></div>
+
+				<table class="table table-striped" id="stduentTable">
+					<thead>
+						<tr>
+							<th scope="col">Id</th>
+							<th scope="col">Name</th>
+							<th scope="col">Email</th>
+							<th scope="col">Phone Number</th>
+							<th scope="col">Subject</th>
+							<th scope="col">Message</th>
+							<!--<th scope="col">Actions</th>-->
+						</tr>
+					</thead>
+					<tbody>
+
+						<tr th:each="contact, state : ${messageList}">
+							<td th:text="${state.count}"></td>
+							<td th:text="${contact.name}"></td>
+							<td th:text="${contact.email}"></td>
+							<td th:text="${contact.phoneNumber}"></td>
+							<td th:text="${contact.subject}"></td>
+							<td th:text="${contact.message}"></td>
+							<td>
+								<!--<a 
+									th:href="@{/category/update/{id}(id =${category.categoryId})}"
+									class="btn btn-link btn-lg btn-rounded"> <i
+										class="fa-solid fa-pen-to-square"></i>
+								</a>
+								<a
+										th:attr="data-categoryId=${category.categoryId} , data-categoryName=${category.categoryName}"
+										th:onclick="openDeleteModal(this)"
+										class="btn btn-link text-danger btn-lg btn-rounded"> <i
+											class="fa-regular fa-trash-can"></i>
+									</a>-->
+							</td>
+						</tr>
+					</tbody>
+				</table>
+
+			</div>
+		</div>
+	</div>
+<script th:replace="admin/layout/assets :: js"></script>
+</body>
+</html>
