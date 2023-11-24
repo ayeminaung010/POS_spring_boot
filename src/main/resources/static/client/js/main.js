@@ -199,46 +199,6 @@
 		}
 	});
 
-	/*-------------------
-		Quantity change
-	--------------------- */
-	var Toast = Swal.mixin({
-		toast: true,
-		position: "top-end",
-		showConfirmButton: false,
-		timer: 3000,
-		timerProgressBar: true,
-		didOpen: (toast) => {
-			toast.onmouseenter = Swal.stopTimer;
-			toast.onmouseleave = Swal.resumeTimer;
-		}
-	});
-	var proQty = $('.pro-qty');
-	proQty.prepend('<span class="dec qtybtn">-</span>');
-	proQty.append('<span class="inc qtybtn">+</span>');
-	proQty.on('click', '.qtybtn', function() {
-		var $button = $(this);
-		var oldValue = $button.parent().find('input').val();
-		var maxValue = $button.parent().find('input').attr('max');
-		if ($button.hasClass('inc')) {
-			if (maxValue > oldValue) {
-				var newVal = parseFloat(oldValue) + 1;
-			} else {
-				Toast.fire({
-					icon: "warning",
-					title: "This Product is out of stock"
-				});
-				newVal = oldValue;
-			}
-		} else {
-			// Don't allow decrementing below zero
-			if (oldValue > 1) {
-				var newVal = parseFloat(oldValue) - 1;
-			} else {
-				newVal = 1;
-			}
-		}
-		$button.parent().find('input').val(newVal);
-	});
+
 
 })(jQuery);
