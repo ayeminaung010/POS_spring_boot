@@ -32,7 +32,6 @@ public class AppUserDetailService implements UserDetailsService {
 		} else {
 			session.setAttribute("user", user);
 			UserOwnDetail userOwnDetail = new UserOwnDetail(user);
-			System.out.println("user found : " + userOwnDetail.getUser().getRole() + " :" + passwordEncoder.encode(userOwnDetail.getUser().getPassword()) );
 			return userOwnDetail;
 		}
 	}

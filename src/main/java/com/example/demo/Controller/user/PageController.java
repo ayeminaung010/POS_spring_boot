@@ -61,7 +61,6 @@ public class PageController {
             	List<CartItem> cartItems = objectMapper.readValue(cartItemJson,new TypeReference<List<CartItem>>() {});
                 
             	for (CartItem cartItem : cartItems) {
-    				System.out.println(cartItem.getPrice());
     				totalPrice += cartItem.getPrice();
     			}
             	model.addAttribute("cartItems",cartItems);

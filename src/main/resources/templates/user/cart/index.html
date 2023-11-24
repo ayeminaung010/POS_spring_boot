@@ -44,7 +44,7 @@
 
 	<!-- Shoping Cart Section Begin -->
 	<section class="shoping-cart spad">
-		<div th:if="${cartItems != null}" class="container">
+		<div th:if="${cartItems != null  and not  cartItems.isEmpty()}" class="container">
 			<div class="row">
 				<div class="col-lg-12">
 					<div class="shoping__cart__table">
@@ -116,7 +116,7 @@
 			</div>
 		</div>
 
-		<div th:if="${cartItems == null}">
+		<div th:if="${cartItems == null or  cartItems.isEmpty()}">
 			<div class=" text-center">
 				<i class="fa fa-shopping-bag " style="font-size: 50px;"></i>
 				<h2>Empty Cart</h2>
