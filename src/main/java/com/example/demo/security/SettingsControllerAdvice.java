@@ -76,21 +76,25 @@ public class SettingsControllerAdvice {
 	
 	@ModelAttribute("orderedItem")
 	public Map<String, Double> getOrderedItem() throws JsonMappingException, JsonProcessingException {
-		Map<String, Double> productPrices = new HashMap<>();
-		
-		String cartItemJson = (String) session.getAttribute("cart");
-		if (cartItemJson != null) {
-			List<CartItem> cartItem = objectMapper.readValue(cartItemJson, new TypeReference<List<CartItem>>() {
-			});
+	    Map<String, Double> productPrices = new HashMap<>();
 
-			for (CartItem cart : cartItem) {
-				Double productTotalPrice = cart.getPrice() * cart.getQuantity();
-				 // Add product name and total price to the HashMap
-                productPrices.put(cart.getName(), productTotalPrice);
-			}
-		} else {
-		}
-		return productPrices;
+	    String cartItemJson = (String) session.getAttribute("cart");
+	    if (cartItemJson != null && !cartItemJson.isEmpty()) {
+	        try {
+	            List<CartItem> cartItem = objectMapper.readValue(cartItemJson, new TypeReference<List<CartItem>>() {});
+
+	            for (CartItem cart : cartItem) {
+	                Double productTotalPrice = cart.getPrice() * cart.getQuantity();
+	                // Add product name and total price to the HashMap
+	                productPrices.put(cart.getName(), productTotalPrice);
+	            }
+	        } catch (Exception e) {
+	            System.out.println("Error reading cart items: " + e.getMessage());
+	        }
+	    }
+
+	    return productPrices;
 	}
+
 
 }

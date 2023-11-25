@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -127,6 +128,7 @@ public class CartController {
 	}
 	
 	//order processing method
+	@Transactional
 	@PostMapping("/cart/order")
 	public String order(@ModelAttribute("address") @Valid Address address, BindingResult bindingResult, Model model, @AuthenticationPrincipal UserOwnDetail loginUser) {
 	    double totalPrice = calculateTotalPrice(model);
@@ -174,7 +176,9 @@ public class CartController {
 
 	        // Save all OrderProducts together
 	        orderProductRepository.saveAll(orderProductsList);
-
+	        
+	        //remove cart in session 
+	        session.removeAttribute("cart");
 	    } catch (Exception e) {
 	        System.out.println("Order Error: " + e.getMessage());
 	    }
