@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html>
+<html  xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <title>User Profile</title>
@@ -14,105 +15,57 @@
 	<!--  hero section -->
 	<div th:replace="user/layout/assets :: hero-section"></div>
 
-	<!-- Categories Section Begin -->
-	<section class="categories">
+	<!-- Breadcrumb Section Begin -->
+	<section class="breadcrumb-section set-bg"
+		th:data-setbg="@{/client/img/breadcrumb.jpg}">
 		<div class="container">
 			<div class="row">
-				<div class="categories__slider owl-carousel">
-					<div th:each="product : ${products}" class="col-lg-3">
-						<div class="categories__item set-bg"
-							th:data-setbg="@{${product.thumbnailImage}}">
-							<h5>
-								<a href="#">[[${product.name}]]</a>
-							</h5>
+				<div class="col-lg-12 text-center">
+					<div class="breadcrumb__text">
+						<h2>Profile</h2>
+						<div class="breadcrumb__option">
+							<a href="/">Home</a> <span>profile</span>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</section>
-	<!-- Categories Section End -->
-	
+	<!-- Breadcrumb Section End -->
+
 	<!-- Profile Section Begin -->
 	<div id="sub_content">
-		<h5 class="fw-bold">Profile</h5>
 		<div class="row justify-content-center">
 			<div class="col-lg-8 bg-gray p-5 mt-5 rounded-5">
-				<div class="alert alert-success" role="alert" th:text="${success}" th:if="${success}"></div>
-				
-				<div class="alert alert-danger" role="alert" th:text="${error}" th:if="${error}"></div>
-	
-				<form th:action="@{/user/profile/view}" method="post" th:object="${user}">
-					<input type="hidden" th:field="*{id}"/>
+				<div class="alert alert-success" role="alert" th:text="${success}"
+					th:if="${success}"></div>
+
+				<div class="alert alert-danger" role="alert" th:text="${error}"
+					th:if="${error}"></div>
+
+				<form th:action="@{/user/profile/view}" method="post"
+					th:object="${user}">
+					<input type="hidden" th:field="*{id}" />
 					<div class="mb-3">
-						<label for="profileName" class="form-label">Name</label>
-						<input type="text" class="form-control" th:field="*{name}" placeholder="Enter Name"/>
+						<label for="profileName" class="form-label">Name</label> <input
+							type="text" class="form-control" th:field="*{name}"
+							placeholder="Enter Name" />
 					</div>
 					<div class="mb-3">
-						<label for="profileEmail" class="form-label">Email</label> 
-						<input type="email" class="form-control" th:field="*{email}" placeholder="Enter Email"/>
+						<label for="profileEmail" class="form-label">Email</label> <input
+							type="email" class="form-control" th:field="*{email}"
+							placeholder="Enter Email" />
 					</div>
 					<div class=" text-end">
 						<a th:href="@{/home}" class="btn btn-secondary ">Back to home</a>
+						<button class="btn btn-main ">Save</button>
 					</div>
 				</form>
 			</div>
 		</div>
 	</div>
 	<!-- Profile Section End -->
-	
-	
-	
-	<!-- Featured Section Begin -->
-	<section class="featured spad">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-12">
-					<div class="section-title">
-						<h2>Featured Product</h2>
-					</div>
-					<div class="featured__controls">
-						<ul>
-							<li class="active" data-filter="*">All</li>
-							<li data-filter=".oranges">Oranges</li>
-							<li data-filter=".fresh-meat">Fresh Meat</li>
-							<li data-filter=".vegetables">Vegetables</li>
-							<li data-filter=".fastfood">Fastfood</li>
-						</ul>
-					</div>
-				</div>
-			</div>
-			<div class="row featured__filter">
-				<div th:each="product : ${products}"
-					class="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat">
-					<div class="featured__item">
-						<input type="hidden" class="productId" th:value="${product.id}" />
-						<div class="featured__item__pic set-bg productImg"
-							th:data-setbg="@{${product.thumbnailImage}}">
-							<ul class="featured__item__pic__hover">
-								<li><a href="#"><i class="fa fa-heart"></i></a></li>
-								<li><a th:href="@{/shop/detail/{id}(id=${product.id})}"><i
-										class="fa fa-info"></i></a></li>
-								<li><a class="addToCartBtn"><i
-										class="fa fa-shopping-cart"></i></a></li>
-							</ul>
-						</div>
-						<div class="featured__item__text">
-							<h6>
-								<a th:href="@{/shop/detail/{id}(id=${product.id})}"
-									class="productName">[[${product.name}]]</a>
-							</h6>
-							<h5 class="productPrice">[[${product.price}]]</h5>
-						</div>
-						<input type="hidden" class="productStock"
-							th:value="${product.stock}" />
-					</div>
-				</div>
 
-			</div>
-		</div>
-	</section>
-	<!-- Featured Section End -->
 
 	<!-- js files  -->
 	<script th:replace="user/layout/assets :: js"></script>
