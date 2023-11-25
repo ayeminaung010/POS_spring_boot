@@ -1,10 +1,12 @@
 package com.example.demo.model;
 
 import java.sql.Timestamp;
+import java.util.Set;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -12,6 +14,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
@@ -35,6 +38,10 @@ public class Order {
 	@OneToOne
     @JoinColumn(name = "address_id", referencedColumnName = "id")
     private Address address;
+	
+	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+	private Set<OrderProducts> orderProducts;
+	
 	
 	
 	@CreationTimestamp
@@ -88,5 +95,19 @@ public class Order {
 	public void setTotalPrice(Double totalPrice) {
 		this.totalPrice = totalPrice;
 	}
+	public Address getAddress() {
+		return address;
+	}
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+	public Set<OrderProducts> getOrderProducts() {
+		return orderProducts;
+	}
+	public void setOrderProducts(Set<OrderProducts> orderProducts) {
+		this.orderProducts = orderProducts;
+	}
+	
+	
 
 }
