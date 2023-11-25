@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html  xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>User Profile</title>
+<!-- css -->
+<link th:replace="user/layout/assets :: css" />
+</head>
+<body>
+
+	<!-- header -->
+	<div th:replace="user/layout/assets :: header"></div>
+
+	<!--  hero section -->
+	<div th:replace="user/layout/assets :: hero-section"></div>
+
+	<!-- Breadcrumb Section Begin -->
+	<section class="breadcrumb-section set-bg"
+		th:data-setbg="@{/client/img/breadcrumb.jpg}">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12 text-center">
+					<div class="breadcrumb__text">
+						<h2>Profile</h2>
+						<div class="breadcrumb__option">
+							<a href="/">Home</a> <span>profile</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- Breadcrumb Section End -->
+
+	<!-- Profile Section Begin -->
+	<div id="sub_content">
+		<div class="row justify-content-center">
+			<div class="col-lg-8 bg-gray p-5 mt-5 rounded-5">
+				<div class="alert alert-success" role="alert" th:text="${success}"
+					th:if="${success}"></div>
+
+				<div class="alert alert-danger" role="alert" th:text="${error}"
+					th:if="${error}"></div>
+
+				<form th:action="@{/user/profile/update}" method="post"
+					th:object="${user}">
+					<input type="hidden" th:field="*{id}" />
+					<div class="mb-3">
+						<label for="profileName" class="form-label">Name</label> <input
+							type="text" class="form-control" th:field="*{name}"
+							placeholder="Enter Name" />
+					</div>
+					<div class="mb-3">
+						<label for="profileEmail" class="form-label">Email</label> <input
+							type="email" class="form-control" th:field="*{email}"
+							placeholder="Enter Email" />
+					</div>
+					<div class=" text-end">
+						<a th:href="@{/home}" class="btn btn-secondary ">Back to home</a>
+						<button type="submit" class="btn btn-main ">Save</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- Profile Section End -->
+
+
+	<!-- js files  -->
+	<script th:replace="user/layout/assets :: js"></script>
+</body>
+</html>

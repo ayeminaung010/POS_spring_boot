@@ -3443,6 +3443,14 @@ ol {
 	background-color : var(--main-color);
 	color: #fff;
 }
+/*  */
+#sub_content {
+	width: 800px;
+    margin: 0 auto;
+}
+#sub_content h5 {
+    text-align: center;
+}
 /* subcategory dropdown */
 .hero__categories > ul {
 	position: relative;
