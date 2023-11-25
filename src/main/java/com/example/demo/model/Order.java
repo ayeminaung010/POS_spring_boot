@@ -43,6 +43,7 @@ public class Order {
 	private Set<OrderProducts> orderProducts;
 	
 	
+	
 	@CreationTimestamp
 	@Column(name = "created_time")
 	private Timestamp createdTime;
@@ -94,5 +95,19 @@ public class Order {
 	public void setTotalPrice(Double totalPrice) {
 		this.totalPrice = totalPrice;
 	}
+	public Address getAddress() {
+		return address;
+	}
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+	public Set<OrderProducts> getOrderProducts() {
+		return orderProducts;
+	}
+	public void setOrderProducts(Set<OrderProducts> orderProducts) {
+		this.orderProducts = orderProducts;
+	}
+	
+	
 
 }

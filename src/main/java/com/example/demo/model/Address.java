@@ -18,7 +18,7 @@ public class Address {
 	private String firstName;
 	private String lastName;
 	@NotEmpty(message = "Address required...!")
-	private String address;
+	private String address1;
 	@NotEmpty(message = "City required...!")
 	private String city;
 	@NotEmpty(message = "Country Name required...!")
@@ -40,11 +40,12 @@ public class Address {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getAddress() {
-		return address;
+
+	public String getAddress1() {
+		return address1;
 	}
-	public void setAddress(String address) {
-		this.address = address;
+	public void setAddress1(String address1) {
+		this.address1 = address1;
 	}
 	public String getCity() {
 		return city;
@@ -89,6 +90,12 @@ public class Address {
 	}
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
+	}
+	public Order getOrder() {
+		return order;
+	}
+	public void setOrder(Order order) {
+		this.order = order;
 	}
 	
 	

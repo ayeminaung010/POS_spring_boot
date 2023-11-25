@@ -1,10 +1,14 @@
 package com.example.demo.Controller.user;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,9 +18,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.example.demo.daos.AddressRepository;
+import com.example.demo.daos.OrderProductRepository;
+import com.example.demo.daos.OrderRepository;
+import com.example.demo.daos.ProductRepository;
 import com.example.demo.dto.CartItem;
 import com.example.demo.dto.ResponseHelper;
 import com.example.demo.model.Address;
+import com.example.demo.model.Order;
+import com.example.demo.model.OrderProducts;
+import com.example.demo.model.Product;
+import com.example.demo.service.UserOwnDetail;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -33,6 +44,16 @@ public class CartController {
 	
 	@Autowired
 	private AddressRepository addressRepository;
+	
+	@Autowired
+	private ProductRepository productRepository;
+	
+	@Autowired
+	OrderRepository orderRepository;
+	
+	@Autowired
+	OrderProductRepository orderProductRepository;
+	
 
 	@PostMapping("/api/v1/updateCart")
 	public ResponseEntity<Object> updateCart(@RequestBody List<CartItem> cartItem) {
@@ -105,19 +126,66 @@ public class CartController {
 		return "user/cart/address";
 	}
 	
+	//order processing method
 	@PostMapping("/cart/order")
-	public String order(@ModelAttribute("address") @Valid Address address,BindingResult bindingResult,Model model) {
-		calculateTotalPrice(model);
-		if(bindingResult.hasErrors()) {
-			return "user/cart/address";
-		}
-		
-//		addressRepository.save(address);
-		return "user/cart/successOrder";
+	public String order(@ModelAttribute("address") @Valid Address address, BindingResult bindingResult, Model model, @AuthenticationPrincipal UserOwnDetail loginUser) {
+	    double totalPrice = calculateTotalPrice(model);
+
+	    if (bindingResult.hasErrors()) {
+	        return "user/cart/address";
+	    }
+	    try {
+	        String cartItemJson = (String) session.getAttribute("cart");
+	        List<CartItem> cartItem = objectMapper.readValue(cartItemJson, new TypeReference<List<CartItem>>() {
+	        });
+
+	        // 1 payment process (if applicable)
+
+	        // 2 order process
+	        Order order = new Order();
+	        order.setTotalPrice(totalPrice);
+	        // Save the address first
+	        Address savedAddress = addressRepository.save(address);
+	        order.setAddress(savedAddress);
+	        order.setOrderNumber(generateOrderNumber()); // generate order number
+	        order.setStatus("PENDING");
+	        order.setUser(loginUser.getUser());
+
+	        // Save the order first
+	        orderRepository.save(order);
+
+	        // 3 order product process
+	        List<OrderProducts> orderProductsList = new ArrayList<>();
+
+	        for (CartItem cart : cartItem) {
+	            OrderProducts orderProducts = new OrderProducts();
+	            Integer productId = Integer.parseInt(cart.getId());
+	            Product product = productRepository.getReferenceById(productId);
+
+	            // Add the product to the set of products in OrderProducts
+	            orderProducts.setProduct(product);
+
+	            orderProducts.setQuantity(cart.getQuantity());
+	            orderProducts.setTotalPrice(cart.getPrice() * cart.getQuantity());
+	            orderProducts.setOrderNumber(order.getOrderNumber());
+	            orderProducts.setOrder(order);
+	            orderProductsList.add(orderProducts);
+	        }
+
+	        // Save all OrderProducts together
+	        orderProductRepository.saveAll(orderProductsList);
+
+	    } catch (Exception e) {
+	        System.out.println("Order Error: " + e.getMessage());
+	    }
+
+	    return "user/cart/successOrder";
 	}
+
+
 	
 	//calculate total price
-	public void calculateTotalPrice(Model model) {
+	public Double calculateTotalPrice(Model model) {
 		try {
 			String cartItemJson = (String) session.getAttribute("cart");
 			Double totalPrice = 0.0;
@@ -125,19 +193,33 @@ public class CartController {
 			if (cartItemJson != null) {
 				List<CartItem> cartItem = objectMapper.readValue(cartItemJson, new TypeReference<List<CartItem>>() {
 				});
-
+				
 				for (CartItem cart : cartItem) {
 					Double productTotalPrice = cart.getPrice() * cart.getQuantity();
 					totalPrice += productTotalPrice;
 				}
 				totalPrice = totalPrice + deliveryFee;
 				model.addAttribute("totalPrice" , totalPrice);
+				return totalPrice;
 			} 
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
+		return null;
 	}
 	
+	//generate order number
+	  public static String generateOrderNumber() {
+	        // Use the current timestamp
+	        String timestamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+
+	        // Generate a random 5-digit number
+	        Random random = new Random();
+	        int randomDigits = random.nextInt(100000);
+
+	        // Combine timestamp and random number to create the order number
+	        return "ORDER_POS_" + timestamp + String.format("%05d", randomDigits);
+	    }
 	
 	
 

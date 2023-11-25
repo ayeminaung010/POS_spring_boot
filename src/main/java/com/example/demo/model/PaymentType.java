@@ -44,4 +44,17 @@ public class PaymentType {
 	public void setPaymentTypeName(String paymentTypeName) {
 		this.paymentTypeName = paymentTypeName;
 	}
+	public Timestamp getCreatedTime() {
+		return createdTime;
+	}
+	public void setCreatedTime(Timestamp createdTime) {
+		this.createdTime = createdTime;
+	}
+	public Timestamp getUpdatedTime() {
+		return updatedTime;
+	}
+	public void setUpdatedTime(Timestamp updatedTime) {
+		this.updatedTime = updatedTime;
+	}
+	
 }
