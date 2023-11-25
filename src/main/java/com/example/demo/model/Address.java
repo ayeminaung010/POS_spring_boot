@@ -6,6 +6,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name = "address")
@@ -13,11 +14,20 @@ public class Address {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
+	@NotEmpty(message = "Name required...!")
+	private String firstName;
+	private String lastName;
+	@NotEmpty(message = "Address required...!")
 	private String address;
+	@NotEmpty(message = "City required...!")
 	private String city;
+	@NotEmpty(message = "Country Name required...!")
 	private String country;
+	@NotEmpty(message = "State required...!")
 	private String state;
+	@NotEmpty(message = "Postal Code required...!")
 	private String postalCode;
+	@NotEmpty(message = "Phone required...!")
 	private String phone;
 	
 	//join order table
@@ -66,5 +76,20 @@ public class Address {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
+	
+	
+	public String getFirstName() {
+		return firstName;
+	}
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+	public String getLastName() {
+		return lastName;
+	}
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+	
 	
 }
