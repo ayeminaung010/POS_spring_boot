@@ -32,7 +32,6 @@ public class AdminController {
 		User user = userRepository.findById(id).orElse(null);
 		model.addAttribute("user", user);
 		return "admin/account/profile";
-
 	}
 	
 	@PostMapping("/account/profile/update")

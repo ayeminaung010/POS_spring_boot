@@ -111,7 +111,7 @@
 						<nav class="header__menu">
 							<ul>
 								<li th:class="${servletPath == '/'} ? 'active' : ''"><a
-									th:href="@{/}">Home</a></li>
+									th:href="@{/home}">Home</a></li>
 								<li th:class="${servletPath == '/shop'} ? 'active' : ''"><a
 									th:href="@{/shop}">Shop</a></li>
 								<li th:class="${servletPath == '/contact'} ? 'active' : ''"><a
@@ -122,8 +122,8 @@
 										sec:authentication="principal.username"></span>
 								</a>
 									<ul class="header__menu__dropdown">
-										<li><a href="#">Profile</a></li>
-										<li><a href="#">Password Change</a></li>
+										<li><a th:href="@{/user/profile}">Profile</a></li>
+										<li><a th:href="@{/user/changepassword}">Password Change</a></li>
 										<li class=" text-center mt-3">
 											<form th:action="@{/logout}" method="POST"
 												th:object="${client}">
