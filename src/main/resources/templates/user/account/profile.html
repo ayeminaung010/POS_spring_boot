@@ -43,7 +43,7 @@
 				<div class="alert alert-danger" role="alert" th:text="${error}"
 					th:if="${error}"></div>
 
-				<form th:action="@{/user/profile/view}" method="post"
+				<form th:action="@{/user/profile/update}" method="post"
 					th:object="${user}">
 					<input type="hidden" th:field="*{id}" />
 					<div class="mb-3">
@@ -58,7 +58,7 @@
 					</div>
 					<div class=" text-end">
 						<a th:href="@{/home}" class="btn btn-secondary ">Back to home</a>
-						<button class="btn btn-main ">Save</button>
+						<button type="submit" class="btn btn-main ">Save</button>
 					</div>
 				</form>
 			</div>
