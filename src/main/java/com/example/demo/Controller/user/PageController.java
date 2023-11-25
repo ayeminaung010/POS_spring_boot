@@ -7,10 +7,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.example.demo.daos.ContactRepository;
 import com.example.demo.daos.ProductRepository;
 import com.example.demo.dto.CartItem;
+import com.example.demo.model.Contact;
 import com.example.demo.model.Product;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -28,6 +33,8 @@ public class PageController {
 	
 	@Autowired
 	ObjectMapper objectMapper;
+	
+	@Autowired ContactRepository contactRepo;
 	
 	@GetMapping("/shop")
 	public String shop() {
@@ -47,9 +54,21 @@ public class PageController {
 	}
 	
 	@GetMapping("/contact")
-	public String contact() {
+	public String contact(Model model) {
+		Contact contact = new Contact();
+		model.addAttribute("contact",contact);
 		return "user/contact/index";
 	}
+	
+	@PostMapping("/contact/message")
+	public String SaveContact(@ModelAttribute("contact") Contact contact, Model model, RedirectAttributes redirectAttributes) {
+		contactRepo.save(contact);
+		redirectAttributes.addFlashAttribute("success", "Message send successful...!!");
+		System.out.print("contact" + contact);
+		return "redirect:/contact";
+		
+	}
+	
 	
 	@GetMapping("/cart")
 	public String cart(Model model) {
