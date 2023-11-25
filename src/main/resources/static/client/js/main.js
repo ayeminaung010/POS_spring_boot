@@ -97,8 +97,17 @@
 
 
 	$('.hero__categories__all').on('click', function() {
-		$('.hero__categories ul').slideToggle(400);
+		$('.hero__categories > ul').slideToggle(400);
 	});
+	
+	// test-subcategory
+	$('.hero__categories > ul').on('mouseenter focusin',function(){
+		$(this).closest('.hero__categories > ul').addClass('open');
+	});
+	$('.hero__categories > ul').mouseleave (function() { 
+		$('.hero__categories > ul').removeClass('open');
+	});
+
 
 	/*--------------------------
 		Latest Product Slider

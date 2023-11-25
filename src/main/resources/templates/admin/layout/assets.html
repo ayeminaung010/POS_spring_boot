@@ -119,6 +119,12 @@
 							class="fa-solid fa-users-gear"></i>UserManagement
 						</a>
 					</div>
+					<div>
+						<a th:href="@{/contactmessage}"
+							th:class="${servletPath == '/contactmessage'} ? 'active' : ''"> 
+							<i class="fa-solid fa-message"></i>Contact Message
+						</a>
+					</div>
 				</div>
 				<div class="bottom_list">
 					<ul>

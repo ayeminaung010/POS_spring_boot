@@ -168,18 +168,19 @@
 								<i class="fa fa-bars"></i> <span>All Categories</span>
 							</div>
 							<ul th:each="category : ${categoryList}">
-								<li><a href="#" class=" text-capitalize">[[${category.categoryName}]]</a></li>
 								<li>
-									<div class="btn-group dropright">
-										<button type="button"
-											class="btn btn-secondary dropdown-toggle"
-											data-toggle="dropdown" aria-haspopup="true"
-											aria-expanded="false">Dropright</button>
-										<div class="dropdown-menu">
-											<!-- Dropdown menu links -->
-										</div>
+									<a href="#" class="text-capitalize" >[[${category.categoryName}]]</a>
+									<div class="subcategory_list">
+										<ul>
+											<li>
+												<a href="#" class="">irons</a>
+												<a href="#" class="">irons</a>
+												<a href="#" class="">irons</a>
+											</li>
+										</ul>
 									</div>
 								</li>
+								
 							</ul>
 						</div>
 					</div>
