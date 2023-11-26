@@ -24,7 +24,7 @@
 						<div class="categories__item set-bg"
 							th:data-setbg="@{${product.thumbnailImage}}">
 							<h5>
-								<a href="#">[[${product.name}]]</a>
+								<a th:href="@{/shop/detail/{id}(id=${product.id})}">[[${product.name}]]</a>
 							</h5>
 						</div>
 					</div>
@@ -61,11 +61,11 @@
 						<div class="featured__item__pic set-bg productImg"
 							th:data-setbg="@{${product.thumbnailImage}}">
 							<ul class="featured__item__pic__hover">
-								<li><a href="#"><i class="fa fa-heart"></i></a></li>
+								<!-- <li><a href="#"><i class="fa fa-heart"></i></a></li> -->
 								<li><a th:href="@{/shop/detail/{id}(id=${product.id})}"><i
 										class="fa fa-info"></i></a></li>
-								<li><a class="addToCartBtn"><i
-										class="fa fa-shopping-cart"></i></a></li>
+								<!-- <li><a class="addToCartBtn"><i
+										class="fa fa-shopping-cart"></i></a></li> -->
 							</ul>
 						</div>
 						<div class="featured__item__text">

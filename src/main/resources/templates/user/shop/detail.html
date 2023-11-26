@@ -4,8 +4,8 @@
 <head>
 <meta charset="UTF-8">
 
-<meta name="_csrf" th:content="${_csrf.token}"/>
-<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
 
 
 <title>Shop Details</title>
@@ -70,7 +70,7 @@
 								class="fa fa-star"></i> <i class="fa fa-star"></i> <i
 								class="fa fa-star-half-o"></i> <span>(18 reviews)</span>
 						</div> -->
-						<input type="hidden" th:value="${product.id}" class="productId" />	
+						<input type="hidden" th:value="${product.id}" class="productId" />
 						<div class="product__details__price ">
 							<span class="productPrice">[[${discountPrice} != null ?
 								${discountPrice} : ${product.price}]]</span> Ks
@@ -81,21 +81,33 @@
 						<span th:if="${discountPrice}" class="badge badge-warning">[[${#numbers.formatInteger(product.discount,1,'POINT')}]]
 							% OFF</span>
 						<p>[[${product.description}]]</p>
-						<div class="product__details__quantity">
-							<div class="quantity">
-								<div class="pro-qty">
-									<input type="number" class="productQty"
-										th:max="${product.stock}" min="1" value="1">
+						<div class=" d-flex gap-3">
+							<div class="product__details__quantity">
+								<div class="quantity">
+									<div class="pro-qty">
+										<input type="number" class="productQty"
+											th:max="${product.stock}" min="1" value="1">
+									</div>
 								</div>
 							</div>
+							<div th:if="${product.stock ne 0}">
+								<button class="primary-btn border-0 shadow-sm addToCartBtn">ADD
+									TO CARD</button>
+							</div>
+							<div th:if="${product.stock eq 0}">
+								<button class="primary-btn border-0 shadow-sm "
+									data-toggle="modal" data-target="#outOfStock">ADD
+									TO CARD</button>
+							</div>
 						</div>
-						<button class="primary-btn border-0 shadow-sm addToCartBtn">ADD
-							TO CARD</button>
+
 						<ul>
 							<li><b>Brand</b> <span>[[${product.brand.brandName !=
 									null ? product.brand.brandName : N/A}]]</span></li>
 							<li><b>Availability</b> <span>In Stock - <span
-									class="productStock">[[${product.stock}]]</span>
+									class="productStock text-danger" th:if="${product.stock eq 0}">Out
+										Of Stock</span> <span class="productStock "
+									th:if="${product.stock ne 0}">[[${product.stock}]]</span>
 							</span></li>
 						</ul>
 					</div>
@@ -193,6 +205,29 @@
 		</div>
 	</section>
 	<!-- Related Product Section End -->
+
+	<!-- Out of Stock Modal -->
+	<div class="modal fade" id="outOfStock" tabindex="-1" role="dialog"
+		aria-labelledby="outOfStockLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Alert Message !</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<h4 class="text-danger">This product is out of stock!</h4>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
 	<!-- js files  -->
 	<script th:replace="user/layout/assets :: js"></script>
