@@ -45,6 +45,30 @@ public class UserController {
 		model.addAttribute("user", user);
 		return "user/account/profile";
 	}
+	
+	
+	@PostMapping("/user/profile/update")
+	public String updateProfile(@ModelAttribute("user") User user, Model model) {
+		User alreadyUser = userRepository.findById(user.getId()).orElse(null);
+		User emailCheckUser = userRepository.findByEmail(user.getEmail());
+		
+		alreadyUser.setName(user.getName());
+		if(emailCheckUser == null) {
+			alreadyUser.setEmail(user.getEmail());
+			userRepository.save(alreadyUser);
+			model.addAttribute("success", "Update Profile Success ... !");
+		}else {
+			if(emailCheckUser.getId() == user.getId()) {
+				alreadyUser.setEmail(user.getEmail());
+				userRepository.save(alreadyUser);
+				model.addAttribute("success", "Update Profile Success ... !");
+			}else{
+				model.addAttribute("error", "Email already exists ... !");
+			}
+		}
+		return "user/account/profile";
+
+	}
 	@GetMapping("/user/changepassword")
 	public String ShowChangePassword(@AuthenticationPrincipal UserOwnDetail loginUser, Model model) {
 		String email = loginUser.getEmail();
