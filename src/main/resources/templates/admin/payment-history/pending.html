@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<title>Category</title>
+<link th:replace="admin/layout/assets :: css" />
+</head>
+
+<body>
+	<div id="container">
+		<!-- side navbar   -->
+		<div th:replace="admin/layout/assets :: sideBar"></div>
+		<div id="content_wrap">
+			<div class="content_box">
+				<!-- header   -->
+				<div th:replace="admin/layout/assets :: header"></div>
+
+			</div>
+			<div id="sub_content">
+
+				<form class="row g-3">
+					<div class="col-auto">
+						<label for="inputPassword2" class="visually-hidden">Payment
+							Name</label> <input type="text" class="form-control"
+							placeholder="Payment Name">
+					</div>
+
+					<div class="col-auto">
+						<button type="submit" class="btn btn-primary mb-3">Search</button>
+					</div>
+					<div class="col-auto">
+						<button type="submit" class="btn btn-danger mb-3">Reset</button>
+					</div>
+					<div class="col-auto">
+						<a th:href="@{/category/add}" class="btn btn-info">Add New</a>
+					</div>
+				</form>
+				<div class="alert alert-success" role="alert" th:text="${success}"
+					th:if="${success}"></div>
+
+				<div class="alert alert-danger" role="alert" th:text="${error}"
+					th:if="${error}"></div>
+
+				<table class="table table-striped" id="stduentTable">
+					<thead>
+						<tr>
+							<th scope="col">Id</th>
+							<th scope="col">Category Name</th>
+							<th scope="col">Actions</th>
+						</tr>
+					</thead>
+					<tbody>
+
+					</tbody>
+				</table>
+
+			</div>
+		</div>
+	</div>
+
+
+	<!-- Delete Modal -->
+	<div class="modal fade" id="deleteModal" tabindex="-1"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 class="modal-title fs-5" id="exampleModalLabel">Delete
+						Category</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					Are you sure want to delete? - <span id="deleteName"></span>
+				</div>
+				<div class="modal-footer">
+					<form th:action="@{/category/delete}" method="post" th:object="${category}">
+						<div class="btnGp">
+							<input type="hidden" th:field="*{categoryId}" id="deleteId" />
+							<button type="button" class="btn btn-secondary"
+								data-bs-dismiss="modal">Close</button>
+							<button type="submit" class="btn btn-danger">Yes,
+								Delete it</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- js   -->
+	<script th:replace="admin/layout/assets :: js"></script>
+	<script type="text/javascript">
+		function openDeleteModal(button) {
+			$('#deleteId').val(button.getAttribute("data-categoryId"));
+			$('#deleteName').text(button.getAttribute("data-categoryName"));
+			$('#deleteModal').modal('show');
+		};
+	</script>
+</body>
+
+</html>
