@@ -46,8 +46,9 @@
 				<table class="table align-middle mb-0 bg-gray table-hover mt-3">
 					<thead class="bg-light">
 						<tr>
-							<th scope="col">Id</th>
+							<th scope="col">No</th>
 							<th scope="col">Brand Name</th>
+							<th scope="col">Create Time</th>
 							<th scope="col">Actions</th>
 						</tr>
 					</thead>
@@ -55,6 +56,7 @@
 						<tr th:each="brand,state : ${brands}">
 							<td th:text="${state.count}"></td>
 							<td th:text="${brand.brandName}"></td>
+							<td >[[${#dates.format(brand.createdTime,'dd-MMM-yyyy HH:mm')}]]</td>
 							<td><a th:href="@{/brand/update/{id}(id =${brand.brandId})}"
 								class="btn btn-link btn-lg btn-rounded"> <i
 									class="fa-solid fa-pen-to-square"></i>

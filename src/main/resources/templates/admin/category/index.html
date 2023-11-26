@@ -46,8 +46,9 @@
 				<table class="table table-striped" id="stduentTable">
 					<thead>
 						<tr>
-							<th scope="col">Id</th>
+							<th scope="col">No</th>
 							<th scope="col">Category Name</th>
+							<th scope="col">Create Time</th>
 							<th scope="col">Actions</th>
 						</tr>
 					</thead>
@@ -56,6 +57,7 @@
 						<tr th:each="category,state : ${categoryList}">
 							<td th:text="${state.count}"></td>
 							<td th:text="${category.categoryName}"></td>
+							<td >[[${#dates.format(category.createdTime,'dd-MMM-yyyy HH:mm')}]]</td>
 							<td>
 								<a
 									th:href="@{/category/update/{id}(id =${category.categoryId})}"

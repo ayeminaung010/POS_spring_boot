@@ -43,7 +43,7 @@
 				<table class="table table-striped" id="stduentTable">
 					<thead>
 						<tr>
-							<th scope="col">Id</th>
+							<th scope="col">No</th>
 							<th scope="col">User</th>
 							<th scope="col">Order No</th>
 							<th scope="col">Status</th>
@@ -63,8 +63,7 @@
 						        <span th:if="${order.status eq 'SUCCESS'}" class="badge rounded-pill text-bg-success">[[${order.status}]]</span>
 						        <span th:if="${order.status eq 'REJECTED'}" class="badge rounded-pill text-bg-danger">[[${order.status}]]</span>
 							</td>
-							<td>[[${#dates.format(order.createdTime,'dd-MMM-yyyy
-								HH:mm')}]]</td>
+							<td>[[${#dates.format(order.createdTime,'dd-MMM-yyyyHH:mm')}]]</td>
 							<td><a class="btn btn-link btn-lg btn-rounded"> <i
 									class="fa-solid fa-circle-info"></i>
 							</a></td>

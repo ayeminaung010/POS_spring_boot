@@ -44,8 +44,9 @@
 					<thead>
 						<tr>
 
-							<th scope="col">Id</th>
+							<th scope="col">No</th>
 							<th scope="col">Payment-Type Name</th>
+							<th scope="col">Create Time</th>
 							<th scope="col">Actions</th>
 						</tr>
 					</thead>
@@ -53,6 +54,7 @@
 						<tr th:each="paymenttype,state : ${paymentTypeList}">
 							<td th:text="${state.count}"></td>
 							<td th:text="${paymenttype.paymentTypeName}"></td>
+							<td >[[${#dates.format(paymenttype.createdTime,'dd-MMM-yyyy HH:mm')}]]</td>
 							<td><a
 								th:href="@{/paymenttype/update/{id}(id =${paymenttype.paymentTypeId})}"
 								class="btn btn-link btn-lg btn-rounded"> <i
