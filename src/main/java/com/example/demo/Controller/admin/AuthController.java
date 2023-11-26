@@ -20,6 +20,8 @@ public class AuthController {
 	private UserRepository userRepository;
 	@GetMapping("/")
 	public String slahPage(Model model) {
+		User user = new User();
+		model.addAttribute("user", user);
 		return "user/home";
 	}
 	
@@ -43,7 +45,7 @@ public class AuthController {
 			return "/signup";
 		}
 		User alreadyUser = userRepository.findByEmail(user.getEmail());
-		if(alreadyUser != null) {
+		if(alreadyUser == null) {
 			if(user.getPassword().equals(user.getConfirmPassword())) {
 				BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 				

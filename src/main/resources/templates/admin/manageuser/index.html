@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<title>Manage_User</title>
+
+<link th:replace="admin/layout/assets :: css" />
+</head>
+
+<body>
+	<div id="container">
+		<!-- side navbar   -->
+		<div th:replace="admin/layout/assets :: sideBar"></div>
+		<div id="content_wrap">
+			<div class="content_box">
+				<!-- header   -->
+				<div th:replace="admin/layout/assets :: header"></div>
+
+			</div>
+			<div id="sub_content">
+
+				<form class="row g-3">
+					<div class="col-auto">
+						<label for="inputPassword2" class="visually-hidden">
+							Name</label> <input type="text" class="form-control"
+							placeholder="User Name">
+					</div>
+
+					<div class="col-auto">
+						<button type="submit" class="btn btn-primary mb-3">Search</button>
+					</div>
+					<div class="col-auto">
+						<button type="submit" class="btn btn-danger mb-3">Reset</button>
+					</div>
+					<div class="col-auto">
+						<a th:href="@{/manageuser/add}" class="btn btn-info">Add New</a>
+					</div>
+				</form>
+				<div class="alert alert-success" role="alert" th:text="${success}"
+					th:if="${success}"></div>
+
+				<table class="table table-striped" id="stduentTable">
+					<thead>
+						<tr>
+							<th scope="col">No</th>
+							<th scope="col">Name</th>
+							<th scope="col">Email</th>
+							<th scope="col">Role</th>
+							<th scope="col">Create Time</th>
+							<th scope="col">Actions</th>
+						</tr>
+					</thead>
+					<tbody>
+
+						<tr th:each="user,state : ${userList}">
+							<td >[[${state.count}]]</td>
+							<td >[[${user.name}]]</td>
+							<td >[[${user.email}]]</td>
+							<td>
+						        <span th:if="${user.role eq 'ADMIN'}" class="badge rounded-pill text-bg-warning">[[${user.role}]]</span>
+						        <span th:if="${user.role eq 'USER'}" class="badge rounded-pill text-bg-success">[[${user.role}]]</span>
+							</td>
+							<td >[[${#dates.format(user.createdTime,'dd-MMM-yyyy HH:mm')}]]</td>
+							<td ><a th:if="${user.id !=  #authentication.principal.id}"
+								th:href="@{/manageuser/update/{id}(id =${user.id})}"
+								class="btn btn-link btn-lg btn-rounded"> <i
+									class="fa-solid fa-pen-to-square"></i>
+							</a> 
+							<a th:if="${user.id !=  #authentication.principal.id}"
+								th:attr="data-id=${user.id}, data-name=${user.name}" 
+								th:onclick="openDeleteModal(this)"
+								class="btn btn-link text-danger btn-lg btn-rounded">
+								<i class="fa-regular fa-trash-can"></i>
+							</a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+
+			</div>
+		</div>
+	</div>
+
+
+	<!-- Delete Modal -->
+	<div class="modal fade" id="deleteModal" tabindex="-1"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 class="modal-title fs-5" id="exampleModalLabel">Delete
+						User</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					Are you sure want to delete? - <span id="deleteName"></span>
+				</div>
+				<div class="modal-footer">
+					<form th:action="@{/manageuser/delete}" method="post" th:object="${user}">
+						<div class="btnGp">
+							<input type="hidden" th:field="*{id}" id="deleteId" />
+							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+							<button type="submit" class="btn btn-danger">Yes, Delete it</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div> 
+
+	<!-- js   -->
+	<script th:replace="admin/layout/assets :: js"></script>
+	<script type="text/javascript">
+		function openDeleteModal(button) {
+			$('#deleteId').val(button.getAttribute("data-id"));
+			$('#deleteName').text(button.getAttribute("data-name"));
+			$('#deleteModal').modal('show');
+		};
+	</script>
+</body>
+
+</html>

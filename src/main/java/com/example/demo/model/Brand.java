@@ -59,5 +59,18 @@ public class Brand {
 	public void setBrandName(String brandName) {
 		this.brandName = brandName;
 	}
+	public Timestamp getCreatedTime() {
+		return createdTime;
+	}
+	public void setCreatedTime(Timestamp createdTime) {
+		this.createdTime = createdTime;
+	}
+	public Timestamp getUpdatedTime() {
+		return updatedTime;
+	}
+	public void setUpdatedTime(Timestamp updatedTime) {
+		this.updatedTime = updatedTime;
+	}
+	
 
 }

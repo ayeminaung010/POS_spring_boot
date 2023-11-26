@@ -1,6 +1,7 @@
 package com.example.demo.model;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -12,6 +13,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
@@ -27,28 +29,28 @@ public class Product {
 
 	@NotEmpty(message = "Product name is required!!")
 	@Size(min = 1, max = 255, message = "Product name must be between 1 and 255 characters")
-	@Column(unique = true,length = 255,nullable = false)
+	@Column(unique = true, length = 255, nullable = false)
 	private String name;
-
 
 	@NotNull
 	@NotEmpty(message = "Description is required!!")
-	@Column(length = 500,nullable = false)
+	@Column(length = 500, nullable = false)
 	private String description;
 
 	@NotNull(message = "Price is required!!")
 	@Min(value = 0, message = "Price should be a positive numerical value!!")
 	private double price;
 
-	
 	@NotNull(message = "Stock is required!!")
-	@Min(value = 1, message = "Stock should be a non-negative numerical value!!")
+	@Min(value = 0, message = "Stock should be a non-negative numerical value!!")
 	private Integer stock;
-	
-    private String  thumbnailImage;
-		
+
+
+	private String thumbnailImage;
+
 	private double discount;
-	
+
+	//join table
 	@ManyToOne
 	@JoinColumn(name = "brandId", referencedColumnName = "brandId", nullable = true)
 	private Brand brand;
@@ -57,14 +59,18 @@ public class Product {
 	@NotNull
 	private SubCategory subCategory;
 	
+	@OneToMany(mappedBy = "product")
+	private List<OrderProducts> orderProductsList;
+
+	//end join table
+
 	@CreationTimestamp
 	@Column(name = "created_time")
 	private Timestamp createdTime;
 	@UpdateTimestamp
 	@Column(name = "updated_time")
 	private Timestamp updatedTime;
-	
-	
+
 	public String getThumbnailImage() {
 		return thumbnailImage;
 	}
@@ -136,6 +142,38 @@ public class Product {
 	public void setStock(int stock) {
 		this.stock = stock;
 	}
+
+
+
+
+	public List<OrderProducts> getOrderProductsList() {
+		return orderProductsList;
+	}
+
+	public void setOrderProductsList(List<OrderProducts> orderProductsList) {
+		this.orderProductsList = orderProductsList;
+	}
+
+	public Timestamp getCreatedTime() {
+		return createdTime;
+	}
+
+	public void setCreatedTime(Timestamp createdTime) {
+		this.createdTime = createdTime;
+	}
+
+	public Timestamp getUpdatedTime() {
+		return updatedTime;
+	}
+
+	public void setUpdatedTime(Timestamp updatedTime) {
+		this.updatedTime = updatedTime;
+	}
+
+	public void setStock(Integer stock) {
+		this.stock = stock;
+	}
+	
 	
 
 }

@@ -1,29 +1,39 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org">
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <meta charset="UTF-8">
+<meta name="_csrf" th:content="${_csrf.token}"/>
+<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 <title>Cart</title>
 <!-- css -->
 <link th:replace="user/layout/assets :: css" />
+<style type="text/css">
+#checkoutBtn {
+	cursor: pointer;
+}
+</style>
 </head>
 <body>
 
 	<!-- header -->
 	<div th:replace="user/layout/assets :: header"></div>
 
+	<!--  hero section -->
+	<div th:replace="user/layout/assets :: hero-section"></div>
 
 
 	<!-- Breadcrumb Section Begin -->
 	<section class="breadcrumb-section set-bg"
-		data-setbg="img/breadcrumb.jpg">
+		th:data-setbg="@{client/img/breadcrumb.jpg}">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12 text-center">
 					<div class="breadcrumb__text">
 						<h2>Shopping Cart</h2>
 						<div class="breadcrumb__option">
-							<a href="./index.html">Home</a> <span>Shopping Cart</span>
+							<a href="/">Home</a> <span>Shopping Cart</span>
 						</div>
 					</div>
 				</div>
@@ -34,7 +44,7 @@
 
 	<!-- Shoping Cart Section Begin -->
 	<section class="shoping-cart spad">
-		<div class="container">
+		<div th:if="${cartItems != null  and not  cartItems.isEmpty()}" class="container">
 			<div class="row">
 				<div class="col-lg-12">
 					<div class="shoping__cart__table">
@@ -49,54 +59,31 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr>
+								<tr th:each="cartItem : ${cartItems}" class="shoppingItem">
+									<input type="hidden" th:value="${cartItem.id}" class="productId"/>
 									<td class="shoping__cart__item"><img
-										src="img/cart/cart-1.jpg" alt="">
-										<h5>Vegetable’s Package</h5></td>
-									<td class="shoping__cart__price">$55.00</td>
+										th:src="${cartItem.image}" width="150"
+										th:alt="${cartItem.name}"> <a
+										th:href="@{/shop/detail/{id}(id=${cartItem.id})}"><h5>[[${cartItem.name}]]</h5></a>
+									</td>
+									<td class="shoping__cart__price"><span
+										class="productPrice">[[${#numbers.formatInteger(cartItem.price,3)}]]</span>
+										<span>_Ks</span></td>
 									<td class="shoping__cart__quantity">
 										<div class="quantity">
 											<div class="pro-qty">
-												<input type="text" value="1">
+												<input type="text" class="prodcutQty"
+													th:value="${cartItem.quantity}" th:max="${cartItem.stock}">
 											</div>
 										</div>
 									</td>
-									<td class="shoping__cart__total">$110.00</td>
+									<td class="shoping__cart__total"><span
+										class="productTotalPrice">[[${cartItem.price} *
+											${cartItem.quantity} ]]</span> <span>_Ks</span></td>
 									<td class="shoping__cart__item__close"><span
-										class="icon_close"></span></td>
+										class="icon_close removeItemBtn"></span></td>
 								</tr>
-								<tr>
-									<td class="shoping__cart__item"><img
-										src="img/cart/cart-2.jpg" alt="">
-										<h5>Fresh Garden Vegetable</h5></td>
-									<td class="shoping__cart__price">$39.00</td>
-									<td class="shoping__cart__quantity">
-										<div class="quantity">
-											<div class="pro-qty">
-												<input type="text" value="1">
-											</div>
-										</div>
-									</td>
-									<td class="shoping__cart__total">$39.99</td>
-									<td class="shoping__cart__item__close"><span
-										class="icon_close"></span></td>
-								</tr>
-								<tr>
-									<td class="shoping__cart__item"><img
-										src="img/cart/cart-3.jpg" alt="">
-										<h5>Organic Bananas</h5></td>
-									<td class="shoping__cart__price">$69.00</td>
-									<td class="shoping__cart__quantity">
-										<div class="quantity">
-											<div class="pro-qty">
-												<input type="text" value="1">
-											</div>
-										</div>
-									</td>
-									<td class="shoping__cart__total">$69.99</td>
-									<td class="shoping__cart__item__close"><span
-										class="icon_close"></span></td>
-								</tr>
+
 							</tbody>
 						</table>
 					</div>
@@ -105,26 +92,232 @@
 			<div class="row">
 				<div class="col-lg-12">
 					<div class="shoping__cart__btns">
-						<a href="#" class="primary-btn cart-btn">CONTINUE SHOPPING</a>
+						<a href="/shop" class="primary-btn cart-btn">CONTINUE SHOPPING</a>
 					</div>
 				</div>
 				<div class="col-lg-6">
 					<div class="shoping__checkout">
 						<h5>Cart Total</h5>
 						<ul>
-							<li>Subtotal <span>$454.98</span></li>
-							<li>Total <span>$454.98</span></li>
+							<li>SubTotal <span>_Ks</span> <span class="subTotal">[[
+									${#numbers.formatInteger(totalPrice,3)} ]]</span>
+							</li>
+							<li>Delivery Fee <span>_Ks</span> <span class="">
+									5000</span>
+							</li>
+							<li>Total <span>_Ks</span> <span class="totalPrice">[[${totalPrice}
+									+ 5000]]</span></li>
 						</ul>
-						<a th:href="@{/cart/payment}" class="primary-btn">PROCEED TO CHECKOUT</a>
+
+						<a sec:authorize="isAuthenticated()"
+							class="primary-btn text-white " id="checkoutBtn">PROCEED TO
+							CHECKOUT</a> <a sec:authorize="isAnonymous()"
+							class="primary-btn text-white " id="checkoutBtn">PROCEED TO
+							CHECKOUT</a>
 					</div>
 				</div>
+			</div>
+		</div>
+
+		<div th:if="${cartItems == null or  cartItems.isEmpty()}">
+			<div class=" text-center">
+				<i class="fa fa-shopping-bag " style="font-size: 50px;"></i>
+				<h2>Empty Cart</h2>
+				<a href="/shop" class="btn btn-main mt-5">Go To Shopping</a>
 			</div>
 		</div>
 	</section>
 	<!-- Shoping Cart Section End -->
 
+
+	<!-- Anonymous User Modal -->
+	<div class="modal fade" id="AnonymousModal" tabindex="-1" role="dialog"
+		aria-labelledby="AnonymousModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title font-weight-bold" id="exampleModalLabel">Welcome!
+						Please Login to continue.</h5>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">We need an account to save your order.
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-dismiss="modal">Close</button>
+					<a href="/login" class="btn btn-primary">Login</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<!-- js files  -->
 	<script th:replace="user/layout/assets :: js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			
+			var storedCart = JSON.parse(sessionStorage.getItem("cart")) || [];
+			
+			var csrfToken = $("meta[name='_csrf']").attr("content");
+	        var csrfHeader = $("meta[name='_csrf_header']").attr("content");
+	        
+			calculateSubtotalAndTotal();
+			$("#checkoutBtn").click(function() {
+				//check user auth or not 
+				var username = $("#username").text();
+				if(username == ""){
+					$("#AnonymousModal").modal('show');
+				}
+				
+				if(username != "" && storedCart != [] && storedCart != null){
+					location.href = "/cart/payment"
+					
+				}
+			});
+			
+			
+			/*-------------------
+			Quantity change
+		--------------------- */
+		var Toast = Swal.mixin({
+			toast: true,
+			position: "top-end",
+			showConfirmButton: false,
+			timer: 3000,
+			timerProgressBar: true,
+			didOpen: (toast) => {
+				toast.onmouseenter = Swal.stopTimer;
+				toast.onmouseleave = Swal.resumeTimer;
+			}
+		});
+
+		
+
+		var proQty = $('.pro-qty');
+		proQty.prepend('<span class="dec qtybtn">-</span>');
+		proQty.append('<span class="inc qtybtn">+</span>');
+		proQty.on('click', '.qtybtn', function() {
+			var $button = $(this);
+			var oldValue = parseInt($button.parent().find('input').val());
+			var maxValue = parseInt($button.parent().find('input').attr('max'));
+			
+			var shoppingItem = $button.closest(".shoppingItem");
+			var productPrice = parseFloat(shoppingItem.find('.productPrice').text());
+			var productTotalPrice = shoppingItem.find(".productTotalPrice");
+			var productId = shoppingItem.find(".productId").val();
+			
+			//find session product 
+			var foundProduct = storedCart.find(function(product) {
+				return product.id === productId;
+			});
+			
+			if ($button.hasClass('inc')) {
+				if (maxValue > oldValue) {
+					var newVal = parseFloat(oldValue) + 1;
+					$qtyPrice = newVal * productPrice;
+					productTotalPrice.text($qtyPrice);
+					calculateSubtotalAndTotal();
+					//set new quantity in the session product
+					foundProduct.quantity = newVal;
+					sessionStorage.setItem("cart", JSON.stringify(storedCart)); 
+					
+					//send cart update to backend
+					sendCartToBackend();
+				} else {
+					Toast.fire({
+						icon: "warning",
+						title: "This Product is out of stock"
+					});
+					newVal = oldValue;
+				}
+			} else {
+				// Don't allow decrementing below zero
+				if (oldValue > 1) {
+					var newVal = parseFloat(oldValue) - 1;
+					$qtyPrice = newVal * productPrice;
+					productTotalPrice.text($qtyPrice);
+					calculateSubtotalAndTotal();
+					
+					//set new quantity in the session product
+					foundProduct.quantity = newVal;
+					sessionStorage.setItem("cart", JSON.stringify(storedCart)); 
+					//send cart update to backend
+					sendCartToBackend();
+				} else {
+					newVal = 1;
+				}
+			}
+			$button.parent().find('input').val(newVal);
+		});
+		
+		//remove item btn 
+		$('.removeItemBtn').click(function(){
+	        var row = $(this).closest('.shoppingItem');
+
+	        var productId = row.find(".productId").val();
+	        
+	      //find session product 
+			var foundProduct = storedCart.find(function(product) {
+				return product.id === productId;
+			});
+				      
+			if (foundProduct !== -1) {
+		        storedCart.splice(foundProduct, 1);
+
+		        // Update session storage
+		        sessionStorage.setItem("cart", JSON.stringify(storedCart));
+				console.log(storedCart);
+		        // Remove the row from the UI
+		        row.remove();
+
+		        calculateSubtotalAndTotal();
+
+		        sendCartToBackend();
+		    }
+		})
+		
+		//change subtotal price and total prie 
+		function calculateSubtotalAndTotal(){
+			 var subtotal = 0;
+
+		        $(".shoppingItem").each(function() {
+		            var productTotalPrice = parseFloat($(this).find('.productTotalPrice').text());
+		            subtotal += productTotalPrice;
+		        });
+
+		        $(".subTotal").text(subtotal);
+
+		        // Add any additional charges (e.g., shipping)
+		        var additionalCharges = 5000;
+		        var totalPrice = subtotal + additionalCharges;
+
+		        // Update the total price in the UI
+		        $(".totalPrice").text(totalPrice);
+		}
+		
+		function sendCartToBackend(){
+			$.ajax({
+                url: "/api/v1/updateCart",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(storedCart),
+                dataType: 'json',
+                beforeSend: function(xhr) {
+                    xhr.setRequestHeader(csrfHeader, csrfToken);
+                },
+                success: function(data) {
+                    console.log(data);
+                    
+                }
+            });
+		}
+		
+		
+		});
+	</script>
 
 </body>
 </html>

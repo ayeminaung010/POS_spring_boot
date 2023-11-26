@@ -1,37 +1,49 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org">
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
+<div th:fragment="css">
+	<!-- Favicon -->
+	<link rel="shortcut icon" th:href="@{/client/img/favicon.ico}"
+		type="image/x-icon" />
+	<!-- Google Font -->
+	<link
+		href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap"
+		rel="stylesheet" />
+
+	<!-- Css Styles -->
+	<link rel="stylesheet" th:href="@{/client/css/bootstrap.min.css}"
+		type="text/css" />
+	<link rel="stylesheet" th:href="@{/client/css/font-awesome.min.css}"
+		type="text/css" />
+	<link rel="stylesheet" th:href="@{/client/css/elegant-icons.css}"
+		type="text/css" />
+	<link rel="stylesheet" th:href="@{/client/css/nice-select.css}"
+		type="text/css" />
+	<link rel="stylesheet" th:href="@{/client/css/jquery-ui.min.css}"
+		type="text/css" />
+	<link rel="stylesheet" th:href="@{/client/css/owl.carousel.min.css}"
+		type="text/css" />
+	<link rel="stylesheet" th:href="@{/client/css/slicknav.min.css}"
+		type="text/css" />
+	<link rel="stylesheet" th:href="@{/client/css/style.css}"
+		type="text/css" />
+
+	<!-- SweetAlert2 CSS -->
+	<link rel="stylesheet" th:href="@{/app/css/sweetAlert2.css}"
+		type="text/css" />
+	<link rel="stylesheet"
+		href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.10.1/sweetalert2.min.css"
+		integrity="sha512-l1vPIxNzx1pUOKdZEe4kEnWCBzFVVYX5QziGS7zRZE4Gi5ykXrfvUgnSBttDbs0kXe2L06m9+51eadS+Bg6a+A=="
+		crossorigin="anonymous" referrerpolicy="no-referrer" />
+</div>
+
 </head>
 <body>
-
-	<div th:fragment="css">
-		
-		<!-- Google Font -->
-		<link
-			href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap"
-			rel="stylesheet" />
-
-		<!-- Css Styles -->
-		<link rel="stylesheet" th:href="@{/user/css/bootstrap.min.css}"
-			type="text/css" />
-		<link rel="stylesheet" th:href="@{/user/css/font-awesome.min.css}"
-			type="text/css" />
-		<link rel="stylesheet" th:href="@{/user/css/elegant-icons.css}"
-			type="text/css" />
-		<link rel="stylesheet" th:href="@{/user/css/nice-select.css}"
-			type="text/css" />
-		<link rel="stylesheet" th:href="@{/user/css/jquery-ui.min.css}"
-			type="text/css" />
-		<link rel="stylesheet" th:href="@{/user/css/owl.carousel.min.css}"
-			type="text/css" />
-		<link rel="stylesheet" th:href="@{/user/css/slicknav.min.css}"
-			type="text/css" />
-		<link rel="stylesheet" th:href="@{/user/css/style.css}"
-			type="text/css" />
-	</div>
 
 	<div th:fragment="header">
 		<!-- Page Preloder -->
@@ -43,7 +55,7 @@
 		<div class="humberger__menu__overlay"></div>
 		<div class="humberger__menu__wrapper">
 			<div class="humberger__menu__logo">
-				<a th:href="@{/}"><img th:src="@{/user/img/logo.png}" alt="" /></a>
+				<a th:href="@{/}"><img th:src="@{/client/img/logo.png}" alt="" /></a>
 			</div>
 			<div class="humberger__menu__cart">
 				<ul>
@@ -56,16 +68,16 @@
 			</div>
 			<div class="humberger__menu__widget">
 				<div class="header__top__right__language">
-					<img th:src="@{/user/img/language.png}" alt="" />
+					<img th:src="@{/client/img/language.png}" alt="" />
 					<div>English</div>
 					<span class="arrow_carrot-down"></span>
 					<ul>
-						<li><a href="#">Spanis</a></li>
+						<li><a href="#">Spanish</a></li>
 						<li><a href="#">English</a></li>
 					</ul>
 				</div>
 				<div class="header__top__right__auth">
-					<a href="#"><i class="fa fa-user"></i> Login</a>
+					<a href="#"><i class="fa fa-client"></i> Login</a>
 				</div>
 			</div>
 			<nav class="humberger__menu__nav mobile-menu">
@@ -91,10 +103,11 @@
 					<div class="col-lg-3">
 						<div class="header__logo">
 							<a th:href="@{/}"><img width="200"
-								th:src="@{/user/img/logo.png}" alt="" /></a>
+								th:src="@{/client/img/logo.png}" alt="" /></a>
 						</div>
 					</div>
 					<div class="col-lg-6">
+
 						<nav class="header__menu">
 							<ul>
 								<li th:class="${servletPath == '/'} ? 'active' : ''"><a
@@ -103,8 +116,25 @@
 									th:href="@{/shop}">Shop</a></li>
 								<li th:class="${servletPath == '/contact'} ? 'active' : ''"><a
 									th:href="@{/contact}">Contact</a></li>
-								<li><a th:href="@{/login}">Login</a></li>
-								<li><a th:href="@{/signup}">Sign Up</a></li>
+
+								<li sec:authorize="isAuthenticated()"><a href="#">Account
+										<span class=" d-none " id="username"
+										sec:authentication="principal.username"></span>
+								</a>
+									<ul class="header__menu__dropdown">
+										<li><a th:href="@{/user/profile}">Profile</a></li>
+										<li><a th:href="@{/user/changepassword}">Password
+												Change</a></li>
+										<li class=" text-center mt-3">
+											<form th:action="@{/logout}" method="POST"
+												th:object="${client}">
+												<button type="submit" class=" btn btn-info rounded-0">LogOut</button>
+											</form>
+										</li>
+									</ul></li>
+								<li sec:authorize="isAnonymous()"><a th:href="@{/login}">Login</a></li>
+								<li sec:authorize="isAnonymous()"><a th:href="@{/signup}">Sign
+										Up</a></li>
 							</ul>
 						</nav>
 					</div>
@@ -112,10 +142,10 @@
 						<div class="header__cart">
 							<ul>
 								<li><a th:href="@{/cart}" class="active"><i
-										class="fa fa-shopping-bag"></i> <span>3</span></a></li>
+										class="fa fa-shopping-bag"></i> <span>[[${cartItemCount}]]</span></a></li>
 							</ul>
 							<div class="header__cart__price">
-								item: <span>$150.00</span>
+								Total: <span>[[${#numbers.formatInteger(getTotalPrice,3)}]] _Ks</span>
 							</div>
 						</div>
 					</div>
@@ -128,16 +158,79 @@
 		<!-- Header Section End -->
 	</div>
 
+	<div th:fragment="hero-section">
+		<!-- Hero Section Begin -->
+		<section class="hero">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-3">
+						<div class="hero__categories">
+							<div class="hero__categories__all">
+								<i class="fa fa-bars"></i> <span>All Categories</span>
+							</div>
+							<ul th:each="category : ${categoryList}">
+								<li><a href="#" class="text-capitalize"
+									th:text="${category.categoryName}"></a>
+									<div class="subcategory_list">
+										<ul>
+											<li th:each="subCategory : ${category.subCategories}"><a
+												href="#" th:text="${subCategory.subCategoryName}"></a></li>
+										</ul>
+									</div></li>
+							</ul>
+
+
+						</div>
+					</div>
+					<div class="col-lg-9">
+						<div class="hero__search">
+							<div class="hero__search__form">
+								<form action="#">
+									<input type="text" placeholder="What do yo u need?" />
+									<button type="submit" class="site-btn">SEARCH</button>
+								</form>
+							</div>
+							<div class="hero__search__phone">
+								<div class="hero__search__phone__icon">
+									<i class="fa fa-phone"></i>
+								</div>
+								<div class="hero__search__phone__text">
+									
+									<a href="tel:+959987463584" class=" text-decoration-none"><h5>+95 9987463584 </h5></a>
+									
+									<span>support 24/7 time</span>
+								</div>
+							</div>
+						</div>
+						<div th:if="${servletPath == '/'}" class="hero__item set-bg"
+							th:data-setbg="@{/client/img/hero/banner.jpg}">
+							<div class="hero__text">
+								<span>Online Shop - QuickMart</span>
+								<h2 class=" text-white">
+									Electronics <br />Explore the latest gadgets and tech essentials.
+								</h2>
+								<p>Free Pickup and Delivery Available</p>
+								<a href="/shop" class="primary-btn">SHOP NOW</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- Hero Section End -->
+	</div>
+
 	<div th:fragment="js">
 		<!-- Js Plugins -->
-		<script th:src="@{/user/js/jquery-3.3.1.min.js}"></script>
-		<script th:src="@{/user/js/bootstrap.min.js}"></script>
-		<script th:src="@{/user/js/jquery.nice-select.min.js}"></script>
-		<script th:src="@{/user/js/jquery-ui.min.js}"></script>
-		<script th:src="@{/user/js/jquery.slicknav.js}"></script>
-		<script th:src="@{/user/js/mixitup.min.js}"></script>
-		<script th:src="@{/user/js/owl.carousel.min.js}"></script>
-		<script th:src="@{/user/js/main.js}"></script>
+		<script th:src="@{/client/js/jquery-3.3.1.min.js}"></script>
+		<script th:src="@{/client/js/bootstrap.min.js}"></script>
+		<script th:src="@{/client/js/jquery.nice-select.min.js}"></script>
+		<script th:src="@{/client/js/jquery-ui.min.js}"></script>
+		<script th:src="@{/client/js/jquery.slicknav.js}"></script>
+		<script th:src="@{/client/js/mixitup.min.js}"></script>
+		<script th:src="@{/client/js/owl.carousel.min.js}"></script>
+		<script th:src="@{/app/js/sweetAlert2.js}"></script>
+		<script th:src="@{/client/js/main.js}"></script>
 	</div>
 
 

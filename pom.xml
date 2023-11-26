@@ -57,6 +57,18 @@
 			<groupId>org.thymeleaf.extras</groupId>
 			<artifactId>thymeleaf-extras-springsecurity6</artifactId>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.cloudinary/cloudinary-http44 -->
+		<dependency>
+		    <groupId>com.cloudinary</groupId>
+		    <artifactId>cloudinary-http44</artifactId>
+		    <version>1.35.0</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core -->
+		<dependency>
+		    <groupId>com.fasterxml.jackson.core</groupId>
+		    <artifactId>jackson-core</artifactId>
+		</dependency>
+
 	</dependencies>
 	<build>
 		<plugins>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Order Successful</title>
+<!-- css -->
+<link th:replace="user/layout/assets :: css" />
+</head>
+<body>
+
+	<!-- header -->
+	<div th:replace="user/layout/assets :: header"></div>
+
+	<!-- Breadcrumb Section Begin -->
+	<section class="breadcrumb-section set-bg"
+		th:data-setbg="@{/client/img/breadcrumb.jpg}">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12 text-center">
+					<div class="breadcrumb__text">
+						<h2>Shopping Payment</h2>
+						<div class="breadcrumb__option">
+							<a href="/cart">Cart</a> <span>Payment</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- Breadcrumb Section End -->
+
+	<div class=" text-center">
+		<h2>Order Successfully!</h2>
+		<a href="/" class="btn btn-main mt-5">GO TO HOME</a>
+	</div>
+
+	<!-- js files  -->
+	<script th:replace="user/layout/assets :: js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			removeCartSession();
+		});
+
+		function removeCartSession() {
+			sessionStorage.removeItem('cart');
+			console.log("Cart session removed successfully");
+		}
+	</script>
+</body>
+</html>

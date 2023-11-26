@@ -115,7 +115,7 @@
 							<div class="mb-3">
 								<img id="thumbnailPreview" alt="thumbnail preview" height="100"
 									width="100"
-									th:src="@{${product.thumbnailImage != null} ? '/uploads/products/' + ${product.id} + '/' + ${product.thumbnailImage} : '/images/product_default.png'}" />
+									th:src="@{${product.thumbnailImage}}" />
 
 							</div>
 

@@ -44,6 +44,14 @@ public class UserOwnDetail implements UserDetails {
 		return user.getName();
 	}
 	
+	public String getEmail() {
+		return user.getEmail();
+	}
+	
+	public Integer getId() {
+		return user.getId();
+	}
+	
 
 
 	@Override

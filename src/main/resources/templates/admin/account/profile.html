@@ -22,14 +22,24 @@
 				<h5 class="fw-bold">Profile</h5>
 				<div class="row justify-content-center">
 					<div class="col-lg-8 bg-gray p-5 mt-5 rounded-5">
-						<form action="#" th:object="${user}">
+						<div class="alert alert-success" role="alert" th:text="${success}"
+							th:if="${success}"></div>
+
+						<div class="alert alert-danger" role="alert" th:text="${error}"
+							th:if="${error}"></div>
+
+						<form th:action="@{/account/profile/update}" method="POST"
+							th:object="${user}">
+							<input type="hidden" th:field="*{id}" />
 							<div class="mb-3">
 								<label for="profileName" class="form-label">Name</label> <input
-									type="text" class="form-control" th:field="*{name}"  placeholder="Enter Name" />
+									type="text" class="form-control" th:field="*{name}"
+									placeholder="Enter Name" />
 							</div>
 							<div class="mb-3">
 								<label for="profileEmail" class="form-label">Email</label> <input
-									type="text" class="form-control" th:field="*{email}" placeholder="Enter Email" />
+									type="email" class="form-control" th:field="*{email}"
+									placeholder="Enter Email" />
 							</div>
 							<div class=" text-end">
 								<a th:href="@{/admin/home}" class="btn btn-secondary ">Cancel</a>

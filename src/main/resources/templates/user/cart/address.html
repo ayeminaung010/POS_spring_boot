@@ -15,14 +15,14 @@
 
 	<!-- Breadcrumb Section Begin -->
 	<section class="breadcrumb-section set-bg"
-		data-setbg="img/breadcrumb.jpg">
+		th:data-setbg="@{/client/img/breadcrumb.jpg}">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12 text-center">
 					<div class="breadcrumb__text">
 						<h2>Checkout</h2>
 						<div class="breadcrumb__option">
-							<a href="./index.html">Home</a> <span>Checkout</span>
+							<a href="/cart">Cart</a> <a>Payment</a> <span>Order</span>
 						</div>
 					</div>
 				</div>
@@ -36,16 +36,18 @@
 		<div class="container">
 			<div class="checkout__form">
 				<h4>Billing Details</h4>
-				<form action="#">
+				<form th:action="@{/cart/order}" method="post" th:object="${address}">
 					<div class="row">
 						<div class="col-lg-8 col-md-6">
 							<div class="row">
 								<div class="col-lg-6">
 									<div class="checkout__input">
 										<p>
-											Fist Name<span>*</span>
+											First Name<span>*</span>
 										</p>
-										<input type="text">
+										<input type="text" th:field="*{firstName}">
+										<p class="text-danger" th:if="${#fields.hasErrors('firstName')}"
+									th:errors="*{firstName}"></p>
 									</div>
 								</div>
 								<div class="col-lg-6">
@@ -53,7 +55,9 @@
 										<p>
 											Last Name<span>*</span>
 										</p>
-										<input type="text">
+										<input type="text" th:field="*{lastName}">
+										<p class="text-danger" th:if="${#fields.hasErrors('lastName')}"
+									th:errors="*{lastName}"></p>
 									</div>
 								</div>
 							</div>
@@ -61,52 +65,51 @@
 								<p>
 									Country<span>*</span>
 								</p>
-								<input type="text">
+								<input type="text" th:field="*{country}">
+								<p class="text-danger" th:if="${#fields.hasErrors('country')}"
+									th:errors="*{country}"></p>
 							</div>
 							<div class="checkout__input">
 								<p>
 									Address<span>*</span>
 								</p>
-								<input type="text" placeholder="Street Address"
-									class="checkout__input__add"> <input type="text"
-									placeholder="Apartment, suite, unite ect (optinal)">
+								<textarea rows="4" th:field="*{address1}" cols="50" class="form-control"></textarea>
+								<p class="text-danger" th:if="${#fields.hasErrors('address1')}"
+									th:errors="*{address1}"></p>
 							</div>
 							<div class="checkout__input">
 								<p>
 									Town/City<span>*</span>
 								</p>
-								<input type="text">
+								<input type="text" th:field="*{city}"> 
+								<p class="text-danger" th:if="${#fields.hasErrors('city')}"
+									th:errors="*{city}"></p>
 							</div>
 							<div class="checkout__input">
 								<p>
-									Country/State<span>*</span>
+									State<span>*</span>
 								</p>
-								<input type="text">
+								<input type="text" th:field="*{state}"> 
+								<p class="text-danger" th:if="${#fields.hasErrors('state')}"
+									th:errors="*{state}"></p>
 							</div>
 							<div class="checkout__input">
 								<p>
-									Postcode / ZIP<span>*</span>
+									PostalCode / ZIP<span>*</span>
 								</p>
-								<input type="text">
+								<input type="text" th:field="*{postalCode}">
+								<p class="text-danger" th:if="${#fields.hasErrors('postalCode')}"
+									th:errors="*{postalCode}"></p>
 							</div>
-							<div class="row">
-								<div class="col-lg-6">
-									<div class="checkout__input">
-										<p>
-											Phone<span>*</span>
-										</p>
-										<input type="text">
-									</div>
-								</div>
-								<div class="col-lg-6">
-									<div class="checkout__input">
-										<p>
-											Email<span>*</span>
-										</p>
-										<input type="text">
-									</div>
-								</div>
+							<div class="checkout__input">
+								<p>
+									Phone<span>*</span>
+								</p>
+								<input type="number" th:field="*{phone}">
+								<p class="text-danger" th:if="${#fields.hasErrors('phone')}"
+									th:errors="*{phone}"></p>
 							</div>
+
 						</div>
 						<div class="col-lg-4 col-md-6">
 							<div class="checkout__order">
@@ -114,13 +117,16 @@
 								<div class="checkout__order__products">
 									Products <span>Total</span>
 								</div>
-								<ul>
-									<li>Vegetable’s Package <span>$75.99</span></li>
-									<li>Fresh Vegetable <span>$151.99</span></li>
-									<li>Organic Bananas <span>$53.99</span></li>
+								<ul th:each="entry : ${orderedItem}">
+									<li>[[${entry.key}]]<span>[[
+											${#numbers.formatInteger(entry.value,3)} ]] _Ks</span></li>
 								</ul>
 								<div class="checkout__order__subtotal">
-									Subtotal <span>$750.99</span>
+									Delivery Fee <span>5000_Ks</span>
+								</div>
+								<div class="checkout__order__subtotal">
+									Subtotal <span>[[
+										${#numbers.formatInteger(totalPrice,3)}]] _Ks</span>
 								</div>
 								<button type="submit" class="site-btn">PLACE ORDER</button>
 							</div>

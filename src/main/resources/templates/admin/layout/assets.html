@@ -24,13 +24,12 @@
 				<div class="">
 					<h5>Dashboard</h5>
 				</div>
-				<i class="fa-solid fa-circle-plus"></i>
 			</div>
 			<div class="admin d-flex ">
 				<i class="fa-solid fa-circle-user"></i>
 				<div class=" dropdown">
 					<button class="btn  dropdown-toggle" data-bs-toggle="dropdown"
-						aria-expanded="false">[[${#authentication.name}]]</button>
+						aria-expanded="false" sec:authentication="principal.username"></button>
 					<ul class="dropdown-menu dropdown-menu-dark">
 						<li><a class="dropdown-item" th:href="@{/account/profile}">Profile</a></li>
 						<li><a class="dropdown-item"
@@ -77,15 +76,15 @@
 					</div>
 
 					<div class="dropdown">
-						<a class="btn " data-bs-toggle="collapse" href="#collapseExample"
+						<a class="btn " data-bs-toggle="collapse" href="#adminManage"
 							role="button" aria-expanded="true"
 							aria-controls="collapseExample"> <i
-							class="fa-solid fa-users-line"></i> Admin Management <i
+							class="fa-solid fa-users-line"></i>Shop Management <i
 							class="fa fa-caret-down"></i>
 						</a>
 					</div>
 
-					<div class="collapse" id="collapseExample">
+					<div class="collapse" id="adminManage">
 						<ul class="list-group bg-primary-subtle bg-opacity-75">
 							<li><a
 								th:class="${servletPath == '/category'} ? 'active' : ''"
@@ -113,13 +112,90 @@
 							</a></li>
 						</ul>
 					</div>
+					
+					<div class="dropdown">
+						<a class="btn " data-bs-toggle="collapse" href="#orderManage"
+							role="button" aria-expanded="true"
+							aria-controls="collapseExample"> <i
+							class="fa-solid fa-users-line"></i>Order Management<i
+							class="fa fa-caret-down"></i>
+						</a>
+					</div>
+
+					<div class="collapse" id="orderManage">
+						<ul class="list-group bg-primary-subtle bg-opacity-75">
+							<li><a
+								th:class="${servletPath == '/order/all'} ? 'active' : ''"
+								class="dropdown-item" th:href="@{/order/all}"> <i
+									class="fa-solid fa-list-check"></i>All Orders
+							</a></li>
+							<li><a
+								th:class="${servletPath == '/order/pending'} ? 'active' : ''"
+								class="dropdown-item" th:href="@{/order/pending}"> <i
+									class="fa-solid fa-table-list"></i>Pending Orders
+							</a></li>
+							<li><a th:class="${servletPath == '/order/success'} ? 'active' : ''"
+								class="dropdown-item" th:href="@{/order/success}"><i
+									class="fa-brands fa-slack"></i>Success Orders
+							</a></li>
+							<li><a th:class="${servletPath == '/order/reject'} ? 'active' : ''"
+								class="dropdown-item" th:href="@{/order/reject}"><i
+									class="fa-brands fa-slack"></i>Reject Orders
+							</a></li>
+						</ul>
+					</div>
+					
+					<div class="dropdown">
+						<a class="btn " data-bs-toggle="collapse" href="#paymentManage"
+							role="button" aria-expanded="true"
+							aria-controls="collapseExample"> <i
+							class="fa-solid fa-users-line"></i>Payments History<i
+							class="fa fa-caret-down"></i>
+						</a>
+					</div>
+
+					<div class="collapse" id="paymentManage">
+						<ul class="list-group bg-primary-subtle bg-opacity-75">
+							<li><a
+								th:class="${servletPath == '/payment/all'} ? 'active' : ''"
+								class="dropdown-item" th:href="@{/payment/all}"> <i
+									class="fa-solid fa-list-check"></i>All Payments
+							</a></li>
+							<li><a
+								th:class="${servletPath == '/payment/pending'} ? 'active' : ''"
+								class="dropdown-item" th:href="@{/payment/pending}"> <i
+									class="fa-solid fa-table-list"></i>Pending Payments
+							</a></li>
+							<li><a th:class="${servletPath == '/payment/success'} ? 'active' : ''"
+								class="dropdown-item" th:href="@{/payment/success}"><i
+									class="fa-brands fa-slack"></i>Success Payments
+							</a></li>
+							<li><a th:class="${servletPath == '/payment/reject'} ? 'active' : ''"
+								class="dropdown-item" th:href="@{/payment/reject}"><i
+									class="fa-brands fa-slack"></i>Reject Payments
+							</a></li>
+						</ul>
+					</div>
+					
+					<div>
+						<a th:href="@{/manageuser}"
+							th:class="${servletPath == '/manageuser'} ? 'active' : ''"> <i
+							class="fa-solid fa-users-gear"></i>UserManagement
+						</a>
+					</div>
+					<div>
+						<a th:href="@{/contactmessage}"
+							th:class="${servletPath == '/contactmessage'} ? 'active' : ''"> 
+							<i class="fa-solid fa-message"></i>Contact Message
+						</a>
+					</div>
 				</div>
 				<div class="bottom_list">
 					<ul>
 						<li>
 							<form th:action="@{/logout}" sec:authorize="isAuthenticated()"
 								class=" text-center" method="post">
-								<button type="submit" class="btn btn-secondary">
+								<button type="submit" id="logout">
 									<i class="fa-solid fa-arrow-right-from-bracket"></i> Log out
 								</button>
 							</form>

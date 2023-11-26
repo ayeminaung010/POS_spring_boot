@@ -46,8 +46,9 @@
 				<table class="table align-middle mb-0 bg-gray table-hover mt-3">
 					<thead class="bg-light">
 						<tr>
-							<th scope="col">Id</th>
+							<th scope="col">No</th>
 							<th scope="col">Brand Name</th>
+							<th scope="col">Create Time</th>
 							<th scope="col">Actions</th>
 						</tr>
 					</thead>
@@ -55,15 +56,18 @@
 						<tr th:each="brand,state : ${brands}">
 							<td th:text="${state.count}"></td>
 							<td th:text="${brand.brandName}"></td>
+							<td >[[${#dates.format(brand.createdTime,'dd-MMM-yyyy HH:mm')}]]</td>
 							<td><a th:href="@{/brand/update/{id}(id =${brand.brandId})}"
 								class="btn btn-link btn-lg btn-rounded"> <i
 									class="fa-solid fa-pen-to-square"></i>
-							</a> <a
+							</a> 
+							<!-- <a
 								th:attr="data-brandId=${brand.brandId} , data-brandName=${brand.brandName}"
 								th:onclick="openDeleteModal(this)"
 								class="btn btn-link text-danger btn-lg btn-rounded"> <i
 									class="fa-regular fa-trash-can"></i>
-							</a></td>
+							</a> -->
+							</td>
 						</tr>
 					</tbody>
 				</table>
@@ -79,7 +83,7 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<h1 class="modal-title fs-5" id="exampleModalLabel">Delete
-						Category</h1>
+						Brand</h1>
 					<button type="button" class="btn-close" data-bs-dismiss="modal"
 						aria-label="Close"></button>
 				</div>
@@ -91,7 +95,7 @@
 						<div class="btnGp">
 							<input type="hidden" th:field="*{brandId}" id="deleteId" />
 							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-							<button type="submit" class="btn btn-primary">Yes, Delete it</button>
+							<button type="submit" class="btn btn-danger">Yes, Delete it</button>
 						</div>
 					</form>
 				</div>

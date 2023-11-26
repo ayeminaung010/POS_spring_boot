@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.daos.PaymentTypeRepository;
-import com.example.demo.model.Category;
 import com.example.demo.model.PaymentType;
 
 import jakarta.validation.Valid;
@@ -85,7 +84,7 @@ public class PaymentTypeController {
 
 		PaymentType existingPaymentType = paymentTypeRepo.findByPaymentTypeName(paymenttype.getPaymentTypeName());
 		
-		if (existingPaymentType != null) {
+		if(existingPaymentType != null) {
 			if (id != existingPaymentType.getPaymentTypeId()) {
 				bindingResult.rejectValue("paymentTypeName", "error.paymenttype", "PaymentType with this name already exists");
 				return "admin/paymentType/update";
