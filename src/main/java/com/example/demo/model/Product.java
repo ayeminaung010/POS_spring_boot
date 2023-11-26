@@ -1,11 +1,11 @@
 package com.example.demo.model;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -13,7 +13,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
@@ -59,8 +59,8 @@ public class Product {
 	@NotNull
 	private SubCategory subCategory;
 	
-	@OneToOne(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
-	private OrderProducts orderProducts;
+	@OneToMany(mappedBy = "product")
+	private List<OrderProducts> orderProductsList;
 
 	//end join table
 
@@ -144,12 +144,14 @@ public class Product {
 	}
 
 
-	public OrderProducts getOrderProducts() {
-		return orderProducts;
+
+
+	public List<OrderProducts> getOrderProductsList() {
+		return orderProductsList;
 	}
 
-	public void setOrderProducts(OrderProducts orderProducts) {
-		this.orderProducts = orderProducts;
+	public void setOrderProductsList(List<OrderProducts> orderProductsList) {
+		this.orderProductsList = orderProductsList;
 	}
 
 	public Timestamp getCreatedTime() {
