@@ -57,7 +57,9 @@
 						<tr th:each="order,state : ${orders}">
 							<td>[[${state.count}]]</td>
 							<td>[[${order.user.name}]]</td>
-							<td>[[${order.orderNumber}]]</td>
+							<td>
+							<a href="#" class=" text-decoration-none fw-medium">[[${order.orderNumber}]]</a>
+							</td>
 							<td><span class="badge rounded-pill text-bg-warning">[[${order.status}]]</span>
 							</td>
 							<td>[[${#dates.format(order.createdTime,'dd-MMM-yyyy

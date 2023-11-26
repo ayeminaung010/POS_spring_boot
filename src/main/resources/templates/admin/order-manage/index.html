@@ -55,7 +55,9 @@
 						<tr th:each="order,state : ${orders}">
 							<td>[[${state.count}]]</td>
 							<td>[[${order.user.name}]]</td>
-							<td>[[${order.orderNumber}]]</td>
+							<td>
+							<a href="#" class=" text-decoration-none fw-medium">[[${order.orderNumber}]]</a>
+							</td>
 							<td>
 								<span th:if="${order.status eq 'PENDING'}" class="badge rounded-pill text-bg-warning">[[${order.status}]]</span>
 						        <span th:if="${order.status eq 'SUCCESS'}" class="badge rounded-pill text-bg-success">[[${order.status}]]</span>

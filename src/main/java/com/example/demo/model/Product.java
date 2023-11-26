@@ -42,7 +42,7 @@ public class Product {
 	private double price;
 
 	@NotNull(message = "Stock is required!!")
-	@Min(value = 1, message = "Stock should be a non-negative numerical value!!")
+	@Min(value = 0, message = "Stock should be a non-negative numerical value!!")
 	private Integer stock;
 
 
