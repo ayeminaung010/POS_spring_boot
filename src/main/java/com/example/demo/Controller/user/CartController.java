@@ -98,7 +98,7 @@ public class CartController {
 		try {
 			Double totalPrice = 0.0;
 			String cartItemJson = (String) session.getAttribute("cart");
-            if(cartItemJson != null) {
+            if(cartItemJson != null  && !cartItemJson.isEmpty()) {
             	List<CartItem> cartItems = objectMapper.readValue(cartItemJson,new TypeReference<List<CartItem>>() {});
                 
             	for (CartItem cartItem : cartItems) {
@@ -127,36 +127,44 @@ public class CartController {
 		return "user/cart/address";
 	}
 	
-	//order processing method
-	@Transactional
 	@PostMapping("/cart/order")
-	public String order(@ModelAttribute("address") @Valid Address address, BindingResult bindingResult, Model model, @AuthenticationPrincipal UserOwnDetail loginUser) {
-	    double totalPrice = calculateTotalPrice(model);
-
-	    if (bindingResult.hasErrors()) {
-	        return "user/cart/address";
-	    }
+	@Transactional
+	public String order(@ModelAttribute("address") @Valid Address address,
+	                    BindingResult bindingResult,
+	                    Model model,
+	                    @AuthenticationPrincipal UserOwnDetail loginUser) {
 	    try {
+	        double totalPrice = calculateTotalPrice(model);
+
+	        if (bindingResult.hasErrors()) {
+	            // If there are validation errors, return to the address form
+	            return "user/cart/address";
+	        }
+
 	        String cartItemJson = (String) session.getAttribute("cart");
-	        List<CartItem> cartItem = objectMapper.readValue(cartItemJson, new TypeReference<List<CartItem>>() {
-	        });
+	        if (cartItemJson == null || cartItemJson.isEmpty()) {
+	            // Handle the case where the cart is empty
+	            model.addAttribute("errorMessage", "Your cart is empty.");
+	            return "user/cart/error";
+	        }
 
-	        // 1 payment process (if applicable)
+	        List<CartItem> cartItem = objectMapper.readValue(cartItemJson, new TypeReference<List<CartItem>>() {});
 
-	        // 2 order process
+	        // 1. Payment process (if applicable)
+
+	        // 2. Order process
 	        Order order = new Order();
 	        order.setTotalPrice(totalPrice);
-	        // Save the address first
 	        Address savedAddress = addressRepository.save(address);
 	        order.setAddress(savedAddress);
-	        order.setOrderNumber(generateOrderNumber()); // generate order number
+	        order.setOrderNumber(generateOrderNumber());
 	        order.setStatus("PENDING");
 	        order.setUser(loginUser.getUser());
 
 	        // Save the order first
 	        orderRepository.save(order);
 
-	        // 3 order product process
+	        // 3. Order product process
 	        List<OrderProducts> orderProductsList = new ArrayList<>();
 
 	        for (CartItem cart : cartItem) {
@@ -167,24 +175,41 @@ public class CartController {
 	            // Add the product to the set of products in OrderProducts
 	            orderProducts.setProduct(product);
 
+	            // Handle product stock
+	            int remainingStock = product.getStock() - cart.getQuantity();
+	            if (remainingStock < 0) {
+	                // Handle insufficient stock
+	                model.addAttribute("errorMessage", "Insufficient stock for product: " + product.getName());
+	                return "user/cart/error";
+	            }
+
+	            product.setStock(remainingStock);
+
 	            orderProducts.setQuantity(cart.getQuantity());
 	            orderProducts.setTotalPrice(cart.getPrice() * cart.getQuantity());
 	            orderProducts.setOrderNumber(order.getOrderNumber());
 	            orderProducts.setOrder(order);
 	            orderProductsList.add(orderProducts);
+
+	            // Save the updated product
+	            productRepository.save(product);
 	        }
 
 	        // Save all OrderProducts together
 	        orderProductRepository.saveAll(orderProductsList);
-	        
-	        //remove cart in session 
-	        session.removeAttribute("cart");
-	    } catch (Exception e) {
-	        System.out.println("Order Error: " + e.getMessage());
-	    }
 
-	    return "user/cart/successOrder";
+	        // Remove cart from session
+	        session.removeAttribute("cart");
+
+	        return "user/cart/successOrder";
+	    } catch (Exception e) {
+	        // Log the error and handle accordingly
+	        System.out.println("Order Error: " + e);
+	        model.addAttribute("errorMessage", "An error occurred during order processing.");
+	        return "user/cart/error";
+	    }
 	}
+
 
 
 	

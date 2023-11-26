@@ -37,6 +37,15 @@
 
 	<!-- js files  -->
 	<script th:replace="user/layout/assets :: js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			removeCartSession();
+		});
 
+		function removeCartSession() {
+			sessionStorage.removeItem('cart');
+			console.log("Cart session removed successfully");
+		}
+	</script>
 </body>
 </html>

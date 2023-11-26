@@ -8,7 +8,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -27,13 +26,11 @@ public class OrderProducts {
 	@JoinColumn(name = "order_id", referencedColumnName = "id", nullable = false)
 	private Order order;
 
-	@OneToOne
-	@JoinColumn(name = "product_id",nullable = false,unique = false)
+	@ManyToOne
+	@JoinColumn(name = "product_id")
 	private Product product;
 
 	
-
-
 	public int getId() {
 		return id;
 	}
