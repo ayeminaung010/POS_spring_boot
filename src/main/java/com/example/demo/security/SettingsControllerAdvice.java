@@ -74,6 +74,53 @@ public class SettingsControllerAdvice {
 		return products;
 	}
 	
+	@ModelAttribute("discountProducts")
+	public List<Product> getDisProducts() {
+		List<Product> products = productRepository.findByDiscountGreaterThan(0.0);
+		return products;
+	}
+	
+	
+	@ModelAttribute("cartItemCount")
+	public Integer getCartCount() {
+		String cartItemJson = (String) session.getAttribute("cart");
+	    int itemCount = 0;
+
+	    if (cartItemJson != null && !cartItemJson.isEmpty()) {
+	        try {
+	            List<CartItem> cartItems = objectMapper.readValue(cartItemJson, new TypeReference<List<CartItem>>() {});
+	            itemCount = cartItems.stream().mapToInt(CartItem::getQuantity).sum();
+	            System.out.println("Cart Count :" + itemCount);
+	        } catch (Exception e) {
+	            System.out.println("Error reading cart items: " + e.getMessage());
+	        }
+	    }
+
+	    return itemCount;
+	}
+	
+	@ModelAttribute("getTotalPrice")
+	public Double getTotalPrice() {
+		try {
+			String cartItemJson = (String) session.getAttribute("cart");
+			Double totalPrice = 0.0;
+			if (cartItemJson != null) {
+				List<CartItem> cartItem = objectMapper.readValue(cartItemJson, new TypeReference<List<CartItem>>() {
+				});
+				
+				for (CartItem cart : cartItem) {
+					Double productTotalPrice = cart.getPrice() * cart.getQuantity();
+					totalPrice += productTotalPrice;
+				}
+				return totalPrice;
+			} 
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return null;
+	}
+	
+	
 	@ModelAttribute("orderedItem")
 	public Map<String, Double> getOrderedItem() throws JsonMappingException, JsonProcessingException {
 	    Map<String, Double> productPrices = new HashMap<>();

@@ -123,7 +123,8 @@
 								</a>
 									<ul class="header__menu__dropdown">
 										<li><a th:href="@{/user/profile}">Profile</a></li>
-										<li><a th:href="@{/user/changepassword}">Password Change</a></li>
+										<li><a th:href="@{/user/changepassword}">Password
+												Change</a></li>
 										<li class=" text-center mt-3">
 											<form th:action="@{/logout}" method="POST"
 												th:object="${client}">
@@ -141,10 +142,10 @@
 						<div class="header__cart">
 							<ul>
 								<li><a th:href="@{/cart}" class="active"><i
-										class="fa fa-shopping-bag"></i> <span>3</span></a></li>
+										class="fa fa-shopping-bag"></i> <span>[[${cartItemCount}]]</span></a></li>
 							</ul>
 							<div class="header__cart__price">
-								item: <span>$150.00</span>
+								Total: <span>[[${#numbers.formatInteger(getTotalPrice,3)}]] _Ks</span>
 							</div>
 						</div>
 					</div>
@@ -168,20 +169,17 @@
 								<i class="fa fa-bars"></i> <span>All Categories</span>
 							</div>
 							<ul th:each="category : ${categoryList}">
-								<li>
-									<a href="#" class="text-capitalize" >[[${category.categoryName}]]</a>
+								<li><a href="#" class="text-capitalize"
+									th:text="${category.categoryName}"></a>
 									<div class="subcategory_list">
 										<ul>
-											<li>
-												<a href="#" class="">irons</a>
-												<a href="#" class="">irons</a>
-												<a href="#" class="">irons</a>
-											</li>
+											<li th:each="subCategory : ${category.subCategories}"><a
+												href="#" th:text="${subCategory.subCategoryName}"></a></li>
 										</ul>
-									</div>
-								</li>
-								
+									</div></li>
 							</ul>
+
+
 						</div>
 					</div>
 					<div class="col-lg-9">
@@ -197,7 +195,9 @@
 									<i class="fa fa-phone"></i>
 								</div>
 								<div class="hero__search__phone__text">
-									<h5>+65 11.188.888</h5>
+									
+									<a href="tel:+959987463584" class=" text-decoration-none"><h5>+95 9987463584 </h5></a>
+									
 									<span>support 24/7 time</span>
 								</div>
 							</div>
@@ -205,12 +205,12 @@
 						<div th:if="${servletPath == '/'}" class="hero__item set-bg"
 							th:data-setbg="@{/client/img/hero/banner.jpg}">
 							<div class="hero__text">
-								<span>FRUIT FRESH</span>
-								<h2>
-									Vegetable <br />100% Organic
+								<span>Online Shop - QuickMart</span>
+								<h2 class=" text-white">
+									Electronics <br />Explore the latest gadgets and tech essentials.
 								</h2>
 								<p>Free Pickup and Delivery Available</p>
-								<a href="#" class="primary-btn">SHOP NOW</a>
+								<a href="/shop" class="primary-btn">SHOP NOW</a>
 							</div>
 						</div>
 					</div>
