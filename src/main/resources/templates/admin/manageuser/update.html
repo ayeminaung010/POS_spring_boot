@@ -37,16 +37,19 @@
 								<label for="userName" class="form-label">Name</label> <input
 									type="text" class="form-control" placeholder="Enter Name"
 									th:field="*{name}" />
-								<p class="text-danger" th:if="${#fields.hasErrors('name')}"
-									th:errors="*{name}"></p>
+								<p class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
 
 							</div>
 							<div class="mb-3">
 								<label for="userEmail" class="form-label">Email</label> <input
 									type="email" class="form-control"
 									placeholder="Enter Email Address" th:field="*{email}" />
-								<p class="text-danger" th:if="${#fields.hasErrors('email')}"
-									th:errors="*{email}"></p>
+								<p class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+							</div>
+							<div class="mb-3">
+								<label for="name" class="form-label">Password</label>
+								<input type="text" class="form-control" placeholder="Enter password" th:field="*{password}" />
+								<p class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
 							</div>
 							<input type="hidden" th:field="*{id}" />
 							<div class=" text-end">

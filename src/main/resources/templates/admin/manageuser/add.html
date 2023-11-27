@@ -33,6 +33,11 @@
 								<p class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
 							</div>
 							<div class="mb-3">
+								<label for="name" class="form-label">Password</label>
+								<input type="text" class="form-control" placeholder="Enter password" th:field="*{password}" />
+								<p class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+							</div>
+							<div class="mb-3">
 								<label for="Role" class="form-label">Role</label> 
 								<select name="role" class="form-select">
 								  <option value="ADMIN">ADMIN</option>

@@ -3,6 +3,7 @@ package com.example.demo.Controller.admin;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.daos.UserRepository;
+import com.example.demo.model.Category;
+import com.example.demo.model.SubCategory;
 import com.example.demo.model.User;
 
 import jakarta.validation.Valid;
@@ -38,6 +41,30 @@ public class ManageUserController {
 		model.addAttribute("user", user);
 		return "admin/manageuser/add";
 	}
+	@PostMapping("/manageuser/add")
+	public String SaveUser(@ModelAttribute("user") @Valid User user, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+		if (bindingResult.hasErrors()) {
+			return "admin/manageuser/add";
+		}
+		User existingName = userRepo.findByName(user.getName());
+		User existingEmail = userRepo.findByEmail(user.getEmail());
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		String userPassword = passwordEncoder.encode(user.getPassword());
+		user.setPassword(userPassword);
+		
+		if (existingName != null) {
+			if (existingEmail != null) {
+				bindingResult.rejectValue("email", "error.user", "Email already exists");
+			}
+			bindingResult.rejectValue("name", "error.user", "Name already exists");
+			return "admin/manageuser/add";
+		}
+		
+		userRepo.save(user);
+		redirectAttributes.addFlashAttribute("success", "User Add successful!!");
+		return "redirect:/manageuser";
+	}
+	
 	
 	@GetMapping("/manageuser/update/{id}")
 	public String updateUser(@PathVariable("id") Integer id, Model model) {
@@ -48,23 +75,23 @@ public class ManageUserController {
 	}
 	
 	@PostMapping("/manageuser/updating/{id}")
-	public String editUser(@PathVariable("id") Integer id,@ModelAttribute("user") @Valid User updateUser,BindingResult bindingResult,
+	public String editUser(@PathVariable("id") Integer id, @ModelAttribute("user") @Valid User user,BindingResult bindingResult,
 			 Model model, RedirectAttributes redirectAttributes) {
 		if (bindingResult.hasErrors()) {
-			System.out.println("eror validation error");
 	        return "admin/manageuser/update";
 	    }
-		User alreadyUser = userRepo.findById(updateUser.getId()).orElse(null);
-		User emailCheckUser = userRepo.findByEmail(updateUser.getEmail());
+		User alreadyUser = userRepo.findById(user.getId()).orElse(null);
+		User emailCheckUser = userRepo.findByEmail(user.getEmail());
 		
-		alreadyUser.setName(updateUser.getName());
+		alreadyUser.setName(user.getName());
+		
 		if(emailCheckUser == null) {
-			alreadyUser.setEmail(updateUser.getEmail());
+			alreadyUser.setEmail(user.getEmail());
 			userRepo.save(alreadyUser);
 			model.addAttribute("success", "Update Profile Success ... !");
 		}else {
-			if(emailCheckUser.getId() == updateUser.getId()) {
-				alreadyUser.setEmail(updateUser.getEmail());
+			if(emailCheckUser.getId() == user.getId()) {
+				alreadyUser.setEmail(user.getEmail());
 				userRepo.save(alreadyUser);
 				model.addAttribute("success", "Update Profile Success ... !");
 			}else{
