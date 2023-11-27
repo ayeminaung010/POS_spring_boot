@@ -1,4 +1,4 @@
-# POSproject
+# SPRING BOOT V3 TEAM PROJECT
 
 Welcome to the POSproject, a Spring Boot-based Point of Sale system.
 
