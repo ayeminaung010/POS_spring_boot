@@ -22,34 +22,40 @@
 				<h5 class="fw-bold">Update ManageUser</h5>
 				<div class="row justify-content-center">
 
-					<div class="alert alert-success" role="alert" th:text="${error}"
-						th:if="${error}"></div>
 
-					<div class="alert alert-success" role="alert" th:text="${success}"
-						th:if="${success}"></div>
 
 					<div class="col-lg-8 bg-gray p-5 mt-5 rounded-5">
+
 						<form class="needs-validation"
 							th:action="@{/manageuser/updating/{id}(id =${user.id})}"
 							method="post" th:object=${user}>
+
+							<div class="alert alert-danger" role="alert" th:text="${error}"
+								th:if="${error}"></div>
+
+							<div class="alert alert-success" role="alert"
+								th:text="${success}" th:if="${success}"></div>
 
 							<div class="mb-3">
 								<label for="userName" class="form-label">Name</label> <input
 									type="text" class="form-control" placeholder="Enter Name"
 									th:field="*{name}" />
-								<p class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
+								<p class="text-danger" th:if="${#fields.hasErrors('name')}"
+									th:errors="*{name}"></p>
 
 							</div>
 							<div class="mb-3">
 								<label for="userEmail" class="form-label">Email</label> <input
 									type="email" class="form-control"
 									placeholder="Enter Email Address" th:field="*{email}" />
-								<p class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+								<p class="text-danger" th:if="${#fields.hasErrors('email')}"
+									th:errors="*{email}"></p>
 							</div>
 							<div class="mb-3">
-								<label for="name" class="form-label">Password</label>
-								<input type="text" class="form-control" placeholder="Enter password" th:field="*{password}" />
-								<p class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+								<input type="hidden" class="form-control"
+									placeholder="Enter password" th:field="*{password}" />
+								<p class="text-danger" th:if="${#fields.hasErrors('password')}"
+									th:errors="*{password}"></p>
 							</div>
 							<input type="hidden" th:field="*{id}" />
 							<div class=" text-end">

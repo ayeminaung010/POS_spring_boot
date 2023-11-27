@@ -88,14 +88,16 @@ public class ManageUserController {
 		if(emailCheckUser == null) {
 			alreadyUser.setEmail(user.getEmail());
 			userRepo.save(alreadyUser);
-			model.addAttribute("success", "Update Profile Success ... !");
+			redirectAttributes.addFlashAttribute("success", "Update Profile Success ... !");
 		}else {
 			if(emailCheckUser.getId() == user.getId()) {
 				alreadyUser.setEmail(user.getEmail());
 				userRepo.save(alreadyUser);
-				model.addAttribute("success", "Update Profile Success ... !");
+				redirectAttributes.addFlashAttribute("success", "Update Profile Success ... !");
 			}else{
 				model.addAttribute("error", "Email already exists ... !");
+				
+				return "admin/manageuser/update";
 			}
 		}
 		return "redirect:/manageuser";
