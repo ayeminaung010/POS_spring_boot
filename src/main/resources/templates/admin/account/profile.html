@@ -34,12 +34,12 @@
 							<div class="mb-3">
 								<label for="profileName" class="form-label">Name</label> <input
 									type="text" class="form-control" th:field="*{name}"
-									placeholder="Enter Name" />
+									placeholder="Enter Name" required/>
 							</div>
 							<div class="mb-3">
 								<label for="profileEmail" class="form-label">Email</label> <input
 									type="email" class="form-control" th:field="*{email}"
-									placeholder="Enter Email" />
+									placeholder="Enter Email" required/>
 							</div>
 							<div class=" text-end">
 								<a th:href="@{/admin/home}" class="btn btn-secondary ">Cancel</a>

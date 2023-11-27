@@ -46,7 +46,6 @@ public class UserController {
 		return "user/account/profile";
 	}
 	
-	
 	@PostMapping("/user/profile/update")
 	public String updateProfile(@ModelAttribute("user") User user, Model model) {
 		User alreadyUser = userRepository.findById(user.getId()).orElse(null);
