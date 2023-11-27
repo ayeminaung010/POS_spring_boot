@@ -46,7 +46,7 @@ public class SecurityConfiguration {
 				.requestMatchers("/admin/home","/category/**","/subcategory/**","/brand/**","/product/**","/paymenttype/**","/account/**").hasAuthority("ADMIN")
 				.requestMatchers("/user/account/**").hasAuthority("USER")
 				.requestMatchers("/shop/**","/contact/**","/cart").permitAll()
-				.requestMatchers("/login").permitAll()
+				.requestMatchers("/login","/auth/**").permitAll()
 				.requestMatchers("/signup").permitAll()
 				.requestMatchers("/client/**").permitAll()
 				.requestMatchers("/app/**").permitAll()
