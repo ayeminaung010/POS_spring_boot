@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.daos.CategoryRepository;
@@ -24,13 +25,22 @@ public class CategoryController {
 	private CategoryRepository categoryRepository;
 
 	@GetMapping("/category")
-	public String viewCategory(Model model) {
-		List<Category> categoryList = categoryRepository.findAll();
-		model.addAttribute("categoryList", categoryList);
-		Category category = new Category();
-		model.addAttribute("category", category);
-		return "admin/category/index";
+	public String viewCategory(@RequestParam(name = "search", required = false) String query, Model model) {
+	    List<Category> categoryList;
+
+	    if (query != null && !query.isEmpty()) {
+	        categoryList = categoryRepository.findByCategoryNameContainingIgnoreCase(query.trim());
+	    } else {
+	        categoryList = categoryRepository.findAll();
+	    }
+
+	    model.addAttribute("categoryList", categoryList);
+	    Category category = new Category();
+	    model.addAttribute("category", category);
+
+	    return "admin/category/index";
 	}
+
 
 	@GetMapping("/category/add")
 	public String addCategory(Model model) {

@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.daos.UserRepository;
-import com.example.demo.model.Category;
-import com.example.demo.model.SubCategory;
 import com.example.demo.model.User;
 
 import jakarta.validation.Valid;
