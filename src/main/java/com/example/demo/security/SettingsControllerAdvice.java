@@ -71,6 +71,14 @@ public class SettingsControllerAdvice {
 	@ModelAttribute("products")
 	public List<Product> getProducts() {
 		List<Product> products = productRepository.findAll();
+		for (Product product : products) {
+	        double discount = product.getDiscount();
+	        if(discount != 0.0) {
+	        	double discountPrice = calculateDiscountPrice(discount, product.getPrice());
+		        product.setDiscountPrice(discountPrice);
+	        }
+	        
+	    }
 		return products;
 	}
 	
@@ -80,6 +88,17 @@ public class SettingsControllerAdvice {
 		return products;
 	}
 	
+	@ModelAttribute("showDisProducts")
+	public List<Product> getShowDisProducts() {
+		List<Product> products = productRepository.findByDiscountGreaterThan(0.0);
+	    for (Product product : products) {
+	        double discount = product.getDiscount();
+	        double discountPrice = calculateDiscountPrice(discount, product.getPrice());
+	        product.setDiscountPrice(discountPrice);
+	        
+	    }
+	    return products;
+	}
 	
 	@ModelAttribute("cartItemCount")
 	public Integer getCartCount() {
@@ -90,7 +109,6 @@ public class SettingsControllerAdvice {
 	        try {
 	            List<CartItem> cartItems = objectMapper.readValue(cartItemJson, new TypeReference<List<CartItem>>() {});
 	            itemCount = cartItems.stream().mapToInt(CartItem::getQuantity).sum();
-	            System.out.println("Cart Count :" + itemCount);
 	        } catch (Exception e) {
 	            System.out.println("Error reading cart items: " + e.getMessage());
 	        }
@@ -112,8 +130,10 @@ public class SettingsControllerAdvice {
 					Double productTotalPrice = cart.getPrice() * cart.getQuantity();
 					totalPrice += productTotalPrice;
 				}
+				System.out.println("totalPrice: " + totalPrice);
 				return totalPrice;
 			} 
+			return totalPrice;
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -143,5 +163,16 @@ public class SettingsControllerAdvice {
 	    return productPrices;
 	}
 
+	
+	//calculate discount price
+	public Double calculateDiscountPrice(double discount,double originalPrice) {
+		if (discount < 0 || discount > 100) {
+            return null;
+        }
+		double discountAmount = (originalPrice * discount) / 100;
+        double discountedPrice = originalPrice - discountAmount;
+
+		return discountedPrice;
+	}
 
 }
