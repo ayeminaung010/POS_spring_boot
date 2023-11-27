@@ -2,6 +2,8 @@ package com.example.demo.Controller.user;
 
 
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -50,6 +52,21 @@ public class PageController {
 		return "user/shop/detail";
 	}
 	
+	@GetMapping("/shop/{subCategory}/{id}")
+	public String subCategoryProducts(@PathVariable("subCategory") String subCategory,@PathVariable("id") Integer subCategoryId,Model model) {
+		List<Product> sortProducts = productRepository.findBySubCategorySubCategoryName(subCategory);
+		for (Product product : sortProducts) {
+	        double discount = product.getDiscount();
+	        if(discount != 0.0) {
+	        	double discountPrice = calculateDiscountPrice(discount, product.getPrice());
+		        product.setDiscountPrice(discountPrice);
+	        }
+	        
+	    }
+		model.addAttribute("sortProducts", sortProducts);
+		return "user/products/index";
+	}
+	
 	@GetMapping("/contact")
 	public String contact(Model model) {
 		Contact contact = new Contact();
@@ -78,27 +95,6 @@ public class PageController {
 		return discountedPrice;
 	}
 	
-//	//calculates the total
-//	public void calculateTotalPrice(Model model) {
-//		try {
-//			String cartItemJson = (String) session.getAttribute("cart");
-//			Double totalPrice = 0.0;
-//			Double deliveryFee = 5000.0;
-//			if (cartItemJson != null) {
-//				List<CartItem> cartItem = objectMapper.readValue(cartItemJson, new TypeReference<List<CartItem>>() {
-//				});
-//
-//				for (CartItem cart : cartItem) {
-//					Double productTotalPrice = cart.getPrice() * cart.getQuantity();
-//					totalPrice += productTotalPrice;
-//				}
-//				totalPrice = totalPrice + deliveryFee;
-//				model.addAttribute("totalPrice" , totalPrice);
-//			} else {
-//			}
-//		} catch (Exception e) {
-//			System.out.println(e.getMessage());
-//		}
-//	}
+	
 	
 }

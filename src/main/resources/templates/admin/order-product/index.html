@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<title>Order Detail</title>
+<link th:replace="admin/layout/assets :: css" />
+</head>
+
+<body>
+	<div id="container">
+		<!-- side navbar   -->
+		<div th:replace="admin/layout/assets :: sideBar"></div>
+		<div id="content_wrap">
+			<div class="content_box">
+				<!-- header   -->
+				<div th:replace="admin/layout/assets :: header"></div>
+
+			</div>
+			<a onclick="history.back()" class="btn btn-dark rounded-0 my-3">
+				<i class="fa-solid fa-chevron-left"></i> Back
+			</a>
+
+			<table class="table table-striped" id="stduentTable">
+				<thead>
+					<tr>
+						<th scope="col">No</th>
+						<th scope="col">Product</th>
+						<th scope="col">Image</th>
+						<th scope="col">Quantity</th>
+						<th scope="col">Total Price</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="orderProduct,state : ${orderProducts}">
+						<td>[[${state.count}]]</td>
+						<td>
+							<a th:href="@{/product/details/{id}(id=${orderProduct.product.id})}" class=" text-decoration-none fw-medium text-black">[[${orderProduct.product.name}]]</a>
+						</td>
+						<td>
+						<a th:href="@{/product/details/{id}(id=${orderProduct.product.id})}" class=" text-decoration-none fw-medium">
+							<img width="150" height="150" th:alt="${orderProduct.product.name}" th:src="${orderProduct.product.thumbnailImage}">
+						</a>
+						</td>
+						<td>[[${orderProduct.quantity}]]</td>
+						<td>[[${orderProduct.totalPrice}]] _Ks	</td>
+					</tr>
+				</tbody>
+			</table>
+
+		</div>
+	</div>
+	<!-- js   -->
+	<script th:replace="admin/layout/assets :: js"></script>
+</body>
+
+</html>

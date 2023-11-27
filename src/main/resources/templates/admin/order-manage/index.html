@@ -64,9 +64,11 @@
 						        <span th:if="${order.status eq 'REJECTED'}" class="badge rounded-pill text-bg-danger">[[${order.status}]]</span>
 							</td>
 							<td>[[${#dates.format(order.createdTime,'dd-MMM-yyyyHH:mm')}]]</td>
-							<td><a class="btn btn-link btn-lg btn-rounded"> <i
+							<td>
+							<a th:href="@{/order/detail/{id}(id=${order.id})}" class="btn btn-link btn-lg btn-rounded"> <i
 									class="fa-solid fa-circle-info"></i>
-							</a></td>
+							</a>
+							</td>
 						</tr>
 					</tbody>
 				</table>

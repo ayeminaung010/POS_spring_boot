@@ -55,7 +55,8 @@
 		<div class="humberger__menu__overlay"></div>
 		<div class="humberger__menu__wrapper">
 			<div class="humberger__menu__logo">
-				<a th:href="@{/}"><img th:src="@{/client/img/logo.png}" alt="" /></a>
+				<a th:href="@{/}"><img th:src="@{/client/img/logo.png}"
+					alt="logo.png" /></a>
 			</div>
 			<div class="humberger__menu__cart">
 				<ul>
@@ -68,7 +69,7 @@
 			</div>
 			<div class="humberger__menu__widget">
 				<div class="header__top__right__language">
-					<img th:src="@{/client/img/language.png}" alt="" />
+					<img th:src="@{/client/img/language.png}" alt="logo.png" />
 					<div>English</div>
 					<span class="arrow_carrot-down"></span>
 					<ul>
@@ -103,7 +104,7 @@
 					<div class="col-lg-3">
 						<div class="header__logo">
 							<a th:href="@{/}"><img width="200"
-								th:src="@{/client/img/logo.png}" alt="" /></a>
+								th:src="@{/client/img/logo.png}" alt="logo.png" /></a>
 						</div>
 					</div>
 					<div class="col-lg-6">
@@ -145,7 +146,8 @@
 										class="fa fa-shopping-bag"></i> <span>[[${cartItemCount}]]</span></a></li>
 							</ul>
 							<div class="header__cart__price">
-								Total: <span>[[${#numbers.formatInteger(getTotalPrice,3)}]] _Ks</span>
+								Total: <span>[[${#numbers.formatInteger(getTotalPrice,1)
+									}]] _Ks</span>
 							</div>
 						</div>
 					</div>
@@ -174,12 +176,11 @@
 									<div class="subcategory_list">
 										<ul>
 											<li th:each="subCategory : ${category.subCategories}"><a
-												href="#" th:text="${subCategory.subCategoryName}"></a></li>
+												th:href="@{/shop/{subCategory}/{id}(subCategory=${subCategory.subCategoryName},id=${subCategory.subCategoryId})}"
+												th:text="${subCategory.subCategoryName}"></a></li>
 										</ul>
 									</div></li>
 							</ul>
-
-
 						</div>
 					</div>
 					<div class="col-lg-9">
@@ -195,10 +196,9 @@
 									<i class="fa fa-phone"></i>
 								</div>
 								<div class="hero__search__phone__text">
-									
-									<a href="tel:+959987463584" class=" text-decoration-none"><h5>+95 9987463584 </h5></a>
-									
-									<span>support 24/7 time</span>
+
+									<a href="tel:+959987463584" class=" text-decoration-none"><h5>+95
+											9987463584</h5></a> <span>support 24/7 time</span>
 								</div>
 							</div>
 						</div>
@@ -207,7 +207,8 @@
 							<div class="hero__text">
 								<span>Online Shop - QuickMart</span>
 								<h2 class=" text-white">
-									Electronics <br />Explore the latest gadgets and tech essentials.
+									Electronics <br />Explore the latest gadgets and tech
+									essentials.
 								</h2>
 								<p>Free Pickup and Delivery Available</p>
 								<a href="/shop" class="primary-btn">SHOP NOW</a>
