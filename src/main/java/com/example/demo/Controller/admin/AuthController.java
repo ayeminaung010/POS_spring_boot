@@ -64,6 +64,28 @@ public class AuthController {
 		
 	}
 	
+	//forgot password feature
+	@GetMapping("/auth/forgotPassword")
+	public String forgotPassword(Model model) {
+		User user  = new User();
+		model.addAttribute(user);
+		return "/auth/forgot-password";
+	}
 	
+	//OTP code page
+	@GetMapping("/auth/otp/confirm")
+	public String otpPage(Model model) {
+		User user  = new User();
+		model.addAttribute(user);
+		return "/auth/otp";
+	}
+	
+	//new password page
+	@GetMapping("/auth/new-password")
+	public String newPasswordPage(Model model) {
+		User user  = new User();
+		model.addAttribute(user);
+		return "/auth/reset-password";
+	}
 
 }
