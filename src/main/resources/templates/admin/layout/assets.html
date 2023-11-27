@@ -75,7 +75,7 @@
 							class="fa-solid fa-gauge"></i>Dashboard</a>
 					</div>
 
-					<div class="dropdown">
+					<div class="dropdown" id="shop">
 						<a class="btn " data-bs-toggle="collapse" href="#adminManage"
 							role="button" aria-expanded="true"
 							aria-controls="collapseExample"> <i
@@ -107,17 +107,17 @@
 							</a></li>
 							<li><a
 								th:class="${servletPath == '/paymenttype'} ? 'active' : ''"
-								class="dropdown-item" th:href="@{/paymenttype}"> <i
-									class="fa-brands fa-gratipay"></i>Payment Type
+								class="dropdown-item" th:href="@{/paymenttype}"> 
+								<i class="fa-solid fa-file-invoice-dollar"></i>Payment Type
 							</a></li>
 						</ul>
 					</div>
 					
-					<div class="dropdown">
+					<div class="dropdown" id="order">
 						<a class="btn " data-bs-toggle="collapse" href="#orderManage"
 							role="button" aria-expanded="true"
-							aria-controls="collapseExample"> <i
-							class="fa-solid fa-users-line"></i>Order Management<i
+							aria-controls="collapseExample"> 
+							<i class="fa-solid fa-cart-plus"></i>Order Management<i
 							class="fa fa-caret-down"></i>
 						</a>
 					</div>
@@ -145,11 +145,11 @@
 						</ul>
 					</div>
 					
-					<div class="dropdown">
+					<div class="dropdown" id="payment">
 						<a class="btn " data-bs-toggle="collapse" href="#paymentManage"
 							role="button" aria-expanded="true"
-							aria-controls="collapseExample"> <i
-							class="fa-solid fa-users-line"></i>Payments History<i
+							aria-controls="collapseExample"> 
+							<i class="fa-solid fa-cash-register"></i>Payments History<i
 							class="fa fa-caret-down"></i>
 						</a>
 					</div>

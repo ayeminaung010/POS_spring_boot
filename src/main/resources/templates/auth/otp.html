@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<title>OTP Confirm</title>
+
+<link th:replace="admin/layout/assets :: css" />
+</head>
+
+<body>
+	<div id="sign-in" class="d-flex align-items-center">
+		<form action="/otpConfirm" method="POST" class="row g-3 signin">
+			<div class="alert alert-success" role="alert" th:text="${error}"
+				th:if="${error}"></div>
+			<div class="alert alert-success" role="alert" th:text="${success}"
+				th:if="${success}"></div>
+
+			<div class="mb-3">
+				<label for="exampleFormControlInput1" class="form-label">OTP
+					Code</label> <input type="text" class="form-control" name="otpCode"
+					placeholder="Enter OTP code">
+			</div>
+			<div class="d-grid gap-2">
+				<button class="btn form-btn" type="submit">Continue</button>
+			</div>
+			<div class=" text-center">
+				<label for="exampleFormControlInput1" class="form-label">Didn't
+					get code?</label> <a href="#">Resend OTP</a>
+			</div>
+
+		</form>
+		<div class="image">
+			<img th:src="@{/admin/images/clay-banks-qW_k6x5OfRc-unsplash.jpg}">
+		</div>
+	</div>
+</body>
+
+</html>
