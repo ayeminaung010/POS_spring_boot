@@ -18,7 +18,9 @@
 				<div th:replace="admin/layout/assets :: header"></div>
 
 			</div>
-			<a onclick="history.back()" class="btn btn-dark rounded-0 my-3"> <i class="fa-solid fa-chevron-left"></i> Back</a>
+			<a onclick="history.back()" class="btn btn-dark rounded-0 my-3">
+				<i class="fa-solid fa-chevron-left"></i> Back
+			</a>
 			<div class="row">
 
 				<div class="col-lg-6">
@@ -37,10 +39,16 @@
 							product.brand.brandName : N/A}]]</span>
 					</p>
 					<p class="text-muted">
-						Stock: <span>[[${product.stock}]]</span>
+						Stock: <span> <span class="productStock text-danger "
+							style="font-weight: bold;" th:if="${product.stock eq 0}">Out
+								Of Stock</span> <span class="productStock "
+							th:if="${product.stock ne 0}">[[${product.stock}]]</span>
+						</span>
 					</p>
 					<p class="lead">Price: [[${product.price}]] MMK</p>
-					<h5><b>Product Detail</b></h5>
+					<h5>
+						<b>Product Detail</b>
+					</h5>
 					<p>[[${product.description}]]</p>
 				</div>
 			</div>

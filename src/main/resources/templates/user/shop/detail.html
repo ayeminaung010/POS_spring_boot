@@ -73,9 +73,9 @@
 						<input type="hidden" th:value="${product.id}" class="productId" />
 						<div class="product__details__price ">
 							<span class="productPrice">[[${discountPrice} != null ?
-								${discountPrice} : ${product.price}]]</span> Ks
+								${#numbers.formatInteger(discountPrice,1) } : ${#numbers.formatInteger(product.price,1)}]]</span> Ks
 							<del th:if="${discountPrice}">
-								<small class="originalPrice">[[${product.price}]]</small><small>Ks</small>
+								<small class="originalPrice">[[ ${#numbers.formatInteger(product.price,1)}]]</small><small>Ks</small>
 							</del>
 						</div>
 						<span th:if="${discountPrice}" class="badge badge-warning">[[${#numbers.formatInteger(product.discount,1,'POINT')}]]

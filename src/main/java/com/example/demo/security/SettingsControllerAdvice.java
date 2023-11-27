@@ -133,6 +133,7 @@ public class SettingsControllerAdvice {
 				System.out.println("totalPrice: " + totalPrice);
 				return totalPrice;
 			} 
+			return totalPrice;
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
