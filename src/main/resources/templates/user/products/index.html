@@ -24,7 +24,7 @@
 					<div class="breadcrumb__text">
 						<h2>Shop</h2>
 						<div class="breadcrumb__option">
-							<a href="/">Home</a> <span>Shop</span>
+							<a href="./index.html">Home</a> <span>Shop</span>
 						</div>
 					</div>
 				</div>
@@ -55,67 +55,6 @@
 							</ul>
 						</div>
 
-						<div class="sidebar__item">
-							<div class="latest-product__text">
-								<h4>Latest Products</h4>
-								<div class="latest-product__slider owl-carousel">
-									<div class="latest-prdouct__slider__item">
-										<a href="#" class="latest-product__item">
-											<div class="latest-product__item__pic">
-												<img src="img/latest-product/lp-1.jpg" alt="">
-											</div>
-											<div class="latest-product__item__text">
-												<h6>Crab Pool Security</h6>
-												<span>$30.00</span>
-											</div>
-										</a> <a href="#" class="latest-product__item">
-											<div class="latest-product__item__pic">
-												<img src="img/latest-product/lp-2.jpg" alt="">
-											</div>
-											<div class="latest-product__item__text">
-												<h6>Crab Pool Security</h6>
-												<span>$30.00</span>
-											</div>
-										</a> <a href="#" class="latest-product__item">
-											<div class="latest-product__item__pic">
-												<img src="img/latest-product/lp-3.jpg" alt="">
-											</div>
-											<div class="latest-product__item__text">
-												<h6>Crab Pool Security</h6>
-												<span>$30.00</span>
-											</div>
-										</a>
-									</div>
-									<div class="latest-prdouct__slider__item">
-										<a href="#" class="latest-product__item">
-											<div class="latest-product__item__pic">
-												<img src="img/latest-product/lp-1.jpg" alt="">
-											</div>
-											<div class="latest-product__item__text">
-												<h6>Crab Pool Security</h6>
-												<span>$30.00</span>
-											</div>
-										</a> <a href="#" class="latest-product__item">
-											<div class="latest-product__item__pic">
-												<img src="img/latest-product/lp-2.jpg" alt="">
-											</div>
-											<div class="latest-product__item__text">
-												<h6>Crab Pool Security</h6>
-												<span>$30.00</span>
-											</div>
-										</a> <a href="#" class="latest-product__item">
-											<div class="latest-product__item__pic">
-												<img src="img/latest-product/lp-3.jpg" alt="">
-											</div>
-											<div class="latest-product__item__text">
-												<h6>Crab Pool Security</h6>
-												<span>$30.00</span>
-											</div>
-										</a>
-									</div>
-								</div>
-							</div>
-						</div>
 					</div>
 				</div>
 				<div class="col-lg-9 col-md-7">
@@ -153,6 +92,8 @@
 								<h4>..There is no discount products..</h4>
 							</div>
 						</div>
+
+
 					</div>
 					<div class="filter__item">
 						<div class="row">
@@ -178,8 +119,8 @@
 							</div>
 						</div>
 					</div>
-					<div th:if="${#lists.size(products) > 0}" class="row">
-						<div th:each="product : ${products}"
+					<div th:if="${#lists.size(sortProducts) > 0}" class="row">
+						<div th:each="product : ${sortProducts}"
 							class="col-lg-4 col-md-6 col-sm-6">
 							<div class="product__item">
 								<div class="product__item__pic set-bg"

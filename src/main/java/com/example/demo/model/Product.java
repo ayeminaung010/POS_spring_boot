@@ -15,6 +15,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -63,6 +64,9 @@ public class Product {
 	private List<OrderProducts> orderProductsList;
 
 	//end join table
+	
+	@Transient
+	private double discountPrice;
 
 	@CreationTimestamp
 	@Column(name = "created_time")
@@ -172,6 +176,14 @@ public class Product {
 
 	public void setStock(Integer stock) {
 		this.stock = stock;
+	}
+
+	public double getDiscountPrice() {
+		return discountPrice;
+	}
+
+	public void setDiscountPrice(double discountPrice) {
+		this.discountPrice = discountPrice;
 	}
 	
 	
