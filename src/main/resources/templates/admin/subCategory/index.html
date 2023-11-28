@@ -19,17 +19,17 @@
 			</div>
 			<div id="sub_content">
 
-				<form class="row g-3">
+				<form action="/subcategory" method="get" class="row g-3">
 					<div class="col-auto">
-						<label for="inputPassword2" class="visually-hidden">Category
-							Name</label> <input type="text" class="form-control"
-							placeholder="Category Name">
+						<label for="inputPassword2" class="visually-hidden">SubCategory
+							Name</label> <input type="text" name="search" th:value="${param.search}" class="form-control"
+							placeholder="Search...">
 					</div>
 					<div class="col-auto">
 						<button type="submit" class="btn btn-primary mb-3">Search</button>
 					</div>
 					<div class="col-auto">
-						<button type="submit" class="btn btn-danger mb-3">Reset</button>
+						<a href="/subcategory" class="btn btn-danger mb-3">Reset</a>
 					</div>
 					<div class="col-auto">
 						<a th:href="@{/subcategory/add}" class="btn btn-info">Add New</a>

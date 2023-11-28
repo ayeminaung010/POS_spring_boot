@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.daos.BrandRepository;
@@ -23,8 +24,13 @@ public class BrandController {
 	private BrandRepository brandRepo;
 
 	@GetMapping("/brand")
-	public String viewBrand(Model model) {
-		List<Brand> brands = brandRepo.findAll();
+	public String viewBrand(@RequestParam(name = "search", required = false) String query,Model model) {
+		List<Brand> brands;
+		if (query != null && !query.isEmpty()) {
+			brands = brandRepo.findByBrandNameContainingIgnoreCase(query.trim());
+	    } else {
+	    	brands = brandRepo.findAll();
+	    }
 		model.addAttribute("brands", brands);
 		Brand brand = new Brand();
 		model.addAttribute("brand", brand);

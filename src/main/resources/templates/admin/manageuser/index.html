@@ -21,18 +21,18 @@
 			</div>
 			<div id="sub_content">
 
-				<form class="row g-3">
+				<form action="/manageuser" method="get" class="row g-3">
 					<div class="col-auto">
 						<label for="inputPassword2" class="visually-hidden">
-							Name</label> <input type="text" class="form-control"
-							placeholder="User Name">
+							Name</label> <input type="text" name="search" th:value="${param.search}" class="form-control"
+							placeholder="Search...">
 					</div>
 
 					<div class="col-auto">
 						<button type="submit" class="btn btn-primary mb-3">Search</button>
 					</div>
 					<div class="col-auto">
-						<button type="submit" class="btn btn-danger mb-3">Reset</button>
+						<a href="/manageuser" class="btn btn-danger mb-3">Reset</a>
 					</div>
 					<div class="col-auto">
 						<a th:href="@{/manageuser/add}" class="btn btn-info">Add New</a>

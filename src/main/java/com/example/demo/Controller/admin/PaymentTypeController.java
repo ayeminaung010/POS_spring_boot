@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.daos.PaymentTypeRepository;
@@ -23,8 +24,13 @@ public class PaymentTypeController {
 	private PaymentTypeRepository paymentTypeRepo;
 
 	@GetMapping("/paymenttype")
-	public String viewPaymenttype(Model model) {
-		List<PaymentType> paymentTypeList = paymentTypeRepo.findAll();
+	public String viewPaymenttype(@RequestParam(name = "search", required = false) String query,Model model) {
+		List<PaymentType> paymentTypeList;
+		if (query != null && !query.isEmpty()) {
+			paymentTypeList = paymentTypeRepo.findByPaymentTypeNameContainingIgnoreCase(query.trim());
+	    } else {
+	    	paymentTypeList = paymentTypeRepo.findAll();
+	    }
 		model.addAttribute("paymentTypeList", paymentTypeList);
 		PaymentType paymenttype = new PaymentType();
 		model.addAttribute("paymenttype", paymenttype);

@@ -20,23 +20,23 @@
 			</div>
 			<div id="sub_content">
 
-				<form class="row g-3">
+				<form action="/order/reject" method="get" class="row g-3">
 					<div class="col-auto">
 						<label for="inputPassword2" class="visually-hidden">Payment
-							Name</label> <input type="text" class="form-control"
-							placeholder="Payment Name">
+							History</label> <input type="text" name="search" th:value="${param.search}" class="form-control" placeholder="Search..">
 					</div>
 
 					<div class="col-auto">
 						<button type="submit" class="btn btn-primary mb-3">Search</button>
 					</div>
 					<div class="col-auto">
-						<button type="submit" class="btn btn-danger mb-3">Reset</button>
+						<a href="/order/reject" class="btn btn-danger mb-3">Reset</a>
 					</div>
 					<div class="col-auto">
 						<a th:href="@{/category/add}" class="btn btn-info">Add New</a>
 					</div>
 				</form>
+				
 				<div class="alert alert-success" role="alert" th:text="${success}"
 					th:if="${success}"></div>
 

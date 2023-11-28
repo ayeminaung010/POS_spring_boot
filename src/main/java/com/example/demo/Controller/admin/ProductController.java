@@ -29,8 +29,14 @@ public class ProductController {
 	private CloudinaryImageService cloudinaryImageService;
 
 	@GetMapping("/product")
-	public String products(Model model) {
-		List<Product> products = productRepository.findAll();
+	public String products(@RequestParam(name = "search", required = false) String query,Model model) {
+		List<Product> products;
+		if (query != null && !query.isEmpty()) {
+			products = productRepository.searchProducts(query.trim());
+	    } else {
+	    	products = productRepository.findAll();
+	    }
+		 
 		model.addAttribute("products", products);
 		Product product = new Product();
 		model.addAttribute("product", product);
