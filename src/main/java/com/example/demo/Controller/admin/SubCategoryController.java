@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.daos.SubCategoryRepository;
@@ -23,11 +24,15 @@ public class SubCategoryController {
 	private SubCategoryRepository subcategoryRepo;
 
 	@GetMapping("/subcategory")
-	public String viewSubCategory(Model model) {
-		
+	public String viewSubCategory(@RequestParam(name = "search", required = false) String query,Model model) {
+		List<SubCategory> subcategories;
+		if (query != null && !query.isEmpty()) {
+			subcategories = subcategoryRepo.findBySubCategoryNameContainingIgnoreCase(query.trim());
+	    } else {
+	    	subcategories = subcategoryRepo.findAll();
+	    }
 		SubCategory subcategory = new SubCategory();
 		model.addAttribute("subcategory", subcategory);
-		List<SubCategory> subcategories = subcategoryRepo.findAll();
 		model.addAttribute("subcategories", subcategories);
 		return "admin/subCategory/index";
 	}
