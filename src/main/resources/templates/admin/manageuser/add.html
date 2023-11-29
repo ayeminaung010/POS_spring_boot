@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="UTF-8">
-	<title>Add User</title>
+	<title>Add Admin</title>
 	<link th:replace="admin/layout/assets :: css" />
 </head>
 
@@ -18,7 +18,7 @@
 
 			</div>
 			<div id="sub_content">
-				<h5 class="fw-bold">Add User</h5>
+				<h5 class="fw-bold">Add New ADMIN</h5>
 				<div class="row justify-content-center">
 					<div class="col-lg-8 bg-gray p-5 mt-5 rounded-5">
 						<form class="needs-validation" th:action="@{/manageuser/add}" method="post" th:object=${user}>
@@ -34,15 +34,8 @@
 							</div>
 							<div class="mb-3">
 								<label for="name" class="form-label">Password</label>
-								<input type="text" class="form-control" placeholder="Enter password" th:field="*{password}" />
+								<input type="password" class="form-control" placeholder="Enter password" th:field="*{password}" />
 								<p class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
-							</div>
-							<div class="mb-3">
-								<label for="Role" class="form-label">Role</label> 
-								<select name="role" class="form-select">
-								  <option value="ADMIN">ADMIN</option>
-								  <option value="USER">USER</option>
-								</select>
 							</div>
 							<div class=" text-end">
 								<a th:href="@{/manageuser}" class="btn btn-secondary ">Cancel</a>
