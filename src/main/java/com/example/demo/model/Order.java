@@ -39,6 +39,10 @@ public class Order {
     @JoinColumn(name = "address_id", referencedColumnName = "id")
     private Address address;
 	
+	@OneToOne
+    @JoinColumn(name = "payment_id", referencedColumnName = "id")
+    private Payment payment;
+	
 	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<OrderProducts> orderProducts;
 	
@@ -106,6 +110,12 @@ public class Order {
 	}
 	public void setOrderProducts(Set<OrderProducts> orderProducts) {
 		this.orderProducts = orderProducts;
+	}
+	public Payment getPayment() {
+		return payment;
+	}
+	public void setPayment(Payment payment) {
+		this.payment = payment;
 	}
 	
 	

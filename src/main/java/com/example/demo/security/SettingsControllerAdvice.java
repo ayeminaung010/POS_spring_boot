@@ -130,7 +130,6 @@ public class SettingsControllerAdvice {
 					Double productTotalPrice = cart.getPrice() * cart.getQuantity();
 					totalPrice += productTotalPrice;
 				}
-				System.out.println("totalPrice: " + totalPrice);
 				return totalPrice;
 			} 
 			return totalPrice;

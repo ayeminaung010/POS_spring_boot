@@ -99,7 +99,6 @@ public class ProductController {
 	    }
 
 	    Product existingProduct = productRepository.getReferenceById(id);
-	    System.out.println(imagesFile);
 	    // Check if a new image is provided
 	    if (imagesFile != null && !imagesFile.isEmpty()) {
 	        try {
