@@ -57,11 +57,11 @@ public class ManageUserController {
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		String userPassword = passwordEncoder.encode(user.getPassword());
 		user.setPassword(userPassword);
-		
+		if (existingEmail != null) {
+			bindingResult.rejectValue("email", "error.user", "Email already exists");
+			return "admin/manageuser/add";
+		}
 		if (existingName != null) {
-			if (existingEmail != null) {
-				bindingResult.rejectValue("email", "error.user", "Email already exists");
-			}
 			bindingResult.rejectValue("name", "error.user", "Name already exists");
 			return "admin/manageuser/add";
 		}
