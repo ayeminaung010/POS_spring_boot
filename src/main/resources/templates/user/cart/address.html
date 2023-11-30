@@ -136,7 +136,6 @@
 								<button type="submit" class="site-btn">PLACE ORDER</button>
 							</div>
 
-							<img alt="" id="previewImage" class=" d-none" src="">
 						</div>
 					</div>
 				</form>
@@ -149,14 +148,5 @@
 	<!-- js files  -->
 	<script th:replace="user/layout/assets :: js"></script>
 
-	<script type="text/javascript">
-		var imageSource = sessionStorage.getItem("screenshot");
-
-		if (imageSource) {
-			$("#previewImage").attr("src", imageSource);
-		} else {
-			alert("Error: Image source not found in session storage.");
-		}
-	</script>
 </body>
 </html>

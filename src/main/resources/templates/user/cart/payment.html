@@ -3,6 +3,8 @@
 	xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
+<meta name="_csrf" th:content="${_csrf.token}" />
+<meta name="_csrf_header" th:content="${_csrf.headerName}" />
 <title>Payment Confirm</title>
 <!-- css -->
 <link th:replace="user/layout/assets :: css" />
@@ -50,37 +52,45 @@
 	<div class=" d-flex justify-content-center ">
 		<div id="WavePayControl" class=" d-none mb-5">
 			<div style="width: 400px">
-				<div class=" text-center">
-					<img alt="" width="150" th:src="@{/images/qr-code.png}">
-					<h4>
-						<b>09-9847538453</b>
-					</h4>
-				</div>
-				<div class=" mt-2">
-					<label>Upload Your ScreenShot</label> <input type="file"
-						class="form-control waveFile" />
-				</div>
-				<div class=" mt-2 text-center">
-					<button class="btn btn-main" id="waveBtn">Continue</button>
-				</div>
+				<form th:action="@{/cart/payment/process}" enctype="multipart/form-data" method="post"  th:object="${payment}">
+					<div class=" text-center">
+						<img alt="" width="150" th:src="@{/images/qr-code.png}">
+						<h4>
+							<b>09-9847538453</b>
+						</h4>
+					</div>
+					<input type="hidden" th:field="*{transactionId}" class="transactionId" /> <input
+						type="hidden" th:field="*{paymentType}" class="paymentType" />
+					<div class=" mt-2">
+						<label>Upload Your ScreenShot</label> <input type="file"
+							class="form-control waveFile" name="screenshot" accept="image/*" required />
+					</div>
+					<div class=" mt-2 text-center">
+						<button class="btn btn-main" id="waveBtn">Continue</button>
+					</div>
+				</form>
 			</div>
 		</div>
 
 		<div id="KPayControl" class=" d-none mb-5">
 			<div style="width: 400px">
-				<div class=" text-center">
-					<img alt="" width="150" th:src="@{/images/qr-code.png}">
-					<h4>
-						<b>09-9847538453</b>
-					</h4>
-				</div>
-				<div class=" mt-2">
-					<label>Upload Your ScreenShot</label> <input type="file"
-						class="form-control kPayFile" />
-				</div>
-				<div class=" mt-2 text-center">
-					<button class="btn btn-main" id="kpayBtn">Continue</button>
-				</div>
+				<form th:action="@{/cart/payment/process}" enctype="multipart/form-data" method="post"  th:object="${payment}">
+					<div class=" text-center">
+						<img alt="" width="150" th:src="@{/images/qr-code.png}">
+						<h4>
+							<b>09-9847538453</b>
+						</h4>
+					</div>
+					<input type="hidden" th:field="*{transactionId}" class="transactionId" /> <input
+						type="hidden" th:field="*{paymentType}"  class="paymentType" />
+					<div class=" mt-2">
+						<label>Upload Your ScreenShot</label> <input type="file"
+							class="form-control kPayFile"  name="screenshot" accept="image/*" required />
+					</div>
+					<div class=" mt-2 text-center">
+						<button class="btn btn-main" type="submit" id="kpayBtn">Continue</button>
+					</div>
+				</form>
 			</div>
 		</div>
 
@@ -96,6 +106,9 @@
 
 	<script>
 		var totalPrice = document.querySelector(".cart_header_price").innerHTML;
+		var csrfToken = $("meta[name='_csrf']").attr("content");
+        var csrfHeader = $("meta[name='_csrf_header']").attr("content");
+		
 		var Toast = Swal.mixin({
 			toast: true,
 			position: "top-end",
@@ -116,67 +129,25 @@
 					$("#WavePayControl, #KPayControl, #paypalControl")
 							.addClass("d-none");
 					sessionStorage.setItem('paymentType', selectedPayment);
+						
 					// Show the selected payment control
 					if (selectedPayment === "WavePay") {
 						$("#WavePayControl").removeClass("d-none");
+						generateTranscationID();
+						$(".paymentType").val(selectedPayment);
 					} else if (selectedPayment === "KPay") {
+						generateTranscationID();
+						$(".paymentType").val(selectedPayment);
 						$("#KPayControl").removeClass("d-none");
 					} else if (selectedPayment === "Paypal") {
 						$("#paypalControl").removeClass("d-none");
 					}
 				})
 
-		// Continue button click event for Wave Pay
-		$("#waveBtn").click(
-				function() {
-					// Add your logic for Wave Pay here
-					// For example, you can retrieve the selected file and perform further actions
-					var selectedFile = $(".waveFile")[0];
-					if (selectedFile) {
-						getImageSource(selectedFile)
-						generateTranscationID();
-						navigateToNextPage();
-					} else {
-						 Toast.fire({
-	        					icon: "warning",
-	        					title: "Please upload a screenshot for Wave Pay."
-	        				}); 
-					}
-				});
-
-		// Continue button click event for K Pay
-		$("#kpayBtn").click(
-				function() {
-					// Add your logic for K Pay here
-					// For example, you can retrieve the selected file and perform further actions
-					var selectedFile = $(".kPayFile")[0];
-					if (selectedFile) {
-						getImageSource(selectedFile)
-						generateTranscationID();
-						navigateToNextPage();
-					} else {
-						Toast.fire({
-        					icon: "warning",
-        					title: "Please upload a screenshot for K Pay."
-        				}); 
-					}
-				});
-		
-		function getImageSource(screenshot) {
-			const image = screenshot.files[0];
-			console.log("Imge : " , image)
-	        var reader = new FileReader();
-			reader.onload = function () {
-	            sessionStorage.setItem('screenshot', reader.result);
-	        };
-	        reader.readAsDataURL(image);
-	        return reader.result;
-	    }
 		
 		function generateTranscationID (){
 			 var transactionId = "TRX" + Math.random().toString(16).slice(2)
-			    
-			 sessionStorage.setItem('transactionId', transactionId);
+			 $(".transactionId").val(transactionId);
 		}
 		
 		 function navigateToNextPage() {
@@ -204,12 +175,33 @@
 										.capture()
 										.then(
 												function(details) {
-													console.log(details);
+													
 													var orderId = details.id;
 													var transactionId = details.purchase_units[0].payments.captures[0].id;
-
+													var paymentType = $("#paymentSelect").val();
 													sessionStorage.setItem('transactionId', transactionId);
-													navigateToNextPage();
+													var data = {
+															"transactionId" : transactionId,
+															"paymentType" : paymentType
+														}
+													console.log(JSON.stringify(data));
+													$.ajax({
+										                url: "/cart/payment/paypal_process",
+										                type: "POST",
+										                contentType: "application/json",
+										                data: JSON.stringify(data),
+										                dataType: 'json',
+										                beforeSend: function(xhr) {
+										                    xhr.setRequestHeader(csrfHeader, csrfToken);
+										                },
+										                success: function(data) {
+										                    console.log(data);
+										                    if(data.status){
+										                    	navigateToNextPage(); 
+										                    }
+										                }
+										            });
+													
 												});
 							},
 							onCancel : function(data) {
