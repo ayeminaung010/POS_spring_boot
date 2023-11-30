@@ -44,7 +44,7 @@
 			<option selected disabled="disabled">Select Payment</option>
 			<option value="WavePay">Wave Pay</option>
 			<option value="KPay">K Pay</option>
-			<option value="Payal">PayPal</option>
+			<option value="Paypal">PayPal</option>
 		</select>
 	</div>
 	<div class=" d-flex justify-content-center ">
@@ -115,13 +115,13 @@
 					// Hide all payment controls
 					$("#WavePayControl, #KPayControl, #paypalControl")
 							.addClass("d-none");
-
+					sessionStorage.setItem('paymentType', selectedPayment);
 					// Show the selected payment control
 					if (selectedPayment === "WavePay") {
 						$("#WavePayControl").removeClass("d-none");
 					} else if (selectedPayment === "KPay") {
 						$("#KPayControl").removeClass("d-none");
-					} else if (selectedPayment === "Payal") {
+					} else if (selectedPayment === "Paypal") {
 						$("#paypalControl").removeClass("d-none");
 					}
 				})
@@ -134,6 +134,7 @@
 					var selectedFile = $(".waveFile")[0];
 					if (selectedFile) {
 						getImageSource(selectedFile)
+						generateTranscationID();
 						navigateToNextPage();
 					} else {
 						 Toast.fire({
@@ -151,6 +152,7 @@
 					var selectedFile = $(".kPayFile")[0];
 					if (selectedFile) {
 						getImageSource(selectedFile)
+						generateTranscationID();
 						navigateToNextPage();
 					} else {
 						Toast.fire({
@@ -170,6 +172,12 @@
 	        reader.readAsDataURL(image);
 	        return reader.result;
 	    }
+		
+		function generateTranscationID (){
+			 var transactionId = "TRX" + Math.random().toString(16).slice(2)
+			    
+			 sessionStorage.setItem('transactionId', transactionId);
+		}
 		
 		 function navigateToNextPage() {
 		        window.location.href = "/cart/address";
@@ -200,11 +208,8 @@
 													var orderId = details.id;
 													var transactionId = details.purchase_units[0].payments.captures[0].id;
 
-													console.log("Order ID :",
-															orderId);
-													console.log(
-															"Transaction Id :",
-															transactionId);
+													sessionStorage.setItem('transactionId', transactionId);
+													navigateToNextPage();
 												});
 							},
 							onCancel : function(data) {
