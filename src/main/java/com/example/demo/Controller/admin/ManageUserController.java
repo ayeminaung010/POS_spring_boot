@@ -57,6 +57,7 @@ public class ManageUserController {
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		String userPassword = passwordEncoder.encode(user.getPassword());
 		user.setPassword(userPassword);
+		user.setRole("ADMIN");
 		if (existingEmail != null) {
 			bindingResult.rejectValue("email", "error.user", "Email already exists");
 			return "admin/manageuser/add";
@@ -65,7 +66,6 @@ public class ManageUserController {
 			bindingResult.rejectValue("name", "error.user", "Name already exists");
 			return "admin/manageuser/add";
 		}
-		
 		userRepo.save(user);
 		redirectAttributes.addFlashAttribute("success", "User Add successful!!");
 		return "redirect:/manageuser";
