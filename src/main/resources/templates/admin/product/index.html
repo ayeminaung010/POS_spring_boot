@@ -57,7 +57,7 @@
 						<tr th:each="product,state : ${products}">
 							<td>[[${state.count}]]</td>
 							<td>[[${product.name}]]</td>
-							<td>[[${product.price}]] MMK</td>
+							<td>[[${product.price}]] Ks</td>
 							<td>
 							<span
 								class="productStock text-danger " style="font-weight: bold;" th:if="${product.stock eq 0}">Out
