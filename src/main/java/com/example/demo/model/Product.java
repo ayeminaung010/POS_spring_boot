@@ -6,6 +6,7 @@ import java.util.List;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -52,8 +53,8 @@ public class Product {
 	private double discount;
 
 	//join table
-	@ManyToOne
-	@JoinColumn(name = "brandId", referencedColumnName = "brandId", nullable = true)
+	@ManyToOne(cascade = CascadeType.PERSIST)
+	@JoinColumn(name = "brandId", referencedColumnName = "brandId")
 	private Brand brand;
 
 	@ManyToOne
@@ -185,7 +186,7 @@ public class Product {
 	public void setDiscountPrice(double discountPrice) {
 		this.discountPrice = discountPrice;
 	}
-	
-	
-
+	public Product() {
+        this.brand = null;
+    }
 }

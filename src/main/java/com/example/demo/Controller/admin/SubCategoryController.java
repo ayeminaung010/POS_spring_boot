@@ -3,6 +3,9 @@ package com.example.demo.Controller.admin;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,16 +27,26 @@ public class SubCategoryController {
 	private SubCategoryRepository subcategoryRepo;
 
 	@GetMapping("/subcategory")
-	public String viewSubCategory(@RequestParam(name = "search", required = false) String query,Model model) {
-		List<SubCategory> subcategories;
+	public String viewSubCategory(@RequestParam(name = "search", required = false) String query,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "createdTime") String sortBy,
+			Model model) {
+		Page<SubCategory> subcategoriesPage;
+
+		PageRequest pageRequest = PageRequest.of(page - 1, size, Sort.by(sortBy).descending());
 		if (query != null && !query.isEmpty()) {
-			subcategories = subcategoryRepo.findBySubCategoryNameContainingIgnoreCase(query.trim());
+			subcategoriesPage = subcategoryRepo.findBySubCategoryNameContainingIgnoreCase(query.trim(),pageRequest);
 	    } else {
-	    	subcategories = subcategoryRepo.findAll();
+	    	subcategoriesPage =  subcategoryRepo.findAll(pageRequest);
 	    }
+		List<SubCategory> subcategories = subcategoriesPage.getContent();
 		SubCategory subcategory = new SubCategory();
 		model.addAttribute("subcategory", subcategory);
 		model.addAttribute("subcategories", subcategories);
+		
+		model.addAttribute("currentPage", subcategoriesPage.getNumber() + 1);
+	    model.addAttribute("totalPages", subcategoriesPage.getTotalPages());
 		return "admin/subCategory/index";
 	}
 
