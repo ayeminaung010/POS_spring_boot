@@ -3,6 +3,9 @@ package com.example.demo.Controller.admin;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,18 +28,26 @@ public class CategoryController {
 	private CategoryRepository categoryRepository;
 
 	@GetMapping("/category")
-	public String viewCategory(@RequestParam(name = "search", required = false) String query, Model model) {
-	    List<Category> categoryList;
-
+	public String viewCategory(@RequestParam(name = "search", required = false) String query, 
+			@RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "createdTime") String sortBy,
+			Model model) {
+	    
+		Page<Category> categoriesPage;
+		PageRequest pageRequest = PageRequest.of(page - 1, size, Sort.by(sortBy).descending());
 	    if (query != null && !query.isEmpty()) {
-	        categoryList = categoryRepository.findByCategoryNameContainingIgnoreCase(query.trim());
+	    	categoriesPage = categoryRepository.findByCategoryNameContainingIgnoreCase(query.trim(),pageRequest);
 	    } else {
-	        categoryList = categoryRepository.findAll();
+	    	categoriesPage = categoryRepository.findAll(pageRequest);
 	    }
-
-	    model.addAttribute("categoryList", categoryList);
+	    
+	    List<Category> categories = categoriesPage.getContent();
 	    Category category = new Category();
-	    model.addAttribute("category", category);
+		model.addAttribute("category", category);
+		model.addAttribute("categories", categories);
+		model.addAttribute("currentPage", categoriesPage.getNumber() + 1);
+	    model.addAttribute("totalPages", categoriesPage.getTotalPages());
 
 	    return "admin/category/index";
 	}
