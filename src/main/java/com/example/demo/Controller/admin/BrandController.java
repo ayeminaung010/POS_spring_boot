@@ -3,6 +3,9 @@ package com.example.demo.Controller.admin;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,16 +27,27 @@ public class BrandController {
 	private BrandRepository brandRepo;
 
 	@GetMapping("/brand")
-	public String viewBrand(@RequestParam(name = "search", required = false) String query,Model model) {
-		List<Brand> brands;
+	public String viewBrand(@RequestParam(name = "search", required = false) String query,
+			 @RequestParam(defaultValue = "1") int page,
+	         @RequestParam(defaultValue = "10") int size,
+	         @RequestParam(defaultValue = "createdTime") String sortBy,
+			 Model model) {
+		
+		Page<Brand> brandsPage;
+		PageRequest pageRequest = PageRequest.of(page - 1, size, Sort.by(sortBy).descending());
 		if (query != null && !query.isEmpty()) {
-			brands = brandRepo.findByBrandNameContainingIgnoreCase(query.trim());
+			brandsPage = brandRepo.findByBrandNameContainingIgnoreCase(query.trim(), pageRequest);
 	    } else {
-	    	brands = brandRepo.findAll();
+	    	brandsPage = brandRepo.findAll(pageRequest);
 	    }
-		model.addAttribute("brands", brands);
+		List<Brand> brands = brandsPage.getContent();
 		Brand brand = new Brand();
 		model.addAttribute("brand", brand);
+		model.addAttribute("brands", brands);
+		
+		model.addAttribute("currentPage", brandsPage.getNumber() + 1);
+	    model.addAttribute("totalPages", brandsPage.getTotalPages());
+	    
 		return "admin/brand/index";
 	}
 

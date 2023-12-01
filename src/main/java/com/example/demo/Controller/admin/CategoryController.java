@@ -48,7 +48,6 @@ public class CategoryController {
 	    model.addAttribute("category", category);
 	    model.addAttribute("currentPage", categoryPage.getNumber() + 1);
 	    model.addAttribute("totalPages", categoryPage.getTotalPages());
-
 	    return "admin/category/index";
 	}
 
