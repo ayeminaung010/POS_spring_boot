@@ -20,20 +20,19 @@
 			</div>
 			<div id="sub_content">
 
-				<form action="/order/reject" method="get" class="row g-3">
+				<form action="/payment/reject" method="get" class="row g-3">
 					<div class="col-auto">
 						<label for="inputPassword2" class="visually-hidden">Payment
-							History</label> <input type="text" name="search" th:value="${param.search}" class="form-control" placeholder="Search..">
+							History</label> <input type="text" name="search"
+							th:value="${param.search}" class="form-control"
+							placeholder="Search..">
 					</div>
 
 					<div class="col-auto">
 						<button type="submit" class="btn btn-primary mb-3">Search</button>
 					</div>
 					<div class="col-auto">
-						<a href="/order/reject" class="btn btn-danger mb-3">Reset</a>
-					</div>
-					<div class="col-auto">
-						<a th:href="@{/category/add}" class="btn btn-info">Add New</a>
+						<a href="/payment/reject" class="btn btn-danger mb-3">Reset</a>
 					</div>
 				</form>
 				<div class="alert alert-success" role="alert" th:text="${success}"
@@ -45,13 +44,33 @@
 				<table class="table table-striped" id="stduentTable">
 					<thead>
 						<tr>
-							<th scope="col">Id</th>
-							<th scope="col">Category Name</th>
-							<th scope="col">Actions</th>
+							<th scope="col">No</th>
+							<th scope="col">Transaction Id</th>
+							<th scope="col">Payment Type</th>
+							<th scope="col">Status</th>
+							<th scope="col">Created Time</th>
+							<th scope="col">Action</th>
 						</tr>
 					</thead>
 					<tbody>
-
+						<tr th:each="payment,state : ${payments}">
+							<td>[[${state.count}]]</td>
+							<td>[[${payment.transactionId}]]</td>
+							<td><a href="#" class=" text-decoration-none fw-medium">[[${payment.paymentType}]]</a>
+							</td>
+							<td><span th:if="${payment.status eq 'PENDING'}"
+								class="badge rounded-pill text-bg-warning">[[${payment.status}]]</span>
+								<span th:if="${payment.status eq 'SUCCESS'}"
+								class="badge rounded-pill text-bg-success">[[${payment.status}]]</span>
+								<span th:if="${payment.status eq 'REJECTED'}"
+								class="badge rounded-pill text-bg-danger">[[${payment.status}]]</span>
+							</td>
+							<td>[[${#dates.format(payment.createdTime,'dd-MMM-yyyyHH:mm')}]]</td>
+							<td><a th:href="@{/order/detail/{id}(id=${payment.id})}"
+								class="btn btn-link btn-lg btn-rounded"> <i
+									class="fa-solid fa-circle-info"></i>
+							</a></td>
+						</tr>
 					</tbody>
 				</table>
 
@@ -75,13 +94,14 @@
 					Are you sure want to delete? - <span id="deleteName"></span>
 				</div>
 				<div class="modal-footer">
-					<form th:action="@{/category/delete}" method="post" th:object="${category}">
+					<form th:action="@{/category/delete}" method="post"
+						th:object="${category}">
 						<div class="btnGp">
 							<input type="hidden" th:field="*{categoryId}" id="deleteId" />
 							<button type="button" class="btn btn-secondary"
 								data-bs-dismiss="modal">Close</button>
-							<button type="submit" class="btn btn-danger">Yes,
-								Delete it</button>
+							<button type="submit" class="btn btn-danger">Yes, Delete
+								it</button>
 						</div>
 					</form>
 				</div>

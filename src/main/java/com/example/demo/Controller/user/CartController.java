@@ -168,7 +168,7 @@ public class CartController {
 				model.addAttribute("errorMessage", "Payment information not found.");
 				return "user/cart/error";
 			}
-
+			payment.setStatus("PENDING");
 	        paymentRepository.save(payment);
 	        
 	     // 2. Order process
