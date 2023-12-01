@@ -24,19 +24,19 @@ import jakarta.validation.Valid;
 public class ProductController {
 	@Autowired
 	private ProductRepository productRepository;
-	
+
 	@Autowired
 	private CloudinaryImageService cloudinaryImageService;
 
 	@GetMapping("/product")
-	public String products(@RequestParam(name = "search", required = false) String query,Model model) {
+	public String products(@RequestParam(name = "search", required = false) String query, Model model) {
 		List<Product> products;
 		if (query != null && !query.isEmpty()) {
 			products = productRepository.searchProducts(query.trim());
-	    } else {
-	    	products = productRepository.findAll();
-	    }
-		 
+		} else {
+			products = productRepository.findAll();
+		}
+
 		model.addAttribute("products", products);
 		Product product = new Product();
 		model.addAttribute("product", product);
@@ -59,15 +59,16 @@ public class ProductController {
 		}
 
 		try {
-			String imageURL  = cloudinaryImageService.uploadFile(imagesFile);
+			String imageURL = cloudinaryImageService.uploadFile(imagesFile);
 			product.setThumbnailImage(imageURL);
+
 			productRepository.save(product);
-			
+
 		} catch (Exception e) {
 
 			e.printStackTrace();
 		}
-		
+
 		redirectAttributes.addFlashAttribute("success", "Product Add Successful!");
 		return "redirect:/product";
 	}
@@ -89,49 +90,47 @@ public class ProductController {
 	}
 
 	@PostMapping("/product/update/{id}")
-	public String productUpdate(@PathVariable("id") Integer id, 
-	                            @RequestParam(name = "thumbImages", required = false) MultipartFile imagesFile,
-	                            @Valid @ModelAttribute("product") Product product,
-	                            BindingResult bindingResult,
-	                            RedirectAttributes redirectAttributes, Model model) {
-	    if (bindingResult.hasErrors()) {
-	        return "/admin/product/update";
-	    }
+	public String productUpdate(@PathVariable("id") Integer id,
+			@RequestParam(name = "thumbImages", required = false) MultipartFile imagesFile,
+			@Valid @ModelAttribute("product") Product product, BindingResult bindingResult,
+			RedirectAttributes redirectAttributes, Model model) {
+		if (bindingResult.hasErrors()) {
+			return "/admin/product/update";
+		}
 
-	    Product existingProduct = productRepository.getReferenceById(id);
-	    // Check if a new image is provided
-	    if (imagesFile != null && !imagesFile.isEmpty()) {
-	        try {
-	            // Delete the existing thumbnail image
-	            cloudinaryImageService.deleteFile(existingProduct.getThumbnailImage());
+		Product existingProduct = productRepository.getReferenceById(id);
+		// Check if a new image is provided
+		if (imagesFile != null && !imagesFile.isEmpty()) {
+			try {
+				// Delete the existing thumbnail image
+				cloudinaryImageService.deleteFile(existingProduct.getThumbnailImage());
 
-	            // Upload and set the new thumbnail image
-	            String imageURL = cloudinaryImageService.uploadFile(imagesFile);
-	            existingProduct.setThumbnailImage(imageURL);
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	        }
-	    } else {
-	        // If no new image is provided, retain the existing thumbnail image
-	        product.setThumbnailImage(existingProduct.getThumbnailImage());
-	    }
+				// Upload and set the new thumbnail image
+				String imageURL = cloudinaryImageService.uploadFile(imagesFile);
+				existingProduct.setThumbnailImage(imageURL);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} else {
+			// If no new image is provided, retain the existing thumbnail image
+			product.setThumbnailImage(existingProduct.getThumbnailImage());
+		}
 
-	    // Update other product details
-	    existingProduct.setName(product.getName());
-	    existingProduct.setBrand(product.getBrand());
-	    existingProduct.setDescription(product.getDescription());
-	    existingProduct.setDiscount(product.getDiscount());
-	    existingProduct.setPrice(product.getPrice());
-	    existingProduct.setStock(product.getStock());
-	    existingProduct.setSubCategory(product.getSubCategory());
+		// Update other product details
+		existingProduct.setName(product.getName());
+		existingProduct.setBrand(product.getBrand());
+		existingProduct.setDescription(product.getDescription());
+		existingProduct.setDiscount(product.getDiscount());
+		existingProduct.setPrice(product.getPrice());
+		existingProduct.setStock(product.getStock());
+		existingProduct.setSubCategory(product.getSubCategory());
 
-	    // Save the updated product
-	    productRepository.save(existingProduct);
+		// Save the updated product
+		productRepository.save(existingProduct);
 
-	    redirectAttributes.addFlashAttribute("success", "Product Update Successful!");
-	    return "redirect:/product";
+		redirectAttributes.addFlashAttribute("success", "Product Update Successful!");
+		return "redirect:/product";
 	}
-
 
 	@PostMapping("/product/delete")
 	public String deleteProduct(@ModelAttribute("product") Product product, RedirectAttributes redirectAttributes,
@@ -140,7 +139,7 @@ public class ProductController {
 		Product existingProduct = productRepository.getReferenceById(product.getId());
 		if (existingProduct.getThumbnailImage() != null) {
 			try {
-				cloudinaryImageService.deleteFile(existingProduct.getThumbnailImage()); //delete img
+				cloudinaryImageService.deleteFile(existingProduct.getThumbnailImage()); // delete img
 
 			} catch (Exception e) {
 

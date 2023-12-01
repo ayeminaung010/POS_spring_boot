@@ -1,7 +1,8 @@
 package com.example.demo.daos;
 
-import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -12,5 +13,6 @@ public interface SubCategoryRepository extends JpaRepository<SubCategory, Intege
 
 	SubCategory findBySubCategoryName(String subCategoryName);
 	
-	List<SubCategory> findBySubCategoryNameContainingIgnoreCase(String query);
+	Page<SubCategory> findBySubCategoryNameContainingIgnoreCase(String query,Pageable pageable);
+	Page<SubCategory> findAll(Pageable pageable);
 }
