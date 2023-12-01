@@ -28,27 +28,26 @@ public class CategoryController {
 	private CategoryRepository categoryRepository;
 
 	@GetMapping("/category")
-	public String viewCategory(@RequestParam(name = "search", required = false) String query, 
+	public String viewCategory(@RequestParam(name = "search", required = false) String query,
 			@RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "createdTime") String sortBy,
 			Model model) {
-	    
-		Page<Category> categoriesPage;
-		PageRequest pageRequest = PageRequest.of(page - 1, size, Sort.by(sortBy).descending());
-	    if (query != null && !query.isEmpty()) {
-	    	categoriesPage = categoryRepository.findByCategoryNameContainingIgnoreCase(query.trim(),pageRequest);
-	    } else {
-	    	categoriesPage = categoryRepository.findAll(pageRequest);
-	    }
-	    
-	    List<Category> categories = categoriesPage.getContent();
-	    Category category = new Category();
-		model.addAttribute("category", category);
-		model.addAttribute("categories", categories);
-		model.addAttribute("currentPage", categoriesPage.getNumber() + 1);
-	    model.addAttribute("totalPages", categoriesPage.getTotalPages());
+	    Page<Category> categoryPage;
 
+	    PageRequest pageRequest = PageRequest.of(page - 1, size, Sort.by(sortBy).descending());
+	    
+	    if (query != null && !query.isEmpty()) {
+	    	categoryPage = categoryRepository.findByCategoryNameContainingIgnoreCase(query.trim(),pageRequest);
+	    } else {
+	    	categoryPage = categoryRepository.findAll(pageRequest);
+	    }
+	    List<Category> categoryList = categoryPage.getContent();
+	    model.addAttribute("categoryList", categoryList);
+	    Category category = new Category();
+	    model.addAttribute("category", category);
+	    model.addAttribute("currentPage", categoryPage.getNumber() + 1);
+	    model.addAttribute("totalPages", categoryPage.getTotalPages());
 	    return "admin/category/index";
 	}
 
