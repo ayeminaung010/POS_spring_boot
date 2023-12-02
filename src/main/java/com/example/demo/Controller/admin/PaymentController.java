@@ -62,9 +62,9 @@ public class PaymentController {
 		List<Payment> payments;
 		
 		if (query != null && !query.isEmpty()) {
-			payments = paymentRepository.findByTransactionIdContainingIgnoreCaseAndStatus(query.trim(),"REJECT");
+			payments = paymentRepository.findByTransactionIdContainingIgnoreCaseAndStatus(query.trim(),"REJECTED");
 		} else {
-			payments = paymentRepository.findByStatus("REJECT");
+			payments = paymentRepository.findByStatus("REJECTED");
 		}
 		model.addAttribute("payments", payments);
 		return "admin/payment-history/index";
