@@ -1,5 +1,11 @@
 package com.example.demo.model;
 
+import java.sql.Timestamp;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -48,5 +54,11 @@ public class Contact {
 	public void setMessage(String message) {
 		this.message = message;
 	}
+	@CreationTimestamp
+	@Column(name = "created_time")
+	private Timestamp createdTime;
+	@UpdateTimestamp
+	@Column(name = "updated_time")
+	private Timestamp updatedTime;
 	
 }

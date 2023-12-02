@@ -34,7 +34,7 @@ public class BrandController {
 			 Model model) {
 		
 		Page<Brand> brandsPage;
-		PageRequest pageRequest = PageRequest.of(page - 1, size, Sort.by(sortBy).descending());
+        PageRequest pageRequest = PageRequest.of(page - 1, size, Sort.by(sortBy).descending());
 		if (query != null && !query.isEmpty()) {
 			brandsPage = brandRepo.findByBrandNameContainingIgnoreCase(query.trim(), pageRequest);
 	    } else {
