@@ -587,6 +587,7 @@ ol {
 }
 
 .hero__categories > ul {
+	display: none;
 	border: 1px solid #ebebeb;
 	padding-left: 40px;
 	padding-top: 10px;
