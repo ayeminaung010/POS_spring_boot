@@ -53,7 +53,7 @@ public class Product {
 
 	//join table
 	@ManyToOne
-	@JoinColumn(name = "brandId", referencedColumnName = "brandId", nullable = true)
+	@JoinColumn(name = "brandId", referencedColumnName = "brandId")
 	private Brand brand;
 
 	@ManyToOne
@@ -185,7 +185,7 @@ public class Product {
 	public void setDiscountPrice(double discountPrice) {
 		this.discountPrice = discountPrice;
 	}
-	
-	
-
+	public Product() {
+        this.brand = null;
+    }
 }

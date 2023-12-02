@@ -11,11 +11,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.daos.UserRepository;
-import com.example.demo.model.Category;
-import com.example.demo.model.SubCategory;
 import com.example.demo.model.User;
 
 import jakarta.validation.Valid;
@@ -27,8 +26,15 @@ public class ManageUserController {
 	@Autowired
 	private UserRepository userRepo;
 	@GetMapping("/manageuser")
-	public String showUser(Model model) {
-		List<User> userList = userRepo.findAll();
+	public String showUser(@RequestParam(name = "search", required = false) String query,Model model) {
+		List<User> userList;
+		
+		if (query != null && !query.isEmpty()) {
+			userList = userRepo.searchUser(query.trim());
+		} else {
+			userList = userRepo.findAll();
+		}
+		
 		model.addAttribute("userList", userList);
 		User user = new User();
 		model.addAttribute("user", user);
@@ -51,15 +57,15 @@ public class ManageUserController {
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		String userPassword = passwordEncoder.encode(user.getPassword());
 		user.setPassword(userPassword);
-		
+		user.setRole("ADMIN");
+		if (existingEmail != null) {
+			bindingResult.rejectValue("email", "error.user", "Email already exists");
+			return "admin/manageuser/add";
+		}
 		if (existingName != null) {
-			if (existingEmail != null) {
-				bindingResult.rejectValue("email", "error.user", "Email already exists");
-			}
 			bindingResult.rejectValue("name", "error.user", "Name already exists");
 			return "admin/manageuser/add";
 		}
-		
 		userRepo.save(user);
 		redirectAttributes.addFlashAttribute("success", "User Add successful!!");
 		return "redirect:/manageuser";

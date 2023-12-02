@@ -19,18 +19,18 @@
 			</div>
 			<div id="sub_content">
 
-				<form class="row g-3">
+				<form action="/paymenttype" method="get" class="row g-3">
 					<div class="col-auto">
 						<label for="inputPassword2" class="visually-hidden">Payment-Type
-							Name</label> <input type="text" class="form-control"
-							placeholder="Payment-Type Name">
+							Name</label> <input type="text" name="search" th:value="${param.search}"
+							class="form-control" placeholder="Payment-Type Name">
 					</div>
 
 					<div class="col-auto">
 						<button type="submit" class="btn btn-primary mb-3">Search</button>
 					</div>
 					<div class="col-auto">
-						<button type="submit" class="btn btn-danger mb-3">Reset</button>
+						<a href="/paymenttype" class="btn btn-danger mb-3">Reset</a>
 					</div>
 					<div class="col-auto">
 						<a th:href="@{/paymenttype/add}" class="btn btn-info">Add New</a>
@@ -54,7 +54,8 @@
 						<tr th:each="paymenttype,state : ${paymentTypeList}">
 							<td th:text="${state.count}"></td>
 							<td th:text="${paymenttype.paymentTypeName}"></td>
-							<td >[[${#dates.format(paymenttype.createdTime,'dd-MMM-yyyy HH:mm')}]]</td>
+							<td>[[${#dates.format(paymenttype.createdTime,'dd-MMM-yyyy
+								HH:mm')}]]</td>
 							<td><a
 								th:href="@{/paymenttype/update/{id}(id =${paymenttype.paymentTypeId})}"
 								class="btn btn-link btn-lg btn-rounded"> <i
@@ -72,7 +73,7 @@
 			</div>
 		</div>
 	</div>
-	
+
 	<!-- Delete Modal -->
 	<div class="modal fade" id="deleteModal" tabindex="-1"
 		aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -88,12 +89,14 @@
 					Are you sure want to delete? - <span id="deleteName"></span>
 				</div>
 				<div class="modal-footer">
-					<form th:action="@{/paymenttype/delete}" method="post" th:object="${paymenttype}">
+					<form th:action="@{/paymenttype/delete}" method="post"
+						th:object="${paymenttype}">
 						<div class="btnGp">
 							<input type="hidden" th:field="*{paymentTypeId}" id="deleteId" />
 							<button type="button" class="btn btn-secondary"
 								data-bs-dismiss="modal">Close</button>
-							<button type="submit" class="btn btn-danger">Yes, Delete it</button>
+							<button type="submit" class="btn btn-danger">Yes, Delete
+								it</button>
 						</div>
 					</form>
 				</div>

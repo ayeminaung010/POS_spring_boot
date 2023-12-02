@@ -19,10 +19,10 @@
 
 			</div>
 			<div id="sub_content">
-				<form class="row g-3">
+				<form action="/brand" method="get"  class="row g-3">
 					<div class="col-auto">
 						<label for="inputPassword2" class="visually-hidden">Brand
-							Name</label> <input type="text" class="form-control"
+							Name</label> <input type="text" name="search" th:value="${param.search}" class="form-control"
 							placeholder="Brand Name">
 					</div>
 
@@ -30,7 +30,7 @@
 						<button type="submit" class="btn btn-primary mb-3">Search</button>
 					</div>
 					<div class="col-auto">
-						<button type="submit" class="btn btn-danger mb-3">Reset</button>
+						<a href="/brand" class="btn btn-danger mb-3">Reset</a>
 					</div>
 					<div class="col-auto">
 						<a th:href="@{/brand/add}" class="btn btn-info">Add New</a>
@@ -43,7 +43,7 @@
 				<div class="alert alert-danger" role="alert" th:text="${error}"
 					th:if="${error}"></div>
 					
-				<table class="table align-middle mb-0 bg-gray table-hover mt-3">
+				<table class="table align-middle mb-3 bg-gray table-hover mt-3">
 					<thead class="bg-light">
 						<tr>
 							<th scope="col">No</th>
@@ -71,6 +71,36 @@
 						</tr>
 					</tbody>
 				</table>
+				
+				<!-- Pagination Controls -->
+				<div th:if="${totalPages > 1}">
+					<nav aria-label="Page navigation example">
+						<ul class="pagination">
+							<li class="page-item"
+								th:class="${currentPage == 1 ? 'disabled' : ''}"><a
+								class="page-link"
+								th:href="@{/brand(page=1)}"
+								aria-label="Previous"> <span aria-hidden="true">&laquo;
+										Previous</span>
+							</a></li>
+							<li th:each="pageNumber : ${#numbers.sequence(1, totalPages)}"
+								class="page-item"
+								th:class="${pageNumber == currentPage ? 'active' : ''}"><a
+								class="page-link"
+								th:href="@{/brand(page=${pageNumber})}"
+								th:text="${pageNumber}"></a></li>
+							<li class="page-item"
+								th:class="${currentPage == totalPages ? 'disabled' : ''}">
+								<a class="page-link"
+								th:href="@{/brand(page=${totalPages})}"
+								aria-label="Next"> <span aria-hidden="true">Next
+										&raquo;</span>
+							</a>
+							</li>
+						</ul>
+					</nav>
+
+				</div>
 
 			</div>
 		</div>

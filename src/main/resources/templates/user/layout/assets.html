@@ -124,8 +124,8 @@
 								</a>
 									<ul class="header__menu__dropdown">
 										<li><a th:href="@{/user/profile}">Profile</a></li>
-										<li><a th:href="@{/user/changepassword}">Password
-												Change</a></li>
+										<li><a th:href="@{/user/changepassword}">Password Change</a></li>
+										<li><a th:href="@{/user/orderhistory}">Order History</a></li>	
 										<li class=" text-center mt-3">
 											<form th:action="@{/logout}" method="POST"
 												th:object="${client}">
@@ -146,8 +146,8 @@
 										class="fa fa-shopping-bag"></i> <span>[[${cartItemCount}]]</span></a></li>
 							</ul>
 							<div class="header__cart__price">
-								Total: <span>[[${#numbers.formatInteger(getTotalPrice,1)
-									}]] Ks</span>
+								Total: <span class="cart_header_price">[[${#numbers.formatInteger(getTotalPrice,1)
+									}]]</span><span>Ks</span>
 							</div>
 						</div>
 					</div>

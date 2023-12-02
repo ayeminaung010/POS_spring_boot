@@ -17,17 +17,22 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.daos.AddressRepository;
 import com.example.demo.daos.OrderProductRepository;
 import com.example.demo.daos.OrderRepository;
+import com.example.demo.daos.PaymentRepository;
 import com.example.demo.daos.ProductRepository;
 import com.example.demo.dto.CartItem;
 import com.example.demo.dto.ResponseHelper;
 import com.example.demo.model.Address;
 import com.example.demo.model.Order;
 import com.example.demo.model.OrderProducts;
+import com.example.demo.model.Payment;
 import com.example.demo.model.Product;
+import com.example.demo.service.CloudinaryImageService;
 import com.example.demo.service.UserOwnDetail;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -42,19 +47,24 @@ public class CartController {
 
 	@Autowired
 	ObjectMapper objectMapper;
-	
+
 	@Autowired
 	private AddressRepository addressRepository;
-	
+
 	@Autowired
 	private ProductRepository productRepository;
-	
+
 	@Autowired
 	OrderRepository orderRepository;
-	
+
 	@Autowired
 	OrderProductRepository orderProductRepository;
-	
+
+	@Autowired
+	CloudinaryImageService cloudinaryImageService;
+
+	@Autowired
+	PaymentRepository paymentRepository;
 
 	@PostMapping("/api/v1/updateCart")
 	public ResponseEntity<Object> updateCart(@RequestBody List<CartItem> cartItem) {
@@ -91,34 +101,37 @@ public class CartController {
 			return ResponseEntity.status(500).body("Error retrieving cart: " + e.getMessage());
 		}
 	}
-	
+
 	@GetMapping("/cart")
 	public String cart(Model model) {
-		 // get the cart from session
+		// get the cart from session
 		try {
 			Double totalPrice = 0.0;
 			String cartItemJson = (String) session.getAttribute("cart");
-            if(cartItemJson != null  && !cartItemJson.isEmpty()) {
-            	List<CartItem> cartItems = objectMapper.readValue(cartItemJson,new TypeReference<List<CartItem>>() {});
-                
-            	for (CartItem cartItem : cartItems) {
-    				totalPrice += cartItem.getPrice();
-    			}
-            	model.addAttribute("cartItems",cartItems);
-            }
-            model.addAttribute("totalPrice",totalPrice);
-            
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+			if (cartItemJson != null && !cartItemJson.isEmpty()) {
+				List<CartItem> cartItems = objectMapper.readValue(cartItemJson, new TypeReference<List<CartItem>>() {
+				});
+
+				for (CartItem cartItem : cartItems) {
+					totalPrice += cartItem.getPrice();
+				}
+				model.addAttribute("cartItems", cartItems);
+			}
+			model.addAttribute("totalPrice", totalPrice);
+
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
 		return "user/cart/index";
 	}
-	
+
 	@GetMapping("/cart/payment")
-	public String payment() {
+	public String payment(Model model) {
+		Payment payment = new Payment();
+		model.addAttribute("payment", payment);
 		return "user/cart/payment";
 	}
-	
+
 	@GetMapping("/cart/address")
 	public String address(Model model) {
 		calculateTotalPrice(model);
@@ -126,33 +139,39 @@ public class CartController {
 		model.addAttribute("address", address);
 		return "user/cart/address";
 	}
-	
+
 	@PostMapping("/cart/order")
 	@Transactional
-	public String order(@ModelAttribute("address") @Valid Address address,
-	                    BindingResult bindingResult,
-	                    Model model,
-	                    @AuthenticationPrincipal UserOwnDetail loginUser) {
-	    try {
-	        double totalPrice = calculateTotalPrice(model);
+	public String order(@ModelAttribute("address") @Valid Address address, BindingResult bindingResult, Model model,
+			@AuthenticationPrincipal UserOwnDetail loginUser) {
+		try {
+			double totalPrice = calculateTotalPrice(model);
 
-	        if (bindingResult.hasErrors()) {
-	            // If there are validation errors, return to the address form
-	            return "user/cart/address";
-	        }
+			if (bindingResult.hasErrors()) {
+				// If there are validation errors, return to the address form
+				return "user/cart/address";
+			}
 
-	        String cartItemJson = (String) session.getAttribute("cart");
-	        if (cartItemJson == null || cartItemJson.isEmpty()) {
-	            // Handle the case where the cart is empty
-	            model.addAttribute("errorMessage", "Your cart is empty.");
-	            return "user/cart/error";
-	        }
+			String cartItemJson = (String) session.getAttribute("cart");
+			if (cartItemJson == null || cartItemJson.isEmpty()) {
+				// Handle the case where the cart is empty
+				model.addAttribute("error", "Your cart is empty.");
+				return "user/cart/address";
+			}
 
-	        List<CartItem> cartItem = objectMapper.readValue(cartItemJson, new TypeReference<List<CartItem>>() {});
+			List<CartItem> cartItem = objectMapper.readValue(cartItemJson, new TypeReference<List<CartItem>>() {
+			});
 
-	        // 1. Payment process (if applicable)
-
-	        // 2. Order process
+			// 1. Payment process (if applicable)
+			Payment payment = (Payment) session.getAttribute("payment");
+			if (payment == null) {
+				model.addAttribute("error", "Payment information not found.");
+				return "user/cart/address";
+			}
+			payment.setStatus("PENDING");
+	        paymentRepository.save(payment);
+	        
+	     // 2. Order process
 	        Order order = new Order();
 	        order.setTotalPrice(totalPrice);
 	        Address savedAddress = addressRepository.save(address);
@@ -160,6 +179,7 @@ public class CartController {
 	        order.setOrderNumber(generateOrderNumber());
 	        order.setStatus("PENDING");
 	        order.setUser(loginUser.getUser());
+	        order.setPayment(payment);
 
 	        // Save the order first
 	        orderRepository.save(order);
@@ -179,8 +199,8 @@ public class CartController {
 	            int remainingStock = product.getStock() - cart.getQuantity();
 	            if (remainingStock < 0) {
 	                // Handle insufficient stock
-	                model.addAttribute("errorMessage", "Insufficient stock for product: " + product.getName());
-	                return "user/cart/error";
+	                model.addAttribute("error", "Insufficient stock for product: " + product.getName());
+	                return "user/cart/address";
 	            }
 
 	            product.setStock(remainingStock);
@@ -200,20 +220,49 @@ public class CartController {
 
 	        // Remove cart from session
 	        session.removeAttribute("cart");
+	        session.removeAttribute("payment");
 
-	        return "user/cart/successOrder";
-	    } catch (Exception e) {
-	        // Log the error and handle accordingly
-	        System.out.println("Order Error: " + e);
-	        model.addAttribute("errorMessage", "An error occurred during order processing.");
-	        return "user/cart/error";
-	    }
+			// add here
+			return "user/cart/successOrder";
+		} catch (Exception e) {
+			// Log the error and handle accordingly
+			System.out.println("Order Error: " + e);
+			model.addAttribute("error", "An error occurred during order processing.");
+			return "user/cart/address";
+		}
 	}
 
+	@PostMapping("/cart/payment/process")
+	public String processPayment(@RequestParam(name = "screenshot", required = false) MultipartFile screenshot,
+			@ModelAttribute("payment") @Valid Payment payment, BindingResult bindingResult, Model model) {
+		try {
+			String imageURL = cloudinaryImageService.uploadFile(screenshot);
+			payment.setScreenshot(imageURL);
+			session.setAttribute("payment", payment);
+		} catch (Exception e) {
 
+			e.printStackTrace();
+		}
+		calculateTotalPrice(model);
+		Address address = new Address();
+		model.addAttribute("address", address);
+		return "user/cart/address";
+	}
 
 	
-	//calculate total price
+	//paypal ajax
+	@PostMapping("/cart/payment/paypal_process")
+	public ResponseEntity<Object> paypalAjax(@RequestBody Payment payment){
+		session.setAttribute("payment", payment);
+		ResponseHelper responseHelper = new ResponseHelper();
+		responseHelper.setMessage("success");
+		responseHelper.setData(payment);
+		responseHelper.setStatus(true);
+		return ResponseEntity.ok(responseHelper);
+	}
+	
+	
+	// calculate total price
 	public Double calculateTotalPrice(Model model) {
 		try {
 			String cartItemJson = (String) session.getAttribute("cart");
@@ -222,35 +271,31 @@ public class CartController {
 			if (cartItemJson != null) {
 				List<CartItem> cartItem = objectMapper.readValue(cartItemJson, new TypeReference<List<CartItem>>() {
 				});
-				
+
 				for (CartItem cart : cartItem) {
 					Double productTotalPrice = cart.getPrice() * cart.getQuantity();
 					totalPrice += productTotalPrice;
 				}
 				totalPrice = totalPrice + deliveryFee;
-				model.addAttribute("totalPrice" , totalPrice);
+				model.addAttribute("totalPrice", totalPrice);
 				return totalPrice;
-			} 
+			}
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
 		return null;
 	}
-	
-	//generate order number
-	  public static String generateOrderNumber() {
-	        // Use the current timestamp
-	        String timestamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
 
-	        // Generate a random 5-digit number
-	        Random random = new Random();
-	        int randomDigits = random.nextInt(100000);
+	// generate order number
+	public static String generateOrderNumber() {
+		// Use the current timestamp
+		String timestamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
 
-	        // Combine timestamp and random number to create the order number
-	        return "ORDER_POS_" + timestamp + String.format("%05d", randomDigits);
-	    }
-	
-	
+		// Generate a random 5-digit number
+		Random random = new Random();
+		int randomDigits = random.nextInt(100000);
 
+		// Combine timestamp and random number to create the order number
+		return "ORDER_POS_" + timestamp + String.format("%05d", randomDigits);
+	}
 }
-

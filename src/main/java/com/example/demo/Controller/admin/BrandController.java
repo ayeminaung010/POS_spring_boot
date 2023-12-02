@@ -3,6 +3,9 @@ package com.example.demo.Controller.admin;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -10,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.daos.BrandRepository;
@@ -23,11 +27,27 @@ public class BrandController {
 	private BrandRepository brandRepo;
 
 	@GetMapping("/brand")
-	public String viewBrand(Model model) {
-		List<Brand> brands = brandRepo.findAll();
-		model.addAttribute("brands", brands);
+	public String viewBrand(@RequestParam(name = "search", required = false) String query,
+			 @RequestParam(defaultValue = "1") int page,
+	         @RequestParam(defaultValue = "10") int size,
+	         @RequestParam(defaultValue = "createdTime") String sortBy,
+			 Model model) {
+		
+		Page<Brand> brandsPage;
+		PageRequest pageRequest = PageRequest.of(page - 1, size, Sort.by(sortBy).descending());
+		if (query != null && !query.isEmpty()) {
+			brandsPage = brandRepo.findByBrandNameContainingIgnoreCase(query.trim(), pageRequest);
+	    } else {
+	    	brandsPage = brandRepo.findAll(pageRequest);
+	    }
+		List<Brand> brands = brandsPage.getContent();
 		Brand brand = new Brand();
 		model.addAttribute("brand", brand);
+		model.addAttribute("brands", brands);
+		
+		model.addAttribute("currentPage", brandsPage.getNumber() + 1);
+	    model.addAttribute("totalPages", brandsPage.getTotalPages());
+	    
 		return "admin/brand/index";
 	}
 

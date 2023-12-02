@@ -20,18 +20,18 @@
 			</div>
 			<div id="sub_content">
 
-				<form class="row g-3">
+				<form action="/category" method="get" class="row g-3">
 					<div class="col-auto">
 						<label for="inputPassword2" class="visually-hidden">Category
-							Name</label> <input type="text" class="form-control"
-							placeholder="Category Name">
+							Name</label> <input type="text" th:value="${param.search}" name="search"
+							value="" class="form-control" placeholder="Category Name">
 					</div>
 
 					<div class="col-auto">
 						<button type="submit" class="btn btn-primary mb-3">Search</button>
 					</div>
 					<div class="col-auto">
-						<button type="submit" class="btn btn-danger mb-3">Reset</button>
+						<a href="/category" class="btn btn-danger mb-3">Reset</a>
 					</div>
 					<div class="col-auto">
 						<a th:href="@{/category/add}" class="btn btn-info">Add New</a>
@@ -57,24 +57,51 @@
 						<tr th:each="category,state : ${categoryList}">
 							<td th:text="${state.count}"></td>
 							<td th:text="${category.categoryName}"></td>
-							<td >[[${#dates.format(category.createdTime,'dd-MMM-yyyy HH:mm')}]]</td>
-							<td>
-								<a
-									th:href="@{/category/update/{id}(id =${category.categoryId})}"
-									class="btn btn-link btn-lg btn-rounded"> <i
-										class="fa-solid fa-pen-to-square"></i>
-								</a> 
-								<!--<a
+							<td>[[${#dates.format(category.createdTime,'dd-MMM-yyyy
+								HH:mm')}]]</td>
+							<td><a
+								th:href="@{/category/update/{id}(id =${category.categoryId})}"
+								class="btn btn-link btn-lg btn-rounded"> <i
+									class="fa-solid fa-pen-to-square"></i>
+							</a> <!--<a
 									th:attr="data-categoryId=${category.categoryId} , data-categoryName=${category.categoryName}"
 									th:onclick="openDeleteModal(this)"
 									class="btn btn-link text-danger btn-lg btn-rounded"> <i
 										class="fa-regular fa-trash-can"></i>
-								</a>-->
-							</td>
+								</a>--></td>
 						</tr>
 					</tbody>
 				</table>
-
+				
+				<!-- Pagination Controls -->
+				<div th:if="${totalPages > 1}">
+					<nav aria-label="Page navigation example">
+						<ul class="pagination">
+							<li class="page-item"
+								th:class="${currentPage == 1 ? 'disabled' : ''}"><a
+								class="page-link"
+								th:href="@{/category(page=1)}"
+								aria-label="Previous"> <span aria-hidden="true">&laquo;
+										Previous</span>
+							</a></li>
+							<li th:each="pageNumber : ${#numbers.sequence(1, totalPages)}"
+								class="page-item"
+								th:class="${pageNumber == currentPage ? 'active' : ''}"><a
+								class="page-link"
+								th:href="@{/category(page=${pageNumber})}"
+								th:text="${pageNumber}"></a></li>
+							<li class="page-item"
+								th:class="${currentPage == totalPages ? 'disabled' : ''}">
+								<a class="page-link"
+								th:href="@{/category(page=${totalPages})}"
+								aria-label="Next"> <span aria-hidden="true">Next
+										&raquo;</span>
+							</a>
+							</li>
+						</ul>
+					</nav>
+				</div>
+				
 			</div>
 		</div>
 	</div>
@@ -95,13 +122,14 @@
 					Are you sure want to delete? - <span id="deleteName"></span>
 				</div>
 				<div class="modal-footer">
-					<form th:action="@{/category/delete}" method="post" th:object="${category}">
+					<form th:action="@{/category/delete}" method="post"
+						th:object="${category}">
 						<div class="btnGp">
 							<input type="hidden" th:field="*{categoryId}" id="deleteId" />
 							<button type="button" class="btn btn-secondary"
 								data-bs-dismiss="modal">Close</button>
-							<button type="submit" class="btn btn-danger">Yes,
-								Delete it</button>
+							<button type="submit" class="btn btn-danger">Yes, Delete
+								it</button>
 						</div>
 					</form>
 				</div>

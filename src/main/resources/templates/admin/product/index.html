@@ -20,10 +20,10 @@
 			</div>
 			<div id="sub_content">
 
-				<form class="row g-3">
+				<form action="/product" method="get" class="row g-3">
 					<div class="col-auto">
 						<label for="inputPassword2" class="visually-hidden">Product
-							Name</label> <input type="text" class="form-control"
+							Name</label> <input type="text" name="search" th:value="${param.search}" class="form-control"
 							placeholder="Product Name">
 					</div>
 
@@ -31,7 +31,7 @@
 						<button type="submit" class="btn btn-primary mb-3">Search</button>
 					</div>
 					<div class="col-auto">
-						<button type="submit" class="btn btn-danger mb-3">Reset</button>
+						<a href="/product" class="btn btn-danger mb-3">Reset</a>
 					</div>
 					<div class="col-auto">
 						<a th:href="@{/product/add}" class="btn btn-info">Add New</a>
@@ -57,7 +57,7 @@
 						<tr th:each="product,state : ${products}">
 							<td>[[${state.count}]]</td>
 							<td>[[${product.name}]]</td>
-							<td>[[${product.price}]] MMK</td>
+							<td>[[${product.price}]] Ks</td>
 							<td>
 							<span
 								class="productStock text-danger " style="font-weight: bold;" th:if="${product.stock eq 0}">Out
@@ -84,6 +84,33 @@
 
 					</tbody>
 				</table>
+				
+				<!-- Pagination Controls -->
+				<div th:if="${totalPages > 1}">
+					<nav aria-label="Page navigation example">
+						<ul class="pagination">
+							<li class="page-item"
+								th:class="${currentPage == 1 ? 'disabled' : ''}"><a
+								class="page-link" th:href="@{/product(page=1)}"
+								aria-label="Previous"> <span aria-hidden="true">&laquo;
+										Previous</span>
+							</a></li>
+							<li th:each="pageNumber : ${#numbers.sequence(1, totalPages)}"
+								class="page-item"
+								th:class="${pageNumber == currentPage ? 'active' : ''}"><a
+								class="page-link" th:href="@{/product(page=${pageNumber})}"
+								th:text="${pageNumber}"></a></li>
+							<li class="page-item"
+								th:class="${currentPage == totalPages ? 'disabled' : ''}">
+								<a class="page-link"
+								th:href="@{/product(page=${totalPages})}" aria-label="Next">
+									<span aria-hidden="true">Next &raquo;</span>
+							</a>
+							</li>
+						</ul>
+					</nav>
+
+				</div>
 			</div>
 		</div>
 	</div>

@@ -78,8 +78,8 @@
 					<div class="dropdown" id="shop">
 						<a class="btn " data-bs-toggle="collapse" href="#adminManage"
 							role="button" aria-expanded="true"
-							aria-controls="collapseExample"> <i
-							class="fa-solid fa-users-line"></i>Shop Management <i
+							aria-controls="collapseExample">
+							<i class="fa-solid fa-shop"></i>Shop Management <i
 							class="fa fa-caret-down"></i>
 						</a>
 					</div>
@@ -126,21 +126,21 @@
 						<ul class="list-group bg-primary-subtle bg-opacity-75">
 							<li><a
 								th:class="${servletPath == '/order/all'} ? 'active' : ''"
-								class="dropdown-item" th:href="@{/order/all}"> <i
-									class="fa-solid fa-list-check"></i>All Orders
+								class="dropdown-item" th:href="@{/order/all}"><i
+								 class="fa-solid fa-cart-flatbed-suitcase"></i>All Orders
 							</a></li>
 							<li><a
 								th:class="${servletPath == '/order/pending'} ? 'active' : ''"
-								class="dropdown-item" th:href="@{/order/pending}"> <i
-									class="fa-solid fa-table-list"></i>Pending Orders
+								class="dropdown-item" th:href="@{/order/pending}"><i 
+								class="fa-regular fa-hourglass-half"></i>Pending Orders
 							</a></li>
 							<li><a th:class="${servletPath == '/order/success'} ? 'active' : ''"
-								class="dropdown-item" th:href="@{/order/success}"><i
-									class="fa-brands fa-slack"></i>Success Orders
+								class="dropdown-item" th:href="@{/order/success}"><i 
+								class="fa-solid fa-check-double"></i>Success Orders
 							</a></li>
 							<li><a th:class="${servletPath == '/order/reject'} ? 'active' : ''"
-								class="dropdown-item" th:href="@{/order/reject}"><i
-									class="fa-brands fa-slack"></i>Reject Orders
+								class="dropdown-item" th:href="@{/order/reject}"><i 
+								class="fa-solid fa-rectangle-xmark"></i>Reject Orders
 							</a></li>
 						</ul>
 					</div>
@@ -158,21 +158,21 @@
 						<ul class="list-group bg-primary-subtle bg-opacity-75">
 							<li><a
 								th:class="${servletPath == '/payment/all'} ? 'active' : ''"
-								class="dropdown-item" th:href="@{/payment/all}"> <i
-									class="fa-solid fa-list-check"></i>All Payments
+								class="dropdown-item" th:href="@{/payment/all}"> <i 
+								class="fa-solid fa-credit-card"></i>All Payments
 							</a></li>
 							<li><a
 								th:class="${servletPath == '/payment/pending'} ? 'active' : ''"
-								class="dropdown-item" th:href="@{/payment/pending}"> <i
-									class="fa-solid fa-table-list"></i>Pending Payments
+								class="dropdown-item" th:href="@{/payment/pending}"><i 
+								class="fa-solid fa-spinner"></i>Pending Payments
 							</a></li>
 							<li><a th:class="${servletPath == '/payment/success'} ? 'active' : ''"
 								class="dropdown-item" th:href="@{/payment/success}"><i
-									class="fa-brands fa-slack"></i>Success Payments
+								 class="fa-regular fa-thumbs-up"></i>Success Payments
 							</a></li>
 							<li><a th:class="${servletPath == '/payment/reject'} ? 'active' : ''"
-								class="dropdown-item" th:href="@{/payment/reject}"><i
-									class="fa-brands fa-slack"></i>Reject Payments
+								class="dropdown-item" th:href="@{/payment/reject}"><i 
+								class="fa-solid fa-comment-slash"></i>Reject Payments
 							</a></li>
 						</ul>
 					</div>

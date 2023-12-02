@@ -44,7 +44,7 @@
 
 	<!-- Shoping Cart Section Begin -->
 	<section class="shoping-cart spad">
-		<div th:if="${cartItems != null  and not  cartItems.isEmpty()}" class="container">
+		<div th:if="${cartItems != null  and not  cartItems.isEmpty()}" class="container cartContainer">
 			<div class="row">
 				<div class="col-lg-12">
 					<div class="shoping__cart__table">
@@ -118,8 +118,8 @@
 				</div>
 			</div>
 		</div>
-
-		<div th:if="${cartItems == null or  cartItems.isEmpty()}">
+		<div class="emptyCart"></div>
+		<div th:if="${cartItems == null or  cartItems.isEmpty()}" >
 			<div class=" text-center">
 				<i class="fa fa-shopping-bag " style="font-size: 50px;"></i>
 				<h2>Empty Cart</h2>
@@ -270,12 +270,25 @@
 		        // Update session storage
 		        sessionStorage.setItem("cart", JSON.stringify(storedCart));
 				console.log(storedCart);
+				if(storedCart.length === 0){
+		        	$(".cartContainer").remove();
+		        	$(".emptyCart").html(`
+		        			
+		        			<div class=" text-center">
+		    				<i class="fa fa-shopping-bag " style="font-size: 50px;"></i>
+		    				<h2>Empty Cart</h2>
+		    				<a href="/shop" class="btn btn-main mt-5">Go To Shopping</a>
+		    			</div>
+		        			`)
+		        }
 		        // Remove the row from the UI
 		        row.remove();
 
 		        calculateSubtotalAndTotal();
-
+		        
 		        sendCartToBackend();
+		        
+		        
 		    }
 		})
 		
