@@ -3,6 +3,9 @@ package com.example.demo.Controller.admin;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,19 +28,29 @@ import jakarta.validation.Valid;
 public class ManageUserController {
 	@Autowired
 	private UserRepository userRepo;
+	
 	@GetMapping("/manageuser")
-	public String showUser(@RequestParam(name = "search", required = false) String query,Model model) {
-		List<User> userList;
+	public String showUser(@RequestParam(name = "search", required = false) String query,
+			@RequestParam(defaultValue = "1") int page,
+	         @RequestParam(defaultValue = "10") int size,
+	         @RequestParam(defaultValue = "createdTime") String sortBy,
+			Model model) {
+		
+		Page<User> usersPage;
+		PageRequest pageRequest = PageRequest.of(page - 1, size, Sort.by(sortBy).descending());
 		
 		if (query != null && !query.isEmpty()) {
-			userList = userRepo.searchUser(query.trim());
+			usersPage = userRepo.findByNameContainingIgnoreCase(query.trim(), pageRequest);
 		} else {
-			userList = userRepo.findAll();
+			usersPage = userRepo.findAll(pageRequest);
 		}
-		
-		model.addAttribute("userList", userList);
+		List<User> users = usersPage.getContent();
 		User user = new User();
 		model.addAttribute("user", user);
+		model.addAttribute("userList", users);
+		model.addAttribute("currentPage", usersPage.getNumber() + 1);
+	    model.addAttribute("totalPages", usersPage.getTotalPages());
+	    
 		return "admin/manageuser/index";			
 	}
 	
