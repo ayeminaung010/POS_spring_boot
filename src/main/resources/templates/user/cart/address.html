@@ -38,6 +38,12 @@
 				<h4>Billing Details</h4>
 				<form th:action="@{/cart/order}" method="post"
 					th:object="${address}">
+					<div class="alert alert-success" role="alert" th:text="${success}"
+						th:if="${success}"></div>
+
+					<div class="alert alert-danger" role="alert" th:text="${error}"
+						th:if="${error}"></div>
+
 					<div class="row">
 						<div class="col-lg-8 col-md-6">
 							<div class="row">
