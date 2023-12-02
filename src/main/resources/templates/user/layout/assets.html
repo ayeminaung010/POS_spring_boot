@@ -125,7 +125,8 @@
 									<ul class="header__menu__dropdown">
 										<li><a th:href="@{/user/profile}">Profile</a></li>
 										<li><a th:href="@{/user/changepassword}">Password Change</a></li>
-										<li><a th:href="@{/user/orderhistory}">Order History</a></li>	
+										<li><a th:href="@{/user/orderhistory}">Order History</a></li>
+										<li><a th:href="@{/user/paymenthistory}">Payment History</a></li>
 										<li class=" text-center mt-3">
 											<form th:action="@{/logout}" method="POST"
 												th:object="${client}">

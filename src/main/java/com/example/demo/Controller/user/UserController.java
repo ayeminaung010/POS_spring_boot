@@ -15,9 +15,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.daos.OrderProductRepository;
 import com.example.demo.daos.OrderRepository;
+import com.example.demo.daos.PaymentRepository;
 import com.example.demo.daos.UserRepository;
 import com.example.demo.model.Order;
 import com.example.demo.model.OrderProducts;
+import com.example.demo.model.Payment;
 import com.example.demo.model.User;
 import com.example.demo.service.UserOwnDetail;
 
@@ -33,6 +35,9 @@ public class UserController {
 	
 	@Autowired
 	OrderProductRepository orderProductRepository;
+	
+	@Autowired
+	PaymentRepository paymentRepository;
 	
 	@GetMapping("/home")
 	public String home(Model model,HttpSession session) {
@@ -145,6 +150,33 @@ public class UserController {
 		model.addAttribute("orderProducts", orderProducts);
 		return "user/account/orderDetail";
 	}
+	
+	@GetMapping("/user/paymenthistory")
+	public String showPaymentHistory(String query,Model model) {
+		
+		List<Payment> payments;
+
+		if (query != null && !query.isEmpty()) {
+			payments = paymentRepository.findByTransactionIdContainingIgnoreCase(query.trim());
+		} else {
+			payments = paymentRepository.findAll();
+		}
+		model.addAttribute("payments", payments);
+		return "user/account/paymentHistory";
+
+	}
+	//@GetMapping("/paymenthistory/detail/{id}")
+	//public String PaymentHistoryDetail(String query, Model model) {
+		
+//		List<Payment> payments;
+//		if (query != null && !query.isEmpty()) {
+//			payments = paymentRepository.findByTransactionIdContainingIgnoreCase(query.trim());
+//		} else {
+//			payments = paymentRepository.findAll();
+//		}
+//		model.addAttribute("payments", payments);
+//		return "user/account/paymentDetail";
+	//}
 	
 	
 }
