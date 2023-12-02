@@ -155,8 +155,8 @@ public class CartController {
 			String cartItemJson = (String) session.getAttribute("cart");
 			if (cartItemJson == null || cartItemJson.isEmpty()) {
 				// Handle the case where the cart is empty
-				model.addAttribute("errorMessage", "Your cart is empty.");
-				return "user/cart/error";
+				model.addAttribute("error", "Your cart is empty.");
+				return "user/cart/address";
 			}
 
 			List<CartItem> cartItem = objectMapper.readValue(cartItemJson, new TypeReference<List<CartItem>>() {
@@ -165,10 +165,10 @@ public class CartController {
 			// 1. Payment process (if applicable)
 			Payment payment = (Payment) session.getAttribute("payment");
 			if (payment == null) {
-				model.addAttribute("errorMessage", "Payment information not found.");
-				return "user/cart/error";
+				model.addAttribute("error", "Payment information not found.");
+				return "user/cart/address";
 			}
-
+			payment.setStatus("PENDING");
 	        paymentRepository.save(payment);
 	        
 	     // 2. Order process
@@ -199,8 +199,8 @@ public class CartController {
 	            int remainingStock = product.getStock() - cart.getQuantity();
 	            if (remainingStock < 0) {
 	                // Handle insufficient stock
-	                model.addAttribute("errorMessage", "Insufficient stock for product: " + product.getName());
-	                return "user/cart/error";
+	                model.addAttribute("error", "Insufficient stock for product: " + product.getName());
+	                return "user/cart/address";
 	            }
 
 	            product.setStock(remainingStock);
@@ -227,8 +227,8 @@ public class CartController {
 		} catch (Exception e) {
 			// Log the error and handle accordingly
 			System.out.println("Order Error: " + e);
-			model.addAttribute("errorMessage", "An error occurred during order processing.");
-			return "user/cart/error";
+			model.addAttribute("error", "An error occurred during order processing.");
+			return "user/cart/address";
 		}
 	}
 
@@ -243,6 +243,7 @@ public class CartController {
 
 			e.printStackTrace();
 		}
+		calculateTotalPrice(model);
 		Address address = new Address();
 		model.addAttribute("address", address);
 		return "user/cart/address";

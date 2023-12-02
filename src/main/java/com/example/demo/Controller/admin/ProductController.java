@@ -3,6 +3,9 @@ package com.example.demo.Controller.admin;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -29,17 +32,26 @@ public class ProductController {
 	private CloudinaryImageService cloudinaryImageService;
 
 	@GetMapping("/product")
-	public String products(@RequestParam(name = "search", required = false) String query, Model model) {
-		List<Product> products;
+	public String products(@RequestParam(name = "search", required = false) String query,
+			@RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "createdTime") String sortBy,
+			Model model) {
+		Page<Product> productPage;
+		PageRequest pageRequest = PageRequest.of(page - 1, size, Sort.by(sortBy).descending());
 		if (query != null && !query.isEmpty()) {
-			products = productRepository.searchProducts(query.trim());
+			productPage = productRepository.searchProducts(query.trim(),pageRequest);
 		} else {
-			products = productRepository.findAll();
+			productPage = productRepository.findAll(pageRequest);
 		}
-
+		List<Product> products = productPage.getContent();
 		model.addAttribute("products", products);
 		Product product = new Product();
 		model.addAttribute("product", product);
+		
+	    model.addAttribute("currentPage", productPage.getNumber() + 1);
+	    model.addAttribute("totalPages", productPage.getTotalPages());
+	    
 		return "admin/product/index";
 	}
 
