@@ -32,9 +32,7 @@
 					<div class="col-auto">
 						<a href="/order/reject" class="btn btn-danger mb-3">Reset</a>
 					</div>
-					<div class="col-auto">
-						<a th:href="@{/category/add}" class="btn btn-info">Add New</a>
-					</div>
+
 				</form>
 				<div class="alert alert-success" role="alert" th:text="${success}"
 					th:if="${success}"></div>
@@ -71,6 +69,32 @@
 					</tbody>
 				</table>
 
+				<!-- Pagination Controls -->
+				<div th:if="${totalPages > 1}">
+					<nav aria-label="Page navigation example">
+						<ul class="pagination">
+							<li class="page-item"
+								th:class="${currentPage == 1 ? 'disabled' : ''}"><a
+								class="page-link" th:href="@{/order/reject(page=1)}"
+								aria-label="Previous"> <span aria-hidden="true">&laquo;
+										Previous</span>
+							</a></li>
+							<li th:each="pageNumber : ${#numbers.sequence(1, totalPages)}"
+								class="page-item"
+								th:class="${pageNumber == currentPage ? 'active' : ''}"><a
+								class="page-link" th:href="@{/order/reject(page=${pageNumber})}"
+								th:text="${pageNumber}"></a></li>
+							<li class="page-item"
+								th:class="${currentPage == totalPages ? 'disabled' : ''}">
+								<a class="page-link" th:href="@{/order/reject(page=${totalPages})}"
+								aria-label="Next"> <span aria-hidden="true">Next
+										&raquo;</span>
+							</a>
+							</li>
+						</ul>
+					</nav>
+				</div>
+				
 			</div>
 		</div>
 	</div>

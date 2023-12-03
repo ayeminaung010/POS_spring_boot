@@ -35,7 +35,7 @@
 						<a href="/manageuser" class="btn btn-danger mb-3">Reset</a>
 					</div>
 					<div class="col-auto">
-						<a th:href="@{/manageuser/add}" class="btn btn-info">Admin Add</a>
+						<a th:href="@{/manageuser/add}" class="btn btn-info">NEW ADMIN</a>
 					</div>
 				</form>
 				
@@ -81,6 +81,36 @@
 						</tr>
 					</tbody>
 				</table>
+				
+				<!-- Pagination Controls -->
+				<div th:if="${totalPages > 1}">
+					<nav aria-label="Page navigation example">
+						<ul class="pagination">
+							<li class="page-item"
+								th:class="${currentPage == 1 ? 'disabled' : ''}"><a
+								class="page-link"
+								th:href="@{/contactmessage(page=1)}"
+								aria-label="Previous"> <span aria-hidden="true">&laquo;
+										Previous</span>
+							</a></li>
+							<li th:each="pageNumber : ${#numbers.sequence(1, totalPages)}"
+								class="page-item"
+								th:class="${pageNumber == currentPage ? 'active' : ''}"><a
+								class="page-link"
+								th:href="@{/contactmessage(page=${pageNumber})}"
+								th:text="${pageNumber}"></a></li>
+							<li class="page-item"
+								th:class="${currentPage == totalPages ? 'disabled' : ''}">
+								<a class="page-link"
+								th:href="@{/contactmessage(page=${totalPages})}"
+								aria-label="Next"> <span aria-hidden="true">Next
+										&raquo;</span>
+							</a>
+							</li>
+						</ul>
+					</nav>
+
+				</div>
 
 			</div>
 		</div>

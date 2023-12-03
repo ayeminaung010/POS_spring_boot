@@ -35,19 +35,169 @@
 				<tbody>
 					<tr th:each="orderProduct,state : ${orderProducts}">
 						<td>[[${state.count}]]</td>
-						<td>
-							<a th:href="@{/product/details/{id}(id=${orderProduct.product.id})}" class=" text-decoration-none fw-medium text-black">[[${orderProduct.product.name}]]</a>
+						<td><a
+							th:href="@{/product/details/{id}(id=${orderProduct.product.id})}"
+							class=" text-decoration-none fw-medium text-black">[[${orderProduct.product.name}]]</a>
 						</td>
-						<td>
-						<a th:href="@{/product/details/{id}(id=${orderProduct.product.id})}" class=" text-decoration-none fw-medium">
-							<img width="150" height="150" th:alt="${orderProduct.product.name}" th:src="${orderProduct.product.thumbnailImage}">
-						</a>
-						</td>
+						<td><a
+							th:href="@{/product/details/{id}(id=${orderProduct.product.id})}"
+							class=" text-decoration-none fw-medium"> <img width="150"
+								height="150" th:alt="${orderProduct.product.name}"
+								th:src="${orderProduct.product.thumbnailImage}">
+						</a></td>
 						<td>[[${orderProduct.quantity}]]</td>
-						<td>[[${orderProduct.totalPrice}]] _Ks	</td>
+						<td>[[${orderProduct.totalPrice}]] _Ks</td>
 					</tr>
 				</tbody>
 			</table>
+
+			<div class=" row">
+				<div class=" col-6">
+					<div class="card p-3 shadow">
+						<h3 class=" font-weight-bold">Order Details</h3>
+						<div class="row mt-2">
+							<div class=" col-6">
+								<span>Order Number</span>
+							</div>
+							<div class=" col-6">
+								<span>[[${order.orderNumber}]]</span>
+							</div>
+						</div>
+						<div class="row mt-2">
+							<div class=" col-6">
+								<span>Order Time</span>
+							</div>
+							<div class=" col-6">
+								<span>[[${#dates.format(order.createdTime,'dd-MMM-yyyyHH:mm')}]]</span>
+							</div>
+						</div>
+						<div class="row mt-2">
+							<div class=" col-6">
+								<span>Status</span>
+							</div>
+							<div class=" col-6">
+								<span>[[${order.status}]]</span>
+							</div>
+						</div>
+						<div class="row mt-2">
+							<div class=" col-6">
+								<span>Total Price</span>
+							</div>
+							<div class=" col-6">
+								<span>[[${order.totalPrice}]] Ks - <span
+									class="text-info">Include Delivery Fee</span>
+								</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class=" col-6">
+					<div class="card p-3 shadow">
+						<h3 class=" font-weight-bold">Status</h3>
+						<div class="row mt-2">
+							<div class=" col-6">
+								<span>Payment Type</span>
+							</div>
+							<div class=" col-6">
+								<span>[[${order.payment.paymentType}]]</span>
+							</div>
+							<div class=" col-6">
+								<span>Transaction ID</span>
+							</div>
+							<div class=" col-6">
+								<span>[[${order.payment.transactionId}]]</span>
+							</div>
+							<div class=" col-6">
+								<span>ScreenShot</span>
+							</div>
+							<div class=" col-6">
+								<span>
+									<a th:href="${order.payment.screenshot}" target="_blank">
+									<img alt="" width="60" height="60" th:src="${order.payment.screenshot}">
+									</a>
+								</span>
+							</div>
+							<div class="col-6 mt-4" >
+								<div class="row">
+									<div class="col-6">
+										<button class="btn btn-success w-100">Accept</button>
+									</div>
+									<div  class="col-6">
+										<button class="btn btn-danger  w-100">Reject</button>
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+			<div class=" row mt-5">
+				<div class=" col-6">
+					<div class="card p-3 shadow">
+						<h3 class=" font-weight-bold">Delivery Address</h3>
+						<div class="row mt-2">
+							<div class=" col-6">
+								<span>Full Name</span>
+							</div>
+							<div class=" col-6">
+								<span>[[${order.address.firstName + " " +
+									order.address.lastName}]]</span>
+							</div>
+						</div>
+
+						<div class="row mt-2">
+							<div class=" col-6">
+								<span>Address</span>
+							</div>
+							<div class=" col-6">
+								<span>[[${order.address.address1}]]</span>
+							</div>
+						</div>
+						<div class="row mt-2">
+							<div class=" col-6">
+								<span>City</span>
+							</div>
+							<div class=" col-6">
+								<span>[[${order.address.city}]]</span>
+							</div>
+						</div>
+						<div class="row mt-2">
+							<div class=" col-6">
+								<span>Country</span>
+							</div>
+							<div class=" col-6">
+								<span>[[${order.address.country}]]</span>
+							</div>
+						</div>
+						<div class="row mt-2">
+							<div class=" col-6">
+								<span>State</span>
+							</div>
+							<div class=" col-6">
+								<span>[[${order.address.state}]]</span>
+							</div>
+						</div>
+						<div class="row mt-2">
+							<div class=" col-6">
+								<span>PostalCode</span>
+							</div>
+							<div class=" col-6">
+								<span>[[${order.address.postalCode}]]</span>
+							</div>
+						</div>
+						<div class="row mt-2">
+							<div class=" col-6">
+								<span>Phone</span>
+							</div>
+							<div class=" col-6">
+								<span>[[${order.address.phone}]]</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 
 		</div>
 	</div>
@@ -56,3 +206,15 @@
 </body>
 
 </html>
+
+<!-- <tr>
+								<td></td>
+								<td>Order Number</td>
+								<td>[[${order.orderNumber}]]</td>
+								<td>Order Time</td>
+								<td>[[${#dates.format(order.createdTime,'dd-MMM-yyyyHH:mm')}]]</td>
+								<td>Status</td>
+								<td>[[${order.orderNumber}]]</td>
+								<td>Total Price</td>
+								<td>[[${order.totalPrice}]]</td>
+							</tr> -->

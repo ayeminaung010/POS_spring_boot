@@ -73,9 +73,11 @@
 						<input type="hidden" th:value="${product.id}" class="productId" />
 						<div class="product__details__price ">
 							<span class="productPrice">[[${discountPrice} != null ?
-								${#numbers.formatInteger(discountPrice,1) } : ${#numbers.formatInteger(product.price,1)}]]</span> Ks
+								${#numbers.formatInteger(discountPrice,1) } :
+								${#numbers.formatInteger(product.price,1)}]]</span> Ks
 							<del th:if="${discountPrice}">
-								<small class="originalPrice">[[ ${#numbers.formatInteger(product.price,1)}]]</small><small>Ks</small>
+								<small class="originalPrice">[[
+									${#numbers.formatInteger(product.price,1)}]]</small><small>Ks</small>
 							</del>
 						</div>
 						<span th:if="${discountPrice}" class="badge badge-warning">[[${#numbers.formatInteger(product.discount,1,'POINT')}]]
@@ -96,8 +98,8 @@
 							</div>
 							<div th:if="${product.stock eq 0}">
 								<button class="primary-btn border-0 shadow-sm "
-									data-toggle="modal" data-target="#outOfStock">ADD
-									TO CARD</button>
+									data-toggle="modal" data-target="#outOfStock">ADD TO
+									CARD</button>
 							</div>
 						</div>
 
@@ -129,79 +131,34 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-lg-3 col-md-4 col-sm-6">
-					<div class="product__item">
-						<div class="product__item__pic set-bg"
-							data-setbg="img/product/product-1.jpg">
-							<ul class="product__item__pic__hover">
-								<li><a href="#"><i class="fa fa-heart"></i></a></li>
-								<li><a href="#"><i class="fa fa-retweet"></i></a></li>
-								<li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-							</ul>
-						</div>
-						<div class="product__item__text">
-							<h6>
-								<a href="#">Crab Pool Security</a>
-							</h6>
-							<h5>$30.00</h5>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-3 col-md-4 col-sm-6">
-					<div class="product__item">
-						<div class="product__item__pic set-bg"
-							data-setbg="img/product/product-2.jpg">
-							<ul class="product__item__pic__hover">
-								<li><a href="#"><i class="fa fa-heart"></i></a></li>
-								<li><a href="#"><i class="fa fa-retweet"></i></a></li>
-								<li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-							</ul>
-						</div>
-						<div class="product__item__text">
-							<h6>
-								<a href="#">Crab Pool Security</a>
-							</h6>
-							<h5>$30.00</h5>
+				<!-- Loop through relatedProducts -->
+				<th:block th:each="rProduct : ${relatedProducts}">
+					<div class="col-lg-3 col-md-4 col-sm-6">
+						<div class="product__item">
+							<div class="product__item__pic set-bg"
+								th:data-setbg="@{${rProduct.thumbnailImage}}">
+								<ul class="product__item__pic__hover">
+									<li><a th:href="@{/shop/detail/{id}(id=${rProduct.id})}"><i
+										class="fa fa-info"></i></a></li>
+								</ul> 
+								
+							</div>
+							<div class="product__item__text">
+								<h6>
+									<a th:href="@{'/shop/detail/' + ${rProduct.id}}"
+										th:text="${product.name}">[[${rProduct.name}]]</a>
+								</h6>
+								<!-- <h5>[[${product.price}]] Ks</h5> -->
+								<h5 class="product__item__price">
+									[[ ${#numbers.formatInteger(rProduct.discountPrice,1)} ]] Ks <del>[[${#numbers.formatInteger(rProduct.price,1)}
+										]] Ks</del>
+								</h5>
+							</div>
 						</div>
 					</div>
-				</div>
-				<div class="col-lg-3 col-md-4 col-sm-6">
-					<div class="product__item">
-						<div class="product__item__pic set-bg"
-							data-setbg="img/product/product-3.jpg">
-							<ul class="product__item__pic__hover">
-								<li><a href="#"><i class="fa fa-heart"></i></a></li>
-								<li><a href="#"><i class="fa fa-retweet"></i></a></li>
-								<li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-							</ul>
-						</div>
-						<div class="product__item__text">
-							<h6>
-								<a href="#">Crab Pool Security</a>
-							</h6>
-							<h5>$30.00</h5>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-3 col-md-4 col-sm-6">
-					<div class="product__item">
-						<div class="product__item__pic set-bg"
-							data-setbg="img/product/product-7.jpg">
-							<ul class="product__item__pic__hover">
-								<li><a href="#"><i class="fa fa-heart"></i></a></li>
-								<li><a href="#"><i class="fa fa-retweet"></i></a></li>
-								<li><a href="#"><i class="fa fa-shopping-cart"></i></a></li>
-							</ul>
-						</div>
-						<div class="product__item__text">
-							<h6>
-								<a href="#">Crab Pool Security</a>
-							</h6>
-							<h5>$30.00</h5>
-						</div>
-					</div>
-				</div>
+				</th:block>
 			</div>
+
 		</div>
 	</section>
 	<!-- Related Product Section End -->
