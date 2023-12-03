@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html  xmlns="http://www.w3.org/1999/xhtml"
+<html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
@@ -36,35 +36,37 @@
 	<!-- Order History Section Begin -->
 	<div class="container my-5">
 		<table class="table">
-		  <thead class="thead-dark">
-		    <tr>
-		      <th scope="col">No</th>
-		      <th scope="col">Order No</th>
-		      <th scope="col">Status</th>
-		      <th scope="col">Order Time</th>
-		      <th scope="col">View Detail</th>
-		    </tr>
-		  </thead>
-		  <tbody>
-		    <tr th:each="order,state : ${orders}">
-				<td>[[${state.count}]]</td>
-				<td>
-				<a href="#" class="text-dark text-decoration-none fw-medium">[[${order.orderNumber}]]</a>
-				</td>
-				<td>
-					<span th:if="${order.status eq 'PENDING'}" class="badge badge-warning">[[${order.status}]]</span>
-			        <span th:if="${order.status eq 'SUCCESS'}" class="badge badge-success">[[${order.status}]]</span>
-			        <span th:if="${order.status eq 'REJECTED'}" class="badge badge-danger">[[${order.status}]]</span>
-				</td>
-				<td>[[${#dates.format(order.createdTime,'dd-MMM-yyyyHH:mm')}]]</td>
-				<td>
-				<a th:href="@{/orderhistory/detail/{id}(id=${order.id})}" class="btn btn-link btn-lg btn-rounded"> 
-				<i class="fa fa-info-circle" aria-hidden="true"></i>
-				</a>
-				</td>
-			</tr>
-		    
-		  </tbody>
+			<thead class="thead-dark">
+				<tr>
+					<th scope="col">No</th>
+					<th scope="col">Order No</th>
+					<th scope="col">Status</th>
+					<th scope="col">Order Time</th>
+					<th scope="col">View Detail</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="order,state : ${orders}">
+					<td>[[${state.count}]]</td>
+					<td><a href="#"
+						class="text-dark text-decoration-none fw-medium">[[${order.orderNumber}]]</a>
+					</td>
+					<td><span th:if="${order.status eq 'PENDING'}"
+						class="badge badge-warning">[[${order.status}]]</span> <span
+						th:if="${order.status eq 'SUCCESS'}" class="badge badge-success">[[${order.status}]]</span>
+						<span th:if="${order.status eq 'REJECTED'}"
+						class="badge badge-danger">[[${order.status}]]</span></td>
+					<td>[[${#dates.format(order.createdTime,'dd-MMM-yyyyHH:mm')}]]</td>
+					<td><a th:href="@{/user/order/slip/{id}(id=${order.id})}"
+						class="btn btn-link btn-lg btn-rounded"> <i
+							class="fa fa-print" aria-hidden="true"></i>
+					</a> <a th:href="@{/orderhistory/detail/{id}(id=${order.id})}"
+						class="btn btn-link btn-lg btn-rounded"> <i
+							class="fa fa-info-circle" aria-hidden="true"></i>
+					</a></td>
+				</tr>
+
+			</tbody>
 		</table>
 	</div>
 	<!-- Order History Section End -->

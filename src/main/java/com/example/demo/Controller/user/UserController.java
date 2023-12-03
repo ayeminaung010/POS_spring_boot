@@ -154,6 +154,22 @@ public class UserController {
 		return "user/account/orderDetail";
 	}
 
+	@GetMapping("/user/order/slip/{id}")
+	public String getSlip(@PathVariable("id") Integer id, Model model) {
+		Order order = orderRepository.getReferenceById(id);
+		List<OrderProducts> orderProducts = orderProductRepository.findByOrderId(id);
+		model.addAttribute("orderProducts", orderProducts);
+		double totalPrice = 0.0;
+		for (OrderProducts orderProduct : orderProducts) {
+			totalPrice += orderProduct.getTotalPrice();
+		}
+		totalPrice = totalPrice + 5000;
+		model.addAttribute("totalPrice", totalPrice);
+		model.addAttribute("order", order);
+		return "user/order-slip/index";
+	}
+
+	
 	@GetMapping("/user/paymenthistory")
 	public String showPaymentHistory(String query, @AuthenticationPrincipal UserOwnDetail loginUser, Model model) {
 		Integer id = loginUser.getId();
