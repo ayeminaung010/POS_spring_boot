@@ -19,14 +19,14 @@
 				<!-- header  -->
 				<link th:replace="admin/layout/assets :: header" />
 
-				
+
 				<div id="group3">
-					
+
 					<div class="rectangle_2">
 						<div>
 							<a href="#"> <span><i class="fa-solid fa-chart-column"></i></span>
 								<div>
-									42,34%<span>Bounce Rate</span>
+									[[${categoryList.size()}]]<span>Category</span>
 								</div>
 							</a>
 						</div>
@@ -34,14 +34,14 @@
 							<a href="#"> <span><i
 									class="fa-solid fa-calendar-days"></i></span>
 								<div>
-									42,34%<span>Pages per visit</span>
+									[[${subCategories.size()}]]<span>Sub Category</span>
 								</div>
 							</a>
 						</div>
 						<div>
 							<a href="#"> <span><i class="fa-solid fa-user"></i></span>
 								<div>
-									326.60K<span>Total Monthly Visit</span>
+									[[${products.size()}]]<span>Total Products</span>
 								</div>
 							</a>
 						</div>
@@ -49,18 +49,68 @@
 							<a href="#"> <span><i
 									class="fa-regular fa-hourglass-half"></i></span>
 								<div>
-									00:03:27<span>Avg.Visit Duration</span>
+									[[${discountProducts.size()}]]<span>Discount Products</span>
+								</div>
+							</a>
+						</div>
+						<div>
+							<a href="#"> <span><i
+									class="fa-regular fa-hourglass-half"></i></span>
+								<div>
+									[[${orders.size()}]]<span>All Orders</span>
+								</div>
+							</a>
+						</div>
+						<div>
+							<a href="#"> <span><i
+									class="fa-regular fa-hourglass-half"></i></span>
+								<div>
+									[[${successOrders.size()}]]<span>Successful Orders</span>
+								</div>
+							</a>
+						</div>
+						<div>
+							<a href="#"> <span><i
+									class="fa-regular fa-hourglass-half"></i></span>
+								<div>
+									[[${rejectedOrders.size()}]]<span>Rejected Orders</span>
+								</div>
+							</a>
+						</div>
+						<div>
+							<a href="#"> <span><i
+									class="fa-regular fa-hourglass-half"></i></span>
+								<div>
+									[[${pendingOrders.size()}]]<span>Pending Orders</span>
+								</div>
+							</a>
+						</div>
+						<div class="mt-2">
+							<a href="#"> <span><i
+									class="fa-regular fa-hourglass-half"></i></span>
+								<div>
+									[[${#numbers.formatInteger(totalIncome,1)}]]<span>Total
+										Income</span>
+								</div>
+							</a>
+						</div>
+						<div class="mt-2">
+							<a href="#"> <span><i
+									class="fa-regular fa-hourglass-half"></i></span>
+								<div>
+									[[${#numbers.formatInteger(pendingIncome,1)}]] Kyats<span>Pending
+										Income</span>
 								</div>
 							</a>
 						</div>
 					</div>
-					
+
 				</div>
 			</div>
 		</div>
 
-	<!-- js   -->
-	<link th:replace="admin/layout/assets :: js" />
+		<!-- js   -->
+		<link th:replace="admin/layout/assets :: js" />
 </body>
 
 </html>
