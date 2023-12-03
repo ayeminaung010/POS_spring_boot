@@ -12,26 +12,26 @@
 <body>
 	<div id="container">
 		<!-- side navbar   -->
-		<link th:replace="admin/layout/assets :: sideBar" />
+		<div th:replace="admin/layout/assets :: sideBar" ></div>
 
 		<div id="content_wrap">
 			<div class="content_box">
 				<!-- header  -->
-				<link th:replace="admin/layout/assets :: header" />
+				<div th:replace="admin/layout/assets :: header" ></div>
 
 
 				<div id="group3">
 
 					<div class="rectangle_2">
 						<div>
-							<a href="#"> <span><i class="fa-solid fa-chart-column"></i></span>
+							<a th:href="@{/category}"> <span><i class="fa-solid fa-chart-column"></i></span>
 								<div>
 									[[${categoryList.size()}]]<span>Category</span>
 								</div>
 							</a>
 						</div>
 						<div>
-							<a href="#"> <span><i
+							<a th:href="@{/subcategory}"> <span><i
 									class="fa-solid fa-calendar-days"></i></span>
 								<div>
 									[[${subCategories.size()}]]<span>Sub Category</span>
@@ -39,55 +39,49 @@
 							</a>
 						</div>
 						<div>
-							<a href="#"> <span><i class="fa-solid fa-user"></i></span>
+							<a th:href="@{/product}"> <span><i class="fa-brands fa-product-hunt"></i></span>
 								<div>
 									[[${products.size()}]]<span>Total Products</span>
 								</div>
 							</a>
 						</div>
 						<div>
-							<a href="#"> <span><i
-									class="fa-regular fa-hourglass-half"></i></span>
+							<a th:href="@{/product}"> <span><i class="fa-solid fa-tag"></i></span>
 								<div>
 									[[${discountProducts.size()}]]<span>Discount Products</span>
 								</div>
 							</a>
 						</div>
 						<div>
-							<a href="#"> <span><i
-									class="fa-regular fa-hourglass-half"></i></span>
+							<a th:href="@{/order/all}"> <span><i class="fa-solid fa-truck-fast"></i></span>
 								<div>
 									[[${orders.size()}]]<span>All Orders</span>
 								</div>
 							</a>
 						</div>
 						<div>
-							<a href="#"> <span><i
-									class="fa-regular fa-hourglass-half"></i></span>
+							<a th:href="@{/order/success}"> <span><i class="fa-regular fa-handshake"></i></span>
 								<div>
 									[[${successOrders.size()}]]<span>Successful Orders</span>
 								</div>
 							</a>
 						</div>
 						<div>
-							<a href="#"> <span><i
-									class="fa-regular fa-hourglass-half"></i></span>
+							<a th:href="@{/order/reject}"> <span><i class="fa-solid fa-ghost"></i></span>
 								<div>
 									[[${rejectedOrders.size()}]]<span>Rejected Orders</span>
 								</div>
 							</a>
 						</div>
 						<div>
-							<a href="#"> <span><i
-									class="fa-regular fa-hourglass-half"></i></span>
+							<a th:href="@{/order/pending}"> <span><i class="fa-solid fa-person-running"></i></span>
 								<div>
 									[[${pendingOrders.size()}]]<span>Pending Orders</span>
 								</div>
 							</a>
 						</div>
 						<div class="mt-2">
-							<a href="#"> <span><i
-									class="fa-regular fa-hourglass-half"></i></span>
+							<a href="#"> <span><i class="fa-solid fa-money-bill-trend-up"></i></span>
 								<div>
 									[[${#numbers.formatInteger(totalIncome,1)}]]<span>Total
 										Income</span>
@@ -95,8 +89,7 @@
 							</a>
 						</div>
 						<div class="mt-2">
-							<a href="#"> <span><i
-									class="fa-regular fa-hourglass-half"></i></span>
+							<a href="#"> <span><i class="fa-solid fa-dna"></i></span>
 								<div>
 									[[${#numbers.formatInteger(pendingIncome,1)}]] Kyats<span>Pending
 										Income</span>
@@ -107,6 +100,7 @@
 
 				</div>
 			</div>
+		</div>
 		</div>
 
 		<!-- js   -->
