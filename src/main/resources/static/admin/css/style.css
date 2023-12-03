@@ -79,6 +79,7 @@ body {
 	display: inline-block;
 	vertical-align: middle;
 	font-size: 25px;
+	font-weight: bold;
 	line-height: 25px;
 	color: #333;
 }
