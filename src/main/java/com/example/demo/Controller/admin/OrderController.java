@@ -77,7 +77,10 @@ public class OrderController {
 	@GetMapping("/order/detail/{id}")
 	public String viewDetail(@PathVariable("id") Integer id, Model model) {
 		List<OrderProducts> orderProducts = orderProductRepository.findByOrderId(id);
+		Order order = orderRepository.getReferenceById(id);
 		model.addAttribute("orderProducts", orderProducts);
+		model.addAttribute("order", order);
+		System.out.println(order.getPayment().getPaymentType());
 		return "admin/order-product/index";
 	}
 }
