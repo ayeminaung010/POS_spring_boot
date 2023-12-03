@@ -3,6 +3,7 @@ package com.example.demo.Controller.user;
 
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,7 @@ import com.example.demo.daos.ContactRepository;
 import com.example.demo.daos.ProductRepository;
 import com.example.demo.model.Contact;
 import com.example.demo.model.Product;
+import com.example.demo.model.SubCategory;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.servlet.http.HttpSession;
@@ -47,6 +49,11 @@ public class PageController {
 		if(discount != 0.0) {
 			double discountPrice = calculateDiscountPrice(discount,detailProduct.getPrice());
 			model.addAttribute("discountPrice", discountPrice);
+		}
+		SubCategory subCategory = detailProduct.getSubCategory();
+		if (subCategory != null) {
+		    Set<Product> relatedProducts = subCategory.getProducts();
+		    model.addAttribute("relatedProducts", relatedProducts);
 		}
 		model.addAttribute("product", detailProduct);
 		return "user/shop/detail";
