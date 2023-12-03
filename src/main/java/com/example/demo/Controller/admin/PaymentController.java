@@ -106,4 +106,5 @@ public class PaymentController {
 		model.addAttribute("payments", payments);
 		return "admin/payment-history/index";
 	}
+	
 }

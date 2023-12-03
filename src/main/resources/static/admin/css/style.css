@@ -1,4 +1,6 @@
 /* Dashboard */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap');
+
 :root { 
 	--bg-gray-color: #F6F6FB; 
 	--bg-blue-soft: #7166F9; 
@@ -9,7 +11,7 @@
 }
 
 body {
-	font-family: Roboto;
+	font-family: 'Roboto', sans-serif;
 	min-width: 100%;
 	width: auto;
 	height: auto;
@@ -77,6 +79,7 @@ body {
 	display: inline-block;
 	vertical-align: middle;
 	font-size: 25px;
+	font-weight: bold;
 	line-height: 25px;
 	color: #333;
 }
@@ -127,11 +130,11 @@ body {
     width: 100%;
 }
 #list_wrap .top_list div#shop > a {
-	padding: 20px 41px 15px 34px;
+	padding: 20px 28px 15px 34px;
 }
 #list_wrap .top_list div#order > a, 
 #list_wrap .top_list div#payment > a {
-	padding: 20px 40px 15px 35px;
+	padding: 20px 28px 15px 35px;
 }
 #list_wrap .top_list div#payment > a i.fa-caret-down {
 	margin: 0 0 0 15px;
