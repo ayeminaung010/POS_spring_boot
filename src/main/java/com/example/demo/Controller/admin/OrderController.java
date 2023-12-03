@@ -3,6 +3,9 @@ package com.example.demo.Controller.admin;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,54 +26,82 @@ public class OrderController {
 	OrderProductRepository orderProductRepository;
 
 	@GetMapping("/order/all")
-	public String viewAll(@RequestParam(name = "search", required = false) String query, Model model) {
-		List<Order> orders;
-
+	public String viewAll(@RequestParam(name = "search", required = false) String query,
+			@RequestParam(defaultValue = "1") int page,
+	         @RequestParam(defaultValue = "10") int size,
+	         @RequestParam(defaultValue = "createdTime") String sortBy,
+	         Model model) {
+		Page<Order> orderPage;
+		PageRequest pageRequest = PageRequest.of(page - 1, size, Sort.by(sortBy).descending());
 		if (query != null && !query.isEmpty()) {
-			orders = orderRepository.findByOrderNumberContainingIgnoreCase(query.trim());
+			orderPage = orderRepository.findByOrderNumberContainingIgnoreCase(query.trim(), pageRequest);
 		} else {
-			orders = orderRepository.findAll();
+			orderPage = orderRepository.findAll(pageRequest);
 		}
+		List<Order> orders = orderPage.getContent();
 		model.addAttribute("orders", orders);
+		model.addAttribute("currentPage", orderPage.getNumber() + 1);
+	    model.addAttribute("totalPages", orderPage.getTotalPages());
 		return "admin/order-manage/index";
 	}
 
 	@GetMapping("/order/pending")
-	public String viewPending(@RequestParam(name = "search", required = false) String query,Model model) {
-		List<Order> orders;
-
+	public String viewPending(@RequestParam(name = "search", required = false) String query,
+			@RequestParam(defaultValue = "1") int page,
+	         @RequestParam(defaultValue = "10") int size,
+	         @RequestParam(defaultValue = "createdTime") String sortBy,
+	         Model model) {
+		Page<Order> orderPage;
+		PageRequest pageRequest = PageRequest.of(page - 1, size, Sort.by(sortBy).descending());
 		if (query != null && !query.isEmpty()) {
-			orders = orderRepository.findByOrderNumberContainingIgnoreCaseAndStatus(query.trim(),"PENDING");
+			orderPage = orderRepository.findByOrderNumberContainingIgnoreCaseAndStatus(query.trim(),"PENDING", pageRequest);
 		} else {
-			orders = orderRepository.findByStatus("PENDING");
+			orderPage = orderRepository.findByStatus("PENDING",pageRequest);
 		}
+		List<Order> orders = orderPage.getContent();
 		model.addAttribute("orders", orders);
+		model.addAttribute("currentPage", orderPage.getNumber() + 1);
+	    model.addAttribute("totalPages", orderPage.getTotalPages());
 		return "admin/order-manage/pending";
 	}
 
 	@GetMapping("/order/success")
-	public String viewSuccess(@RequestParam(name = "search", required = false) String query,Model model) {
-		List<Order> orders;
-
+	public String viewSuccess(@RequestParam(name = "search", required = false) String query,
+			@RequestParam(defaultValue = "1") int page,
+	         @RequestParam(defaultValue = "10") int size,
+	         @RequestParam(defaultValue = "createdTime") String sortBy,
+	         Model model) {
+		Page<Order> orderPage;
+		PageRequest pageRequest = PageRequest.of(page - 1, size, Sort.by(sortBy).descending());
 		if (query != null && !query.isEmpty()) {
-			orders = orderRepository.findByOrderNumberContainingIgnoreCaseAndStatus(query.trim(),"SUCCESS");
+			orderPage = orderRepository.findByOrderNumberContainingIgnoreCaseAndStatus(query.trim(),"SUCCESS", pageRequest);
 		} else {
-			orders = orderRepository.findByStatus("SUCCESS");
+			orderPage = orderRepository.findByStatus("SUCCESS",pageRequest);
 		}
+		List<Order> orders = orderPage.getContent();
 		model.addAttribute("orders", orders);
+		model.addAttribute("currentPage", orderPage.getNumber() + 1);
+	    model.addAttribute("totalPages", orderPage.getTotalPages());
 		return "admin/order-manage/success";
 	}
 
 	@GetMapping("/order/reject")
-	public String viewReject(@RequestParam(name = "search", required = false) String query,Model model) {
-		List<Order> orders;
-
+	public String viewReject(@RequestParam(name = "search", required = false) String query,
+			@RequestParam(defaultValue = "1") int page,
+	         @RequestParam(defaultValue = "10") int size,
+	         @RequestParam(defaultValue = "createdTime") String sortBy,
+	         Model model) {
+		Page<Order> orderPage;
+		PageRequest pageRequest = PageRequest.of(page - 1, size, Sort.by(sortBy).descending());
 		if (query != null && !query.isEmpty()) {
-			orders = orderRepository.findByOrderNumberContainingIgnoreCaseAndStatus(query.trim(),"REJECTED");
+			orderPage = orderRepository.findByOrderNumberContainingIgnoreCaseAndStatus(query.trim(),"REJECTED", pageRequest);
 		} else {
-			orders = orderRepository.findByStatus("REJECTED");
+			orderPage = orderRepository.findByStatus("REJECTED",pageRequest);
 		}
+		List<Order> orders = orderPage.getContent();
 		model.addAttribute("orders", orders);
+		model.addAttribute("currentPage", orderPage.getNumber() + 1);
+	    model.addAttribute("totalPages", orderPage.getTotalPages());
 		return "admin/order-manage/reject";
 	}
 

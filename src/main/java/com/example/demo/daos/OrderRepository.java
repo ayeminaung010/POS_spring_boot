@@ -2,6 +2,8 @@ package com.example.demo.daos;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -9,11 +11,12 @@ import com.example.demo.model.Order;
 
 @Repository
 public interface OrderRepository  extends JpaRepository<Order, Integer>{
-	List<Order> findByStatus(String status);
+	Page<Order> findByStatus(String status,Pageable pageable);
 	
-	List<Order> findByOrderNumberContainingIgnoreCase(String query);
+	Page<Order> findByOrderNumberContainingIgnoreCase(String query,Pageable pageable);
+	Page<Order> findAll(Pageable pageable);
 	
-	List<Order> findByOrderNumberContainingIgnoreCaseAndStatus(String orderNumber, String status);
+	Page<Order> findByOrderNumberContainingIgnoreCaseAndStatus(String orderNumber, String status,Pageable pageable);
 	
 	List<Order> findByUserId(Integer id);
 }
