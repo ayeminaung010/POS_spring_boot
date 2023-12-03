@@ -1,15 +1,19 @@
 package com.example.demo.daos;
 
-import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.example.demo.model.Payment;
 
 public interface PaymentRepository extends JpaRepository<Payment, Integer> {
-	List<Payment> findByStatus(String status);
+	Page<Payment> findByStatus(String status,Pageable pageable);
 	
-	List<Payment> findByTransactionIdContainingIgnoreCase(String query);
+	Page<Payment> findByTransactionIdContainingIgnoreCase(String query,Pageable pageable);
 	
-	List<Payment> findByTransactionIdContainingIgnoreCaseAndStatus(String transactionId, String status);
+	Page<Payment> findByTransactionIdContainingIgnoreCaseAndStatus(String transactionId, String status,Pageable pageable);
+	
+	Page<Payment> findAll(Pageable pageable);
+	
 }

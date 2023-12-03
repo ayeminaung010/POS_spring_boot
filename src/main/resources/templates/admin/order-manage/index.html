@@ -20,10 +20,11 @@
 			</div>
 			<div id="sub_content">
 
-				<form action="/order/all" method="get"  class="row g-3">
+				<form action="/order/all" method="get" class="row g-3">
 					<div class="col-auto">
 						<label for="inputPassword2" class="visually-hidden">Order
-							No</label> <input type="text" name="search" th:value="${param.search}" class="form-control" placeholder="Order No">
+							No</label> <input type="text" name="search" th:value="${param.search}"
+							class="form-control" placeholder="Order No">
 					</div>
 
 					<div class="col-auto">
@@ -55,23 +56,49 @@
 						<tr th:each="order,state : ${orders}">
 							<td>[[${state.count}]]</td>
 							<td>[[${order.user.name}]]</td>
-							<td>
-							<a href="#" class=" text-decoration-none fw-medium">[[${order.orderNumber}]]</a>
+							<td><a href="#" class=" text-decoration-none fw-medium">[[${order.orderNumber}]]</a>
 							</td>
-							<td>
-								<span th:if="${order.status eq 'PENDING'}" class="badge rounded-pill text-bg-warning">[[${order.status}]]</span>
-						        <span th:if="${order.status eq 'SUCCESS'}" class="badge rounded-pill text-bg-success">[[${order.status}]]</span>
-						        <span th:if="${order.status eq 'REJECTED'}" class="badge rounded-pill text-bg-danger">[[${order.status}]]</span>
+							<td><span th:if="${order.status eq 'PENDING'}"
+								class="badge rounded-pill text-bg-warning">[[${order.status}]]</span>
+								<span th:if="${order.status eq 'SUCCESS'}"
+								class="badge rounded-pill text-bg-success">[[${order.status}]]</span>
+								<span th:if="${order.status eq 'REJECTED'}"
+								class="badge rounded-pill text-bg-danger">[[${order.status}]]</span>
 							</td>
 							<td>[[${#dates.format(order.createdTime,'dd-MMM-yyyyHH:mm')}]]</td>
-							<td>
-							<a th:href="@{/order/detail/{id}(id=${order.id})}" class="btn btn-link btn-lg btn-rounded"> <i
+							<td><a th:href="@{/order/detail/{id}(id=${order.id})}"
+								class="btn btn-link btn-lg btn-rounded"> <i
 									class="fa-solid fa-circle-info"></i>
-							</a>
-							</td>
+							</a></td>
 						</tr>
 					</tbody>
 				</table>
+
+				<!-- Pagination Controls -->
+				<div th:if="${totalPages > 1}">
+					<nav aria-label="Page navigation example">
+						<ul class="pagination">
+							<li class="page-item"
+								th:class="${currentPage == 1 ? 'disabled' : ''}"><a
+								class="page-link" th:href="@{/order/all(page=1)}"
+								aria-label="Previous"> <span aria-hidden="true">&laquo;
+										Previous</span>
+							</a></li>
+							<li th:each="pageNumber : ${#numbers.sequence(1, totalPages)}"
+								class="page-item"
+								th:class="${pageNumber == currentPage ? 'active' : ''}"><a
+								class="page-link" th:href="@{/order/all(page=${pageNumber})}"
+								th:text="${pageNumber}"></a></li>
+							<li class="page-item"
+								th:class="${currentPage == totalPages ? 'disabled' : ''}">
+								<a class="page-link" th:href="@{/order/all(page=${totalPages})}"
+								aria-label="Next"> <span aria-hidden="true">Next
+										&raquo;</span>
+							</a>
+							</li>
+						</ul>
+					</nav>
+				</div>
 
 			</div>
 		</div>
