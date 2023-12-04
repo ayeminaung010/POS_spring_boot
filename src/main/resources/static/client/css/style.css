@@ -585,20 +585,22 @@ ol {
 	font-size: 18px;
 	color: #ffffff;
 }
-
-.hero__categories > ul {
+#menu_list {
 	display: none;
-	border: 1px solid #ebebeb;
-	padding-left: 40px;
-	padding-top: 10px;
-	padding-bottom: 12px;
+	position: absolute;
+    width: 89.9%;
+    z-index: 10;
+    background: #fff;
 }
-
-.hero__categories ul li {
+#menu_list > ul {
+	border: 1px solid #ebebeb;
+	position: relative;
+}
+#menu_list ul li {
 	list-style: none;
 }
 
-.hero__categories ul li a {
+#menu_list ul li a {
 	font-size: 16px;
 	color: #1c1c1c;
 	line-height: 39px;
@@ -1251,14 +1253,22 @@ ol {
 .product__discount__item:hover .product__discount__item__pic .product__item__pic__hover {
 	bottom: 20px;
 }
-
 .product__discount__item__pic {
-	height: 270px;
+	width: 300px;
+	height: 300px;
 	position: relative;
 	overflow: hidden;
+    background-size: 100% auto;
+    left: 50%;
+    top: 0;
+    transform: translateX(-50%);
+	transition: all, 0.6s transform;
+}
+.product__discount__item__pic:hover {
+	transform: translateX(-50%) scale(1.2);
 }
 
-.product__discount__item__pic .product__discount__percent {
+.product__discount__percent {
 	height: 45px;
 	width: 45px;
 	background: #dd2222;
