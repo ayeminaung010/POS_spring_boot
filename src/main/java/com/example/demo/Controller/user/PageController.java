@@ -106,6 +106,7 @@ public class PageController {
 		return "redirect:/contact";
 
 	}
+	
 
 	// calculate discount price
 	public Double calculateDiscountPrice(double discount, double originalPrice) {

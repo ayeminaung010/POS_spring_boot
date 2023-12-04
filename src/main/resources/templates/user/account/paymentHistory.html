@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html  xmlns="http://www.w3.org/1999/xhtml"
+<html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
@@ -36,37 +36,57 @@
 	<!-- Payment History Section Begin -->
 	<div class="container my-5">
 		<table class="table">
-		  <thead class="thead-dark">
-		    <tr>
-		      <th scope="col">No</th>
-		      <th scope="col">Transaction Id</th>
-		      <th scope="col">Payment Type</th>
-		      <th scope="col">Status</th>
-		      <th scope="col">Created Time</th>
-		      <th scope="col">View Detail</th>
-		    </tr>
-		  </thead>
-		  <tbody>
-		    <tr th:each="payment,state : ${payments}">
-				<td>[[${state.count}]]</td>
-				<td>[[${payment.transactionId}]]</td>
-				<td><a href="#" class=" text-decoration-none fw-medium">[[${payment.paymentType}]]</a>
-				</td>
-				<td><span th:if="${payment.status eq 'PENDING'}"
-					class="badge badge-warning">[[${payment.status}]]</span>
-					<span th:if="${payment.status eq 'SUCCESS'}"
-					class="badge badge-success">[[${payment.status}]]</span>
-					<span th:if="${payment.status eq 'REJECTED'}"
-					class="badge badge-danger">[[${payment.status}]]</span>
-				</td>
-				<td>[[${#dates.format(payment.createdTime,'dd-MMM-yyyyHH:mm')}]]</td>
-				<td>
-					<i class="fa fa-info-circle" aria-hidden="true"></i>
-				</td>
-			</tr>
-		    
-		  </tbody>
+			<thead class="thead-dark">
+				<tr>
+					<th scope="col">No</th>
+					<th scope="col">Transaction Id</th>
+					<th scope="col">Payment Type</th>
+					<th scope="col">Status</th>
+					<th scope="col">Created Time</th>
+					<th scope="col">View Detail</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="payment,state : ${payments}">
+					<td>[[${state.count}]]</td>
+					<td>[[${payment.transactionId}]]</td>
+					<td><a href="#" class=" text-decoration-none fw-medium">[[${payment.paymentType}]]</a>
+					</td>
+					<td><span th:if="${payment.status eq 'PENDING'}"
+						class="badge badge-warning">[[${payment.status}]]</span> <span
+						th:if="${payment.status eq 'SUCCESS'}" class="badge badge-success">[[${payment.status}]]</span>
+						<span th:if="${payment.status eq 'REJECTED'}"
+						class="badge badge-danger">[[${payment.status}]]</span></td>
+					<td>[[${#dates.format(payment.createdTime,'dd-MMM-yyyyHH:mm')}]]</td>
+					<td><i class="fa fa-info-circle" aria-hidden="true"></i></td>
+				</tr>
+
+			</tbody>
 		</table>
+
+		<!-- Pagination Controls -->
+		<nav th:if="${totalPages > 1}" aria-label="Page navigation example">
+			<ul class="pagination">
+				<li class="page-item"
+					th:class="${currentPage == 1 ? 'disabled' : ''}"><a
+					class="page-link"
+					th:href="@{/user/paymenthistory(page=${currentPage - 1})}"
+					aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+				</a></li>
+				<li th:each="pageNumber : ${#numbers.sequence(1, totalPages)}"
+					class="page-item"
+					th:class="${pageNumber == currentPage ? 'active' : ''}"><a
+					class="page-link"
+					th:href="@{/user/paymenthistory(page=${pageNumber})}"
+					th:text="${pageNumber}"></a></li>
+				<li class="page-item"
+					th:class="${currentPage == totalPages ? 'disabled' : ''}"><a
+					class="page-link"
+					th:href="@{/user/paymenthistory(page=${currentPage + 1})}"
+					aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+				</a></li>
+			</ul>
+		</nav>
 	</div>
 	<!-- Payment History Section End -->
 
