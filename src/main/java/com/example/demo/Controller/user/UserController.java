@@ -142,20 +142,18 @@ public class UserController {
 
 	@GetMapping("/user/orderhistory")
 	public String ShowOrder(String query, @AuthenticationPrincipal UserOwnDetail loginUser,
-			@RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "createdTime") String sortBy,
-            Model model) {
+			@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int size,
+			@RequestParam(defaultValue = "createdTime") String sortBy, Model model) {
 		Integer id = loginUser.getId();
 		Page<Order> orderPage;
 		PageRequest pageRequest = PageRequest.of(page - 1, size, Sort.by(sortBy).descending());
 
-		orderPage = orderRepository.findByUserId(id,pageRequest);
+		orderPage = orderRepository.findByUserId(id, pageRequest);
 		List<Order> orders = orderPage.getContent();
 		model.addAttribute("orders", orders);
-		
+
 		model.addAttribute("currentPage", orderPage.getNumber() + 1);
-	    model.addAttribute("totalPages", orderPage.getTotalPages());
+		model.addAttribute("totalPages", orderPage.getTotalPages());
 		return "user/account/orderHistory";
 
 	}
@@ -182,46 +180,40 @@ public class UserController {
 		return "user/order-slip/index";
 	}
 
-	
 	@GetMapping("/user/paymenthistory")
 	public String showPaymentHistory(String query, @AuthenticationPrincipal UserOwnDetail loginUser,
-			@RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "createdTime") String sortBy,
-            Model model) {
+			@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int size,
+			@RequestParam(defaultValue = "createdTime") String sortBy, Model model) {
 		Integer id = loginUser.getId();
 		Page<Order> orderPage;
 		PageRequest pageRequest = PageRequest.of(page - 1, size, Sort.by(sortBy).descending());
 
-		orderPage = orderRepository.findByUserId(id,pageRequest);
+		orderPage = orderRepository.findByUserId(id, pageRequest);
 		List<Order> orders = orderPage.getContent();
-		
 
 		List<Payment> payments = new ArrayList<>();
 		for (Order order : orders) {
-			Payment payment = order.getPayment(); 
-			if(payment != null) {
+			Payment payment = order.getPayment();
+			if (payment != null) {
 				payments.add(payment);
 			}
 		}
 		model.addAttribute("payments", payments);
 		model.addAttribute("currentPage", orderPage.getNumber() + 1);
-	    model.addAttribute("totalPages", orderPage.getTotalPages());
+		model.addAttribute("totalPages", orderPage.getTotalPages());
 		return "user/account/paymentHistory";
 
 	}
-  
+
 	@GetMapping("/paymenthistory/detail/{id}")
-		public String paymentHistoryDetail(@PathVariable("id") Integer id, Model model) {
-			
-			List<Payment> payments = paymentRepository.findAllById(id);
-			Payment payment = paymentRepository.getReferenceById(id);
-			model.addAttribute("payments", payments);
-			model.addAttribute("payment", payment);
-			
-			return "user/account/paymentDetail";
-		}
-	
+	public String paymentHistoryDetail(@PathVariable("id") Integer id, Model model) {
+
+		List<Payment> payments = paymentRepository.findAllById(id);
+		Payment payment = paymentRepository.getReferenceById(id);
+		model.addAttribute("payments", payments);
+		model.addAttribute("payment", payment);
+
+		return "user/account/paymentDetail";
 	}
 
 }
