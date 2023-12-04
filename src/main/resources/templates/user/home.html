@@ -23,10 +23,10 @@
 					<div th:each="product : ${products}" class="col-lg-3">
 						<div class="categories__item set-bg"
 							th:data-setbg="@{${product.thumbnailImage}}">
-							<h5>
-								<a th:href="@{/shop/detail/{id}(id=${product.id})}">[[${product.name}]]</a>
-							</h5>
 						</div>
+						<h5>
+							<a th:href="@{/shop/detail/{id}(id=${product.id})}">[[${product.name}]]</a>
+						</h5>
 					</div>
 				</div>
 			</div>
