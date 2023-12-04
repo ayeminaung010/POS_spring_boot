@@ -4,7 +4,7 @@
 
 <head>
 <meta charset="UTF-8">
-<title>Category</title>
+<title>Payment</title>
 <link th:replace="admin/layout/assets :: css" />
 </head>
 
@@ -67,12 +67,18 @@
 								class="badge rounded-pill text-bg-danger">[[${payment.status}]]</span>
 							</td>
 							<td>[[${#dates.format(payment.createdTime,'dd-MMM-yyyyHH:mm')}]]</td>
-							<td><a href="#" class="btn btn-link btn-lg btn-rounded">
+							<td>
+								
+								<a th:href="@{/payment/detail/{id}(id=${payment.id})}" 
+									class="btn btn-link btn-lg btn-rounded">
 									<i class="fa-solid fa-circle-info"></i>
-							</a></td>
+								</a> 
+							</td>
 						</tr>
 					</tbody>
 				</table>
+				
+				
 
 				<!-- Pagination Controls -->
 				<div th:if="${totalPages > 1}">
@@ -91,16 +97,14 @@
 								th:text="${pageNumber}"></a></li>
 							<li class="page-item"
 								th:class="${currentPage == totalPages ? 'disabled' : ''}">
-								<a class="page-link" th:href="@{/payment/all(page=${totalPages})}"
-								aria-label="Next"> <span aria-hidden="true">Next
-										&raquo;</span>
+								<a class="page-link"
+								th:href="@{/payment/all(page=${totalPages})}" aria-label="Next">
+									<span aria-hidden="true">Next &raquo;</span>
 							</a>
 							</li>
 						</ul>
 					</nav>
 				</div>
-
-
 			</div>
 		</div>
 	</div>
@@ -108,10 +112,10 @@
 	<!-- js   -->
 	<script th:replace="admin/layout/assets :: js"></script>
 	<script type="text/javascript">
-		function openDeleteModal(button) {
-			$('#deleteId').val(button.getAttribute("data-categoryId"));
+		function openDetailModal(button) {
+			$('#detailId').val(button.getAttribute("data-paymentId"));
 			$('#deleteName').text(button.getAttribute("data-categoryName"));
-			$('#deleteModal').modal('show');
+			$('#detailModal').modal('show');
 		};
 	</script>
 </body>

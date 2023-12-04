@@ -171,17 +171,15 @@ public class UserController {
 		return "user/account/paymentHistory";
 
 	}
-	// @GetMapping("/paymenthistory/detail/{id}")
-	// public String PaymentHistoryDetail(String query, Model model) {
-
-//		List<Payment> payments;
-//		if (query != null && !query.isEmpty()) {
-//			payments = paymentRepository.findByTransactionIdContainingIgnoreCase(query.trim());
-//		} else {
-//			payments = paymentRepository.findAll();
-//		}
-//		model.addAttribute("payments", payments);
-//		return "user/account/paymentDetail";
-	// }
-
-}
+	@GetMapping("/paymenthistory/detail/{id}")
+		public String paymentHistoryDetail(@PathVariable("id") Integer id, Model model) {
+			
+			List<Payment> payments = paymentRepository.findAllById(id);
+			Payment payment = paymentRepository.getReferenceById(id);
+			model.addAttribute("payments", payments);
+			model.addAttribute("payment", payment);
+			
+			return "user/account/paymentDetail";
+		}
+	
+	}
