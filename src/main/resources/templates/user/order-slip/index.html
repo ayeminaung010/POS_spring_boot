@@ -137,8 +137,7 @@ hr {
 	#printCard .btn {
 		display: none;
 	}
-	
-		.card {
+	.card {
 		box-shadow: none;
 		border: none;
 	}
@@ -214,7 +213,8 @@ hr {
 						<b>[[ ${#numbers.formatInteger(totalPrice,1)} ]] Ks</b>
 					</div>
 				</div>
-				<button class="btn d-flex mx-auto btn-download" >Print</button>
+				<button class="btn d-flex mx-auto btn-download"
+					onclick="printCard()">Print</button>
 			</div>
 		</div>
 	</div>
@@ -222,33 +222,13 @@ hr {
 	<!-- js files  -->
 	<script th:replace="user/layout/assets :: js"></script>
 	<script type="text/javascript" th:src="@{/app/js/html2pdf.js}"></script>
+	<script type="text/javascript" th:src="@{/app/js/printThis.js}"></script>
 	<script type="text/javascript">
-		"use strict";
-		const options = {
-			margin : 0.3,
-			filename : "YourOrder.pdf",
-			image : {
-				type : 'jpeg',
-				quality : 0.98
-			},
-			html2canvas : {
-				scale : 2
-			},
-			jsPDF : {
-				unit : 'in',
-				format : 'A4',
-				orientation : 'landscape'
-			}
+		function printCard() {
+			$('#printCard').printThis();
 		}
-		
-		var objstr = document.getElementById('printCard').innerHTML;
-        var strr = objstr;
-        $(document).on('click', '.btn-download', function(e) {
-            e.preventDefault();
-            var element = document.getElementById('demo');
-            html2pdf().from(strr).set(options).save();
-        });
 	</script>
+
 </body>
 </html>
 
@@ -275,3 +255,32 @@ hr {
         document.body.classList.remove("printing");
     }
 </script> -->
+
+
+<!-- <script type="text/javascript">
+		"use strict";
+		const options = {
+			margin : 0.3,
+			filename : "YourOrder.pdf",
+			image : {
+				type : 'jpeg',
+				quality : 0.98
+			},
+			html2canvas : {
+				scale : 2
+			},
+			jsPDF : {
+				unit : 'in',
+				format : 'A4',
+				orientation : 'landscape'
+			}
+		}
+		
+		var objstr = document.getElementById('printCard').innerHTML;
+        var strr = objstr;
+        $(document).on('click', '.btn-download', function(e) {
+            e.preventDefault();
+            var element = document.getElementById('demo');
+            html2pdf().from(strr).set(options).save();
+        });
+	</script> -->
