@@ -852,7 +852,6 @@ ol {
 	height: 270px;
 	position: relative;
 	overflow: hidden;
-	background-position: center center;
 	background-size: 100% auto;
     left: 50%;
     top: 0;
@@ -1046,6 +1045,10 @@ ol {
 	font-size: 46px;
 	color: #ffffff;
 	font-weight: 700;
+	text-shadow: 2px 2px 0px #000, 2px -2px 0px #000, 
+				-2px 2px 0px #000, -2px -2px 0px #000, 
+				2px 0px 0px #000, 0px 2px 0px #000, 
+				-2px 0px 0px #000, 0px -2px 0px #000;
 }
 
 .breadcrumb__option a {
@@ -1055,6 +1058,10 @@ ol {
 	font-weight: 700;
 	margin-right: 20px;
 	position: relative;
+	text-shadow: 2px 2px 0px #000, 2px -2px 0px #000, 
+				-2px 2px 0px #000, -2px -2px 0px #000, 
+				2px 0px 0px #000, 0px 2px 0px #000, 
+				-2px 0px 0px #000, 0px -2px 0px #000;
 }
 
 .breadcrumb__option a:after {
@@ -1064,13 +1071,17 @@ ol {
 	height: 1px;
 	width: 10px;
 	background: #ffffff;
-	content: "";
+	
 }
 
 .breadcrumb__option span {
 	display: inline-block;
 	font-size: 16px;
 	color: #ffffff;
+	text-shadow: 2px 2px 0px #000, 2px -2px 0px #000, 
+				-2px 2px 0px #000, -2px -2px 0px #000, 
+				2px 0px 0px #000, 0px 2px 0px #000, 
+				-2px 0px 0px #000, 0px -2px 0px #000;
 }
 
 /*---------------------
@@ -1278,8 +1289,8 @@ ol {
 	bottom: 20px;
 }
 .product__discount__item__pic {
-	width: 300px;
-	height: 300px;
+	width: 270px;
+	height: 270px;
 	position: relative;
 	overflow: hidden;
     background-size: 100% auto;
