@@ -107,23 +107,45 @@
 							<div class=" col-6">
 								<span>[[${order.payment.transactionId}]]</span>
 							</div>
-							<div class=" col-6">
+							<div th:if="${order.payment.screenshot ne null}" class=" col-6">
 								<span>ScreenShot</span>
 							</div>
 							<div class=" col-6">
-								<span>
-									<a th:href="${order.payment.screenshot}" target="_blank">
-									<img alt="" width="60" height="60" th:src="${order.payment.screenshot}">
-									</a>
+								<span th:if="${order.payment.screenshot ne null}"> <a th:href="${order.payment.screenshot}"
+									target="_blank"> <img alt="" width="60" height="60"
+										th:src="${order.payment.screenshot}">
+								</a>
 								</span>
 							</div>
-							<div class="col-6 mt-4" >
-								<div class="row">
+							<div class="col-8 mt-4">
+								<div th:if="${order.status eq 'PENDING'}" class="row">
 									<div class="col-6">
-										<button class="btn btn-success w-100">Accept</button>
+										<form th:action="@{/order/accept/{id}(id=${order.id})}"
+											method="post" th:object="${order}">
+											<button type="submit" class="btn btn-success w-100">Accept</button>
+										</form>
 									</div>
-									<div  class="col-6">
-										<button class="btn btn-danger  w-100">Reject</button>
+									<div class="col-6">
+										<form th:action="@{/order/reject/{id}(id=${order.id})}"
+											method="post" th:object="${order}">
+											<button type="submit" class="btn btn-danger  w-100">Reject</button>
+										</form>
+									</div>
+								</div>
+								<div th:if="${order.status eq 'SUCCESS'}" class="row">
+									<div class="col-12">
+										<span class="d-flex gap-3"> <i
+											class="fa-solid fa-clipboard-check text-success fs-3"></i>
+											<h4 class=" font-weight-bold">Payment Accepted</h4>
+										</span>
+									</div>
+								</div>
+								<div th:if="${order.status eq 'REJECTED'}" class="row">
+									<div class="col-12">
+										<span class="d-flex gap-3"> <i
+											class="fa-solid fa-circle-xmark text-danger fs-3"></i>
+											<h4 class=" font-weight-bold">Payment Rejected</h4>
+										</span>
 									</div>
 								</div>
 							</div>

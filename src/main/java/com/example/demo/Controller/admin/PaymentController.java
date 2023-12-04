@@ -107,6 +107,7 @@ public class PaymentController {
 		model.addAttribute("payments", payments);
 		return "admin/payment-history/index";
 	}
+  
 	@GetMapping("/payment/detail/{id}")
 	public String viewDetail(@PathVariable("id") Integer id, Model model) {
 		
@@ -117,4 +118,5 @@ public class PaymentController {
 		
 		return "admin/payment-history/paymentDetail";
 	}
+	
 }

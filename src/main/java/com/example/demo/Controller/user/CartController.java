@@ -203,7 +203,7 @@ public class CartController {
 	                return "user/cart/address";
 	            }
 
-	            product.setStock(remainingStock);
+	            product.setStock(remainingStock); // logic stock
 
 	            orderProducts.setQuantity(cart.getQuantity());
 	            orderProducts.setTotalPrice(cart.getPrice() * cart.getQuantity());
@@ -217,7 +217,6 @@ public class CartController {
 
 	        // Save all OrderProducts together
 	        orderProductRepository.saveAll(orderProductsList);
-
 	        // Remove cart from session
 	        session.removeAttribute("cart");
 	        session.removeAttribute("payment");

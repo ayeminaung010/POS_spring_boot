@@ -10,12 +10,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.daos.OrderProductRepository;
 import com.example.demo.daos.OrderRepository;
+import com.example.demo.daos.PaymentRepository;
 import com.example.demo.model.Order;
 import com.example.demo.model.OrderProducts;
+import com.example.demo.model.Payment;
 
 @Controller
 public class OrderController {
@@ -24,6 +27,9 @@ public class OrderController {
 
 	@Autowired
 	OrderProductRepository orderProductRepository;
+	
+	@Autowired
+	PaymentRepository paymentRepository;
 
 	@GetMapping("/order/all")
 	public String viewAll(@RequestParam(name = "search", required = false) String query,
@@ -111,7 +117,30 @@ public class OrderController {
 		Order order = orderRepository.getReferenceById(id);
 		model.addAttribute("orderProducts", orderProducts);
 		model.addAttribute("order", order);
-		System.out.println(order.getPayment().getPaymentType());
 		return "admin/order-product/index";
+	}
+	
+	@PostMapping("/order/accept/{id}")
+	public String orderSuccss(@PathVariable("id") Integer id ) {
+		Order order = orderRepository.getReferenceById(id);
+		order.setStatus("SUCCESS");
+		orderRepository.save(order); //change order status
+		
+		Payment payment = paymentRepository.getReferenceById(order.getPayment().getId());
+		payment.setStatus("SUCCESS");
+		paymentRepository.save(payment); //change payment status
+		return "redirect:/order/detail/" + id;
+	}
+	
+	@PostMapping("/order/reject/{id}")
+	public String orderReject(@PathVariable("id") Integer id ) {
+		Order order = orderRepository.getReferenceById(id);
+		order.setStatus("REJECTED");
+		orderRepository.save(order);
+		
+		Payment payment = paymentRepository.getReferenceById(order.getPayment().getId());
+		payment.setStatus("REJECTED");
+		paymentRepository.save(payment); //change payment status
+		return "redirect:/order/detail/" + id;
 	}
 }
