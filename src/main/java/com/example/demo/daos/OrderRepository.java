@@ -1,6 +1,5 @@
 package com.example.demo.daos;
 
-import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,5 +17,5 @@ public interface OrderRepository  extends JpaRepository<Order, Integer>{
 	
 	Page<Order> findByOrderNumberContainingIgnoreCaseAndStatus(String orderNumber, String status,Pageable pageable);
 	
-	List<Order> findByUserId(Integer id);
+	Page<Order> findByUserId(Integer id,Pageable pageable);
 }
