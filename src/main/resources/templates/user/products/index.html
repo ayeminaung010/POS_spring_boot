@@ -32,6 +32,7 @@
 		</div>
 	</section>
 	<!-- Breadcrumb Section End -->
+	
 
 	<!-- Product Section Begin -->
 	<section class="product spad">
@@ -112,11 +113,6 @@
 									</h6>
 								</div>
 							</div>
-							<div class="col-lg-4 col-md-3">
-								<div class="filter__option">
-									<span class="icon_grid-2x2"></span> <span class="icon_ul"></span>
-								</div>
-							</div>
 						</div>
 					</div>
 					<div th:if="${#lists.size(sortProducts) > 0}" class="row">
@@ -142,10 +138,34 @@
 						</div>
 
 					</div>
-					<div class="product__pagination">
-						<a href="#">1</a> <a href="#">2</a> <a href="#">3</a> <a href="#"><i
-							class="fa fa-long-arrow-right"></i></a>
+					
+					<!-- show no discount products -->
+					<div th:if="${#lists.size(sortProducts) == 0}">
+						<h4 class=" text-center">Product Not Found :(</h4>
 					</div>
+
+					<!-- Pagination Controls -->
+					<nav th:if="${totalPages > 1}" aria-label="Page navigation example">
+						<ul class="pagination">
+							<li class="page-item"
+								th:class="${currentPage == 1 ? 'disabled' : ''}"><a
+								class="page-link" th:href="@{${servletPath}(page=${currentPage - 1})}"
+								aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
+							</a></li>
+							<li th:each="pageNumber : ${#numbers.sequence(1, totalPages)}"
+								class="page-item"
+								th:class="${pageNumber == currentPage ? 'active' : ''}"><a
+								class="page-link" th:href="@{${servletPath}(page=${pageNumber})}"
+								th:text="${pageNumber}"></a></li>
+							<li class="page-item"
+								th:class="${currentPage == totalPages ? 'disabled' : ''}">
+								<a class="page-link" th:href="@{${servletPath}(page=${currentPage + 1})}"
+								aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+							</a>
+							</li>
+						</ul>
+					</nav>
+					
 				</div>
 			</div>
 		</div>

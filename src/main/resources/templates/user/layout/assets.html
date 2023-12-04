@@ -118,7 +118,7 @@
 								<li th:class="${servletPath == '/contact'} ? 'active' : ''"><a
 									th:href="@{/contact}">Contact</a></li>
 
-								<li sec:authorize="isAuthenticated()"><a href="#">Account
+								<li sec:authorize="isAuthenticated()"  ><a  href="#">Account
 										<span class=" d-none " id="username"
 										sec:authentication="principal.username"></span>
 								</a>
