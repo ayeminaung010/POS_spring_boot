@@ -1555,7 +1555,6 @@ ol {
 	height: 270px;
 	position: relative;
 	overflow: hidden;
-	background-size: 100% auto;
     left: 50%;
     top: 0;
     transform: translateX(-50%);
@@ -3555,5 +3554,10 @@ ol {
 	background-color: var(--main-color);
 }
 
+/* .col-lg-3 {
+    flex: 0 0 30%;
+    max-width: 30%;
+} 
+ */
 
 
