@@ -111,8 +111,8 @@
 								<a th:href="@{/shop/detail/{id}(id=${product.id})}"
 									class="productName">[[${product.name}]]</a>
 							</h6>
-							<h5 th:if="${product.discountPrice == 0}">[[${#numbers.formatInteger(product.price,1)}
-								]] Ks</h5>
+							<div th:if="${product.discountPrice == 0}">[[${#numbers.formatInteger(product.price,1)}
+								]] Ks</div>
 							<div th:if="${product.discountPrice != 0}"
 								class="product__item__price">
 								<span>[[
