@@ -47,11 +47,12 @@
 							<div th:if="${#lists.size(showDisProducts) > 0}"
 								class="product__discount__slider owl-carousel">
 								<div th:each="dsProduct : ${showDisProducts}" class="col-lg-4">
+									<a th:href="@{/shop/detail/{id}(id=${dsProduct.id})}">	
 									<div class="product__discount__item">
 										<div class="product__discount__item__pic set-bg"
 											th:data-setbg="${dsProduct.thumbnailImage}">
 										</div>
-										<div class="product__discount__percent">-[[${dsProduct.discount}]]%</div>
+										<div class="product__discount__percent">-[[${#numbers.formatInteger(dsProduct.discount,1)}]]%</div>
 										<div class="product__discount__item__text">
 											<span>[[${dsProduct.subCategory.category.categoryName}]]</span>
 											<h5>
@@ -64,13 +65,14 @@
 											</div>
 										</div>
 									</div>
+									</a>
 								</div>
 
 							</div>
 
 							<!-- show no discount products -->
 							<div th:if="${#lists.size(showDisProducts) == 0}">
-								<h4>..There is no discount products..</h4>
+								<h4>No discount products..</h4>
 							</div>
 						</div>
 					</div>
@@ -96,6 +98,7 @@
 					<div th:if="${#lists.size(products) > 0}" class="row">
 						<div th:each="product : ${products}"
 							class="col-lg-4 col-md-6 col-sm-6">
+							<a th:href="@{/shop/detail/{id}(id=${product.id})}">	
 							<div class="product__item">
 								<div class="product__item__pic set-bg"
 									th:data-setbg="@{${product.thumbnailImage}}"></div>
@@ -113,6 +116,7 @@
 									</div>
 								</div>
 							</div>
+							</a>
 						</div>
 
 					</div>

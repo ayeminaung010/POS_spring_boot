@@ -46,7 +46,7 @@
 							<div class="product__discount__item">
 								<div class="product__discount__item__pic set-bg"
 									th:data-setbg="${dsProduct.thumbnailImage}"></div>
-								<div class="product__discount__percent">-[[${dsProduct.discount}]]%</div>
+								<div class="product__discount__percent">-[[${#numbers.formatInteger(dsProduct.discount,1)}]]%</div>
 								<div class="product__discount__item__text">
 									<span>[[${dsProduct.subCategory.category.categoryName}]]</span>
 									<h5>
@@ -65,7 +65,7 @@
 
 					<!-- show no discount products -->
 					<div th:if="${#lists.size(showDisProducts) == 0}">
-						<h4>..There is no discount products..</h4>
+						<h4>There is no discount products..</h4>
 					</div>
 				</div>
 

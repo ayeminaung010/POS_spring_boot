@@ -32,7 +32,7 @@
 		</div>
 	</section>
 	<!-- Breadcrumb Section End -->
-	
+
 
 	<!-- Product Section Begin -->
 	<section class="product spad">
@@ -67,22 +67,24 @@
 							<div th:if="${#lists.size(showDisProducts) > 0}"
 								class="product__discount__slider owl-carousel">
 								<div th:each="dsProduct : ${showDisProducts}" class="col-lg-4">
-									<div class="product__discount__item">
-										<div class="product__discount__item__pic set-bg"
-											th:data-setbg="${dsProduct.thumbnailImage}">
-										</div>
-										<div class="product__discount__percent">-[[${dsProduct.discount}]]%</div>
-										<div class="product__discount__item__text">
-											<span>[[${dsProduct.subCategory.category.categoryName}]]</span>
-											<h5>
-												<a th:href="@{/shop/detail/{id}(id=${dsProduct.id})}">[[${dsProduct.name}]]</a>
-											</h5>
-											<div class="product__item__price">
-												[[ ${#numbers.formatInteger(dsProduct.discountPrice,1)} ]] Ks <span>[[${#numbers.formatInteger(dsProduct.price,1)} ]]
-													Ks</span>
+									<a th:href="@{/shop/detail/{id}(id=${dsProduct.id})}">
+										<div class="product__discount__item">
+											<div class="product__discount__item__pic set-bg"
+												th:data-setbg="${dsProduct.thumbnailImage}"></div>
+											<div class="product__discount__percent">-[[${#numbers.formatInteger(dsProduct.discount,1)}]]%</div>
+											<div class="product__discount__item__text">
+												<span>[[${dsProduct.subCategory.category.categoryName}]]</span>
+												<h5>
+													<a th:href="@{/shop/detail/{id}(id=${dsProduct.id})}">[[${dsProduct.name}]]</a>
+												</h5>
+												<div class="product__item__price">
+													[[ ${#numbers.formatInteger(dsProduct.discountPrice,1)} ]]
+													Ks <span>[[${#numbers.formatInteger(dsProduct.price,1)}
+														]] Ks</span>
+												</div>
 											</div>
 										</div>
-									</div>
+									</a>
 								</div>
 
 							</div>
@@ -117,27 +119,29 @@
 					<div th:if="${#lists.size(sortProducts) > 0}" class="row">
 						<div th:each="product : ${sortProducts}"
 							class="col-lg-4 col-md-6 col-sm-6">
-							<div class="product__item">
-								<div class="product__item__pic set-bg"
-									th:data-setbg="@{${product.thumbnailImage}}">
-
-								</div>
-								<div class="product__item__text">
-									<h6>
-										<a th:href="@{/shop/detail/{id}(id=${product.id})}">[[${product.name}]]</a>
-									</h6>
-									<h5 th:if="${product.discountPrice == 0}">[[${#numbers.formatInteger(product.price,1)} ]] Ks</h5>
-									<div th:if="${product.discountPrice != 0}" class="product__item__price">
-										<span>[[ ${#numbers.formatInteger(product.discountPrice,1)} ]] Ks</span>
-										<del>[[${#numbers.formatInteger(product.price,1)} ]]
-											Ks</del>
+							<a th:href="@{/shop/detail/{id}(id=${product.id})}">
+								<div class="product__item">
+									<div class="product__item__pic set-bg"
+										th:data-setbg="@{${product.thumbnailImage}}"></div>
+									<div class="product__item__text">
+										<h6>
+											<a th:href="@{/shop/detail/{id}(id=${product.id})}">[[${product.name}]]</a>
+										</h6>
+										<h5 th:if="${product.discountPrice == 0}">[[${#numbers.formatInteger(product.price,1)}
+											]] Ks</h5>
+										<div th:if="${product.discountPrice != 0}"
+											class="product__item__price">
+											<span>[[
+												${#numbers.formatInteger(product.discountPrice,1)} ]] Ks</span>
+											<del>[[${#numbers.formatInteger(product.price,1)} ]] Ks</del>
+										</div>
 									</div>
 								</div>
-							</div>
+							</a>
 						</div>
 
 					</div>
-					
+
 					<!-- show no discount products -->
 					<div th:if="${#lists.size(sortProducts) == 0}">
 						<h4 class=" text-center">Product Not Found :(</h4>
@@ -148,23 +152,26 @@
 						<ul class="pagination">
 							<li class="page-item"
 								th:class="${currentPage == 1 ? 'disabled' : ''}"><a
-								class="page-link" th:href="@{${servletPath}(page=${currentPage - 1})}"
+								class="page-link"
+								th:href="@{${servletPath}(page=${currentPage - 1})}"
 								aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
 							</a></li>
 							<li th:each="pageNumber : ${#numbers.sequence(1, totalPages)}"
 								class="page-item"
 								th:class="${pageNumber == currentPage ? 'active' : ''}"><a
-								class="page-link" th:href="@{${servletPath}(page=${pageNumber})}"
+								class="page-link"
+								th:href="@{${servletPath}(page=${pageNumber})}"
 								th:text="${pageNumber}"></a></li>
 							<li class="page-item"
 								th:class="${currentPage == totalPages ? 'disabled' : ''}">
-								<a class="page-link" th:href="@{${servletPath}(page=${currentPage + 1})}"
+								<a class="page-link"
+								th:href="@{${servletPath}(page=${currentPage + 1})}"
 								aria-label="Next"> <span aria-hidden="true">&raquo;</span>
 							</a>
 							</li>
 						</ul>
 					</nav>
-					
+
 				</div>
 			</div>
 		</div>
