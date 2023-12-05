@@ -50,7 +50,7 @@
 				<td>[[${payment.paymentType}]]</td>
 				<td>[[${payment.transactionId}]]</td>
 				<td>
-					<span> <a th:href="${payment.screenshot}" target="_blank">
+					<span th:if="${payment.screenshot ne null}"> <a th:href="${payment.screenshot}" target="_blank">
 										<img alt="" width="100" height="50"
 										th:src="${payment.screenshot}">
 								</a>

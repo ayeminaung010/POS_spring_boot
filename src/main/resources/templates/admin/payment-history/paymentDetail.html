@@ -43,7 +43,7 @@
 								<span>ScreenShot</span>
 							</div>
 							<div class=" col-6">
-								<span> <a th:href="${payment.screenshot}" target="_blank">
+								<span th:if="${payment.screenshot ne null}"> <a th:href="${payment.screenshot}" target="_blank">
 										<img alt="" width="200" class=" object-fit-cover" height="300"
 										th:src="${payment.screenshot}">
 								</a>
