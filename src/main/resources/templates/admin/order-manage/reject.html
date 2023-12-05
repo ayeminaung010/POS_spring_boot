@@ -62,7 +62,8 @@
 							</td>
 							<td>[[${#dates.format(order.createdTime,'dd-MMM-yyyy
 								HH:mm')}]]</td>
-							<td><a class="btn btn-link btn-lg btn-rounded"> <i
+							<td><a th:href="@{/order/detail/{id}(id=${order.id})}"
+								class="btn btn-link btn-lg btn-rounded"> <i
 									class="fa-solid fa-circle-info"></i>
 							</a></td>
 						</tr>

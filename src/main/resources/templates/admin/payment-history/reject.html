@@ -66,10 +66,12 @@
 								class="badge rounded-pill text-bg-danger">[[${payment.status}]]</span>
 							</td>
 							<td>[[${#dates.format(payment.createdTime,'dd-MMM-yyyyHH:mm')}]]</td>
-							<td><a th:href="@{/order/detail/{id}(id=${payment.id})}"
-								class="btn btn-link btn-lg btn-rounded"> <i
-									class="fa-solid fa-circle-info"></i>
-							</a></td>
+							<td>
+								<a th:href="@{/payment/detail/{id}(id=${payment.id})}" 
+									class="btn btn-link btn-lg btn-rounded">
+									<i class="fa-solid fa-circle-info"></i>
+								</a> 
+							</td>
 						</tr>
 					</tbody>
 				</table>
