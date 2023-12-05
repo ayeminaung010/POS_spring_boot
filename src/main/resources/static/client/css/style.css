@@ -735,7 +735,6 @@ ol {
 	width: 270px;
 	height: 270px;
 	position: relative;
-	background-size: 100% auto;
     left: 50%;
     top: 0;
     transform: translateX(-50%);
@@ -788,7 +787,7 @@ ol {
 	position: absolute;
 	left: -35px;
 	top: 50%;
-	-webkit-transform: translateY(-35px);
+	transform: translateY(-35px);
 	background: #ffffff;
 }
 
@@ -852,7 +851,6 @@ ol {
 	height: 270px;
 	position: relative;
 	overflow: hidden;
-	background-size: 100% auto;
     left: 50%;
     top: 0;
     transform: translateX(-50%);
@@ -1293,7 +1291,6 @@ ol {
 	height: 270px;
 	position: relative;
 	overflow: hidden;
-    background-size: 100% auto;
     left: 50%;
     top: 0;
     transform: translateX(-50%);
@@ -1555,7 +1552,6 @@ ol {
 	height: 270px;
 	position: relative;
 	overflow: hidden;
-	background-size: 100% auto;
     left: 50%;
     top: 0;
     transform: translateX(-50%);
@@ -3555,5 +3551,9 @@ ol {
 	background-color: var(--main-color);
 }
 
+.related-product .col-lg-3 {
+    flex: 0 0 30%;
+    max-width: 30%;
+}
 
 
