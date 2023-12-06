@@ -16,7 +16,7 @@ import com.example.demo.model.Product;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Integer> {
 	List<Product> findByDiscountGreaterThan(double discount);
-	List<Product> findBySubCategorySubCategoryName(String subCategoryName);
+	Page<Product> findBySubCategorySubCategoryName(String subCategoryName,Pageable pageable);
 	
 	@Query("SELECT p FROM Product p WHERE LOWER(p.name) LIKE LOWER(CONCAT('%', :query, '%')) OR LOWER(p.description) LIKE LOWER(CONCAT('%', :query, '%'))")
 	Page<Product> searchProducts(@Param("query") String query,Pageable pageable);

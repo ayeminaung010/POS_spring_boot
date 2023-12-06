@@ -76,15 +76,21 @@ public class PageController {
 
 	@GetMapping("/shop/{subCategory}/{id}")
 	public String subCategoryProducts(@PathVariable("subCategory") String subCategory,
+			@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "9") int size,
+			@RequestParam(defaultValue = "createdTime") String sortBy,
 			@PathVariable("id") Integer subCategoryId, Model model) {
-		List<Product> sortProducts = productRepository.findBySubCategorySubCategoryName(subCategory);
+		
+		Page<Product> productPage;
+		PageRequest pageRequest = PageRequest.of(page - 1, size, Sort.by(sortBy).descending());
+		productPage = productRepository.findBySubCategorySubCategoryName(subCategory,pageRequest);
+		
+		List<Product> sortProducts = productPage.getContent();
 		for (Product product : sortProducts) {
 			double discount = product.getDiscount();
 			if (discount != 0.0) {
 				double discountPrice = calculateDiscountPrice(discount, product.getPrice());
 				product.setDiscountPrice(discountPrice);
 			}
-
 		}
 		model.addAttribute("sortProducts", sortProducts);
 		return "user/products/index";
@@ -106,6 +112,7 @@ public class PageController {
 		return "redirect:/contact";
 
 	}
+	
 
 	// calculate discount price
 	public Double calculateDiscountPrice(double discount, double originalPrice) {

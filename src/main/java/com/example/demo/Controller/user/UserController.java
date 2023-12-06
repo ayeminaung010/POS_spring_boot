@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.daos.OrderProductRepository;
@@ -137,12 +141,19 @@ public class UserController {
 	}
 
 	@GetMapping("/user/orderhistory")
-	public String ShowOrder(String query, @AuthenticationPrincipal UserOwnDetail loginUser, Model model) {
+	public String ShowOrder(String query, @AuthenticationPrincipal UserOwnDetail loginUser,
+			@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int size,
+			@RequestParam(defaultValue = "createdTime") String sortBy, Model model) {
 		Integer id = loginUser.getId();
-		List<Order> orders;
+		Page<Order> orderPage;
+		PageRequest pageRequest = PageRequest.of(page - 1, size, Sort.by(sortBy).descending());
 
-		orders = orderRepository.findByUserId(id);
+		orderPage = orderRepository.findByUserId(id, pageRequest);
+		List<Order> orders = orderPage.getContent();
 		model.addAttribute("orders", orders);
+
+		model.addAttribute("currentPage", orderPage.getNumber() + 1);
+		model.addAttribute("totalPages", orderPage.getTotalPages());
 		return "user/account/orderHistory";
 
 	}
@@ -154,34 +165,55 @@ public class UserController {
 		return "user/account/orderDetail";
 	}
 
+	@GetMapping("/user/order/slip/{id}")
+	public String getSlip(@PathVariable("id") Integer id, Model model) {
+		Order order = orderRepository.getReferenceById(id);
+		List<OrderProducts> orderProducts = orderProductRepository.findByOrderId(id);
+		model.addAttribute("orderProducts", orderProducts);
+		double totalPrice = 0.0;
+		for (OrderProducts orderProduct : orderProducts) {
+			totalPrice += orderProduct.getTotalPrice();
+		}
+		totalPrice = totalPrice + 5000;
+		model.addAttribute("totalPrice", totalPrice);
+		model.addAttribute("order", order);
+		return "user/order-slip/index";
+	}
+
 	@GetMapping("/user/paymenthistory")
-	public String showPaymentHistory(String query, @AuthenticationPrincipal UserOwnDetail loginUser, Model model) {
+	public String showPaymentHistory(String query, @AuthenticationPrincipal UserOwnDetail loginUser,
+			@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "10") int size,
+			@RequestParam(defaultValue = "createdTime") String sortBy, Model model) {
 		Integer id = loginUser.getId();
-		
-		List<Order> orders = orderRepository.findByUserId(id);
+		Page<Order> orderPage;
+		PageRequest pageRequest = PageRequest.of(page - 1, size, Sort.by(sortBy).descending());
+
+		orderPage = orderRepository.findByUserId(id, pageRequest);
+		List<Order> orders = orderPage.getContent();
 
 		List<Payment> payments = new ArrayList<>();
 		for (Order order : orders) {
-			Payment payment = order.getPayment(); 
-			if(payment != null) {
+			Payment payment = order.getPayment();
+			if (payment != null) {
 				payments.add(payment);
 			}
 		}
 		model.addAttribute("payments", payments);
+		model.addAttribute("currentPage", orderPage.getNumber() + 1);
+		model.addAttribute("totalPages", orderPage.getTotalPages());
 		return "user/account/paymentHistory";
 
 	}
-	// @GetMapping("/paymenthistory/detail/{id}")
-	// public String PaymentHistoryDetail(String query, Model model) {
 
-//		List<Payment> payments;
-//		if (query != null && !query.isEmpty()) {
-//			payments = paymentRepository.findByTransactionIdContainingIgnoreCase(query.trim());
-//		} else {
-//			payments = paymentRepository.findAll();
-//		}
-//		model.addAttribute("payments", payments);
-//		return "user/account/paymentDetail";
-	// }
+	@GetMapping("/paymenthistory/detail/{id}")
+	public String paymentHistoryDetail(@PathVariable("id") Integer id, Model model) {
+
+		List<Payment> payments = paymentRepository.findAllById(id);
+		Payment payment = paymentRepository.getReferenceById(id);
+		model.addAttribute("payments", payments);
+		model.addAttribute("payment", payment);
+
+		return "user/account/paymentDetail";
+	}
 
 }

@@ -5,16 +5,22 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import com.example.demo.daos.BrandRepository;
 import com.example.demo.daos.CategoryRepository;
+import com.example.demo.daos.OrderRepository;
+import com.example.demo.daos.PaymentRepository;
 import com.example.demo.daos.ProductRepository;
 import com.example.demo.daos.SubCategoryRepository;
 import com.example.demo.dto.CartItem;
 import com.example.demo.model.Brand;
 import com.example.demo.model.Category;
+import com.example.demo.model.Order;
+import com.example.demo.model.Payment;
 import com.example.demo.model.Product;
 import com.example.demo.model.SubCategory;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -38,6 +44,12 @@ public class SettingsControllerAdvice {
 	
 	@Autowired
 	ProductRepository productRepository;
+	
+	@Autowired
+	OrderRepository orderRepository;
+	
+	@Autowired
+	PaymentRepository paymentRepository;
 
 	@Autowired
 	HttpSession session;
@@ -161,7 +173,66 @@ public class SettingsControllerAdvice {
 
 	    return productPrices;
 	}
+	
+	@ModelAttribute("orders")
+	public List<Order> getShowAllOrders() {
+		List<Order> orders = orderRepository.findAll();
 
+	    return orders;
+	}
+	
+	@ModelAttribute("successOrders")
+	public List<Order> getShowSuccessOrders() {
+		Page<Order> orderPage = orderRepository.findByStatus("SUCCESS", Pageable.unpaged());
+	    List<Order> orders = orderPage.getContent();
+
+	    return orders;
+	}
+	
+	@ModelAttribute("rejectedOrders")
+	public List<Order> getShowRejectedOrders() {
+		Page<Order> orderPage = orderRepository.findByStatus("REJECTED", Pageable.unpaged());
+	    List<Order> orders = orderPage.getContent();
+
+	    return orders;
+	}
+	
+	@ModelAttribute("pendingOrders")
+	public List<Order> getShowPendingOrders() {
+		Page<Order> orderPage = orderRepository.findByStatus("PENDING", Pageable.unpaged());
+	    List<Order> orders = orderPage.getContent();
+
+	    return orders;
+	}
+	
+	@ModelAttribute("totalIncome")
+	public double getShowTotalIcome() {
+		Page<Order> orderPage = orderRepository.findByStatus("SUCCESS", Pageable.unpaged());
+	    List<Order> orders = orderPage.getContent();
+	    
+	    double totalIncome = 0.0;
+
+	    for (Order order : orders) {
+	        totalIncome += order.getTotalPrice();
+	    }
+	    
+	    return totalIncome;
+	}
+
+	@ModelAttribute("pendingIncome")
+	public double getPendingIcome() {
+		Page<Order> orderPage = orderRepository.findByStatus("PENDING", Pageable.unpaged());
+	    List<Order> orders = orderPage.getContent();
+	    
+	    double totalIncome = 0.0;
+
+	    for (Order order : orders) {
+	        totalIncome += order.getTotalPrice();
+	    }
+	    
+	    return totalIncome;
+	}
+	
 	
 	//calculate discount price
 	public Double calculateDiscountPrice(double discount,double originalPrice) {

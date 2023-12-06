@@ -22,17 +22,55 @@
 				<div class="categories__slider owl-carousel">
 					<div th:each="product : ${products}" class="col-lg-3">
 						<div class="categories__item set-bg"
-							th:data-setbg="@{${product.thumbnailImage}}">
-							<h5>
-								<a th:href="@{/shop/detail/{id}(id=${product.id})}">[[${product.name}]]</a>
-							</h5>
-						</div>
+							th:data-setbg="@{${product.thumbnailImage}}"></div>
+						<h5>
+							<a th:href="@{/shop/detail/{id}(id=${product.id})}">[[${product.name}]]</a>
+						</h5>
 					</div>
 				</div>
 			</div>
 		</div>
 	</section>
 	<!-- Categories Section End -->
+ 
+	<section class="row justify-content-center mt-5">
+		<div class=" col-lg-9">
+			<div class="product__discount">
+				<div class="section-title product__discount__title">
+					<h2>Discount Products</h2>
+				</div>
+				<div class="row">
+					<div th:if="${#lists.size(showDisProducts) > 0}"
+						class="product__discount__slider owl-carousel">
+						<div th:each="dsProduct : ${showDisProducts}" class="col-lg-4">
+							<div class="product__discount__item">
+								<div class="product__discount__item__pic set-bg"
+									th:data-setbg="${dsProduct.thumbnailImage}"></div>
+								<div class="product__discount__percent">-[[${#numbers.formatInteger(dsProduct.discount,1)}]]%</div>
+								<div class="product__discount__item__text">
+									<span>[[${dsProduct.subCategory.category.categoryName}]]</span>
+									<h5>
+										<a th:href="@{/shop/detail/{id}(id=${dsProduct.id})}">[[${dsProduct.name}]]</a>
+									</h5>
+									<div class="product__item__price">
+										[[ ${#numbers.formatInteger(dsProduct.discountPrice,1)} ]] Ks
+										<span>[[${#numbers.formatInteger(dsProduct.price,1)} ]]
+											Ks</span>
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+
+					<!-- show no discount products -->
+					<div th:if="${#lists.size(showDisProducts) == 0}">
+						<h4>There is no discount products..</h4>
+					</div>
+				</div>
+
+			</div>
+	</section>
 
 	<!-- Featured Section Begin -->
 	<section class="featured spad">
@@ -73,8 +111,8 @@
 								<a th:href="@{/shop/detail/{id}(id=${product.id})}"
 									class="productName">[[${product.name}]]</a>
 							</h6>
-							<h5 th:if="${product.discountPrice == 0}">[[${#numbers.formatInteger(product.price,1)}
-								]] Ks</h5>
+							<div th:if="${product.discountPrice == 0}">[[${#numbers.formatInteger(product.price,1)}
+								]] Ks</div>
 							<div th:if="${product.discountPrice != 0}"
 								class="product__item__price">
 								<span>[[

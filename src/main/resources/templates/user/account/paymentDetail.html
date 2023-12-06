@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Payment Detail</title>
+<!-- css -->
+<link th:replace="user/layout/assets :: css" />
+</head>
+<body>
+
+	<!-- header -->
+	<div th:replace="user/layout/assets :: header"></div>
+
+	<!--  hero section -->
+	<div th:replace="user/layout/assets :: hero-section"></div>
+
+	<!-- Breadcrumb Section Begin -->
+	<section class="breadcrumb-section set-bg"
+		th:data-setbg="@{/client/img/breadcrumb.jpg}">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12 text-center">
+					<div class="breadcrumb__text">
+						<h2>Payment Detail</h2>
+						<div class="breadcrumb__option">
+							<a href="/">Home</a> <span>Payment Detail</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- Breadcrumb Section End -->
+
+	<!-- Payment History detail Section Begin -->
+	<div class="container my-5">
+		<table class="table">
+		  <thead class="thead-dark">
+		    <tr>
+		      <th scope="col">No</th>
+		      <th scope="col">Payment Type</th>
+		      <th scope="col">Transaction ID</th>
+		      <th scope="col">ScreenShot</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		    <tr th:each="payment,state : ${payments}">
+				<td>[[${state.count}]]</td>
+				<td>[[${payment.paymentType}]]</td>
+				<td>[[${payment.transactionId}]]</td>
+				<td>
+					<span th:if="${payment.screenshot ne null}"> <a th:href="${payment.screenshot}" target="_blank">
+										<img alt="" width="100" height="50"
+										th:src="${payment.screenshot}">
+								</a>
+					</span>
+				</td>
+			</tr>
+		    
+		  </tbody>
+		</table>
+	</div>
+	<!-- Payment History detail Section End -->
+
+
+	<!-- js files  -->
+	<script th:replace="user/layout/assets :: js"></script>
+</body>
+</html>

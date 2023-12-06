@@ -9,6 +9,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.daos.PaymentRepository;
@@ -106,4 +107,16 @@ public class PaymentController {
 		model.addAttribute("payments", payments);
 		return "admin/payment-history/index";
 	}
+  
+	@GetMapping("/payment/detail/{id}")
+	public String viewDetail(@PathVariable("id") Integer id, Model model) {
+		
+		List<Payment> payments = paymentRepository.findAllById(id);
+		Payment payment = paymentRepository.getReferenceById(id);
+		model.addAttribute("payments", payments);
+		model.addAttribute("payment", payment);
+		
+		return "admin/payment-history/paymentDetail";
+	}
+	
 }

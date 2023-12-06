@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.thymeleaf.context.Context;
 
 import com.example.demo.daos.AddressRepository;
 import com.example.demo.daos.OrderProductRepository;
@@ -33,6 +34,7 @@ import com.example.demo.model.OrderProducts;
 import com.example.demo.model.Payment;
 import com.example.demo.model.Product;
 import com.example.demo.service.CloudinaryImageService;
+import com.example.demo.service.MailService;
 import com.example.demo.service.UserOwnDetail;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -66,6 +68,10 @@ public class CartController {
 	@Autowired
 	PaymentRepository paymentRepository;
 
+	@Autowired
+	MailService mailService;
+
+	
 	@PostMapping("/api/v1/updateCart")
 	public ResponseEntity<Object> updateCart(@RequestBody List<CartItem> cartItem) {
 		try {
@@ -169,58 +175,71 @@ public class CartController {
 				return "user/cart/address";
 			}
 			payment.setStatus("PENDING");
-	        paymentRepository.save(payment);
+			paymentRepository.save(payment);
+
+			// 2. Order process
+			Order order = new Order();
+			order.setTotalPrice(totalPrice);
+			Address savedAddress = addressRepository.save(address);
+			order.setAddress(savedAddress);
+			order.setOrderNumber(generateOrderNumber());
+			order.setStatus("PENDING");
+			order.setUser(loginUser.getUser());
+			order.setPayment(payment);
+
+			// Save the order first
+			orderRepository.save(order);
+
+			// 3. Order product process
+			List<OrderProducts> orderProductsList = new ArrayList<>();
+
+			for (CartItem cart : cartItem) {
+				OrderProducts orderProducts = new OrderProducts();
+				Integer productId = Integer.parseInt(cart.getId());
+				Product product = productRepository.getReferenceById(productId);
+
+				// Add the product to the set of products in OrderProducts
+				orderProducts.setProduct(product);
+
+				// Handle product stock
+				int remainingStock = product.getStock() - cart.getQuantity();
+				if (remainingStock < 0) {
+					// Handle insufficient stock
+					model.addAttribute("error", "Insufficient stock for product: " + product.getName());
+					return "user/cart/address";
+				}
+
+				product.setStock(remainingStock); // logic stock
+
+				orderProducts.setQuantity(cart.getQuantity());
+				orderProducts.setTotalPrice(cart.getPrice() * cart.getQuantity());
+				orderProducts.setOrderNumber(order.getOrderNumber());
+				orderProducts.setOrder(order);
+				orderProductsList.add(orderProducts);
+
+				// Save the updated product
+				productRepository.save(product);
+			}
+
+			// Save all OrderProducts together
+			orderProductRepository.saveAll(orderProductsList);
+			// Remove cart from session
+			session.removeAttribute("cart");
+			session.removeAttribute("payment");
+			
+			//send mail to customer
+			String sub = "Thanks For Your Order Recieved!";
+//			String body = "Your Order Recieved Successfully...!" + "\n" + 
+//						"Transaction ID: " + payment.getTransactionId() +"\n" + 
+//					"Please wait for payment confirmation...!";
+//			mailService.sendMailToUser(loginUser.getEmail(), sub, body);
+			
+			Context context = new Context();
+	        context.setVariable("orderNumber", order.getOrderNumber());
+	        context.setVariable("transactionId", payment.getTransactionId());
+	        context.setVariable("totalPrice", order.getTotalPrice());
 	        
-	     // 2. Order process
-	        Order order = new Order();
-	        order.setTotalPrice(totalPrice);
-	        Address savedAddress = addressRepository.save(address);
-	        order.setAddress(savedAddress);
-	        order.setOrderNumber(generateOrderNumber());
-	        order.setStatus("PENDING");
-	        order.setUser(loginUser.getUser());
-	        order.setPayment(payment);
-
-	        // Save the order first
-	        orderRepository.save(order);
-
-	        // 3. Order product process
-	        List<OrderProducts> orderProductsList = new ArrayList<>();
-
-	        for (CartItem cart : cartItem) {
-	            OrderProducts orderProducts = new OrderProducts();
-	            Integer productId = Integer.parseInt(cart.getId());
-	            Product product = productRepository.getReferenceById(productId);
-
-	            // Add the product to the set of products in OrderProducts
-	            orderProducts.setProduct(product);
-
-	            // Handle product stock
-	            int remainingStock = product.getStock() - cart.getQuantity();
-	            if (remainingStock < 0) {
-	                // Handle insufficient stock
-	                model.addAttribute("error", "Insufficient stock for product: " + product.getName());
-	                return "user/cart/address";
-	            }
-
-	            product.setStock(remainingStock);
-
-	            orderProducts.setQuantity(cart.getQuantity());
-	            orderProducts.setTotalPrice(cart.getPrice() * cart.getQuantity());
-	            orderProducts.setOrderNumber(order.getOrderNumber());
-	            orderProducts.setOrder(order);
-	            orderProductsList.add(orderProducts);
-
-	            // Save the updated product
-	            productRepository.save(product);
-	        }
-
-	        // Save all OrderProducts together
-	        orderProductRepository.saveAll(orderProductsList);
-
-	        // Remove cart from session
-	        session.removeAttribute("cart");
-	        session.removeAttribute("payment");
+	        mailService.sendEmailWithHtmlTemplate(loginUser.getEmail(), sub,"mail/order/recieved", context);
 
 			// add here
 			return "user/cart/successOrder";
@@ -249,10 +268,9 @@ public class CartController {
 		return "user/cart/address";
 	}
 
-	
-	//paypal ajax
+	// paypal ajax
 	@PostMapping("/cart/payment/paypal_process")
-	public ResponseEntity<Object> paypalAjax(@RequestBody Payment payment){
+	public ResponseEntity<Object> paypalAjax(@RequestBody Payment payment) {
 		session.setAttribute("payment", payment);
 		ResponseHelper responseHelper = new ResponseHelper();
 		responseHelper.setMessage("success");
@@ -260,8 +278,7 @@ public class CartController {
 		responseHelper.setStatus(true);
 		return ResponseEntity.ok(responseHelper);
 	}
-	
-	
+
 	// calculate total price
 	public Double calculateTotalPrice(Model model) {
 		try {
@@ -283,7 +300,7 @@ public class CartController {
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
-		return null;
+		return 0.0;
 	}
 
 	// generate order number
@@ -298,4 +315,6 @@ public class CartController {
 		// Combine timestamp and random number to create the order number
 		return "ORDER_POS_" + timestamp + String.format("%05d", randomDigits);
 	}
+
+
 }

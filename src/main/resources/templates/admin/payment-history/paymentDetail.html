@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8">
+<title>Payment Detail</title>
+<link th:replace="admin/layout/assets :: css" />
+</head>
+
+<body>
+	<div id="container">
+		<!-- side navbar   -->
+		<div th:replace="admin/layout/assets :: sideBar"></div>
+		<div id="content_wrap">
+			<div class="content_box">
+				<!-- header   -->
+				<div th:replace="admin/layout/assets :: header"></div>
+
+			</div>
+			<a onclick="history.back()" class="btn btn-dark rounded-0 my-3">
+				<i class="fa-solid fa-chevron-left"></i> Back
+			</a>
+
+			<div class=" row">
+				<div class="" style="max-width: 60%;">
+					<div class="card p-3 shadow">
+						<h3 class=" font-weight-bold">Payment Detail</h3>
+						<div class="row mt-2">
+							<div class=" col-6">
+								<span>Payment Type</span>
+							</div>
+							<div class=" col-6">
+								<span>[[${payment.paymentType}]]</span>
+							</div>
+							<div class=" col-6">
+								<span>Transaction ID</span>
+							</div>
+							<div class=" col-6">
+								<span>[[${payment.transactionId}]]</span>
+							</div>
+							<div class=" col-6">
+								<span>ScreenShot</span>
+							</div>
+							<div class=" col-6">
+								<span th:if="${payment.screenshot ne null}"> <a th:href="${payment.screenshot}" target="_blank">
+										<img alt="" width="200" class=" object-fit-cover" height="300"
+										th:src="${payment.screenshot}">
+								</a>
+								</span>
+							</div>
+
+						</div>
+
+					</div>
+
+				</div>
+
+			</div>
+		</div>
+		<!-- js   -->
+		<script th:replace="admin/layout/assets :: js"></script>
+</body>
+
+</html>
+

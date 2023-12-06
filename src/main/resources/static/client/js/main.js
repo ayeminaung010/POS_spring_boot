@@ -97,15 +97,15 @@
 
 
 	$('.hero__categories__all').on('click', function() {
-		$('.hero__categories > ul').slideToggle(400);
+		$('#menu_list').slideToggle(400);
 	});
 	
 	// test-subcategory
-	$('.hero__categories > ul').on('mouseenter focusin',function(){
-		$(this).closest('.hero__categories > ul').addClass('open');
+	$('.hero__categories > #menu_list ul').on('mouseenter focusin',function(){
+		$(this).closest('.hero__categories > #menu_list ul').addClass('open');
 	});
-	$('.hero__categories > ul').mouseleave (function() { 
-		$('.hero__categories > ul').removeClass('open');
+	$('.hero__categories > #menu_list ul').mouseleave (function() { 
+		$('.hero__categories > #menu_list ul').removeClass('open');
 	});
 
 

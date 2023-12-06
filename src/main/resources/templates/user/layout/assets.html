@@ -118,15 +118,17 @@
 								<li th:class="${servletPath == '/contact'} ? 'active' : ''"><a
 									th:href="@{/contact}">Contact</a></li>
 
-								<li sec:authorize="isAuthenticated()"><a href="#">Account
+								<li sec:authorize="isAuthenticated()"  ><a  href="#">Account
 										<span class=" d-none " id="username"
 										sec:authentication="principal.username"></span>
 								</a>
 									<ul class="header__menu__dropdown">
 										<li><a th:href="@{/user/profile}">Profile</a></li>
-										<li><a th:href="@{/user/changepassword}">Password Change</a></li>
+										<li><a th:href="@{/user/changepassword}">Password
+												Change</a></li>
 										<li><a th:href="@{/user/orderhistory}">Order History</a></li>
-										<li><a th:href="@{/user/paymenthistory}">Payment History</a></li>
+										<li><a th:href="@{/user/paymenthistory}">Payment
+												History</a></li>
 										<li class=" text-center mt-3">
 											<form th:action="@{/logout}" method="POST"
 												th:object="${client}">
@@ -167,28 +169,33 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-lg-3">
-						<div th:if="${servletPath == '/'}" class="hero__categories">
+						<div class="hero__categories">
 							<div class="hero__categories__all">
 								<i class="fa fa-bars"></i> <span>All Categories</span>
 							</div>
-							<ul th:each="category : ${categoryList}" >
-								<li><a href="#" class="text-capitalize"
-									th:text="${category.categoryName}"></a>
-									<div class="subcategory_list">
-										<ul>
-											<li th:each="subCategory : ${category.subCategories}"><a
-												th:href="@{/shop/{subCategory}/{id}(subCategory=${subCategory.subCategoryName},id=${subCategory.subCategoryId})}"
-												th:text="${subCategory.subCategoryName}"></a></li>
-										</ul>
-									</div></li>
-							</ul>
+							<div id="menu_list">
+								<ul th:each="category : ${categoryList}">
+									<li>
+										<a href="#" class="text-capitalize" th:text="${category.categoryName}"></a>
+										<div class="subcategory_list">
+											<ul>
+												<li th:each="subCategory : ${category.subCategories}"><a
+													th:href="@{/shop/{subCategory}/{id}(subCategory=${subCategory.subCategoryName},id=${subCategory.subCategoryId})}"
+													th:text="${subCategory.subCategoryName}"></a></li>
+											</ul>
+										</div>
+									 </li>
+								</ul>
+							</div>
+
 						</div>
 					</div>
 					<div class="col-lg-9">
 						<div class="hero__search">
 							<div class="hero__search__form">
 								<form action="/shop" method="get">
-									<input type="text" name="search" th:value="${param.search}" placeholder="What do yo u need?" />
+									<input type="text" name="search" th:value="${param.search}"
+										placeholder="What do yo u need?" />
 									<button type="submit" class="site-btn">SEARCH</button>
 								</form>
 							</div>

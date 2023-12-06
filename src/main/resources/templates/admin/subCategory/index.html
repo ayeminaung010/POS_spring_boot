@@ -79,7 +79,7 @@
 							<li class="page-item"
 								th:class="${currentPage == 1 ? 'disabled' : ''}"><a
 								class="page-link"
-								th:href="@{/subcategory(page=1)}"
+								th:href="@{${servletPath}(page=1)}"
 								aria-label="Previous"> <span aria-hidden="true">&laquo;
 										Previous</span>
 							</a></li>
@@ -87,12 +87,12 @@
 								class="page-item"
 								th:class="${pageNumber == currentPage ? 'active' : ''}"><a
 								class="page-link"
-								th:href="@{/subcategory(page=${pageNumber})}"
+								th:href="@{${servletPath}(page=${pageNumber})}"
 								th:text="${pageNumber}"></a></li>
 							<li class="page-item"
 								th:class="${currentPage == totalPages ? 'disabled' : ''}">
 								<a class="page-link"
-								th:href="@{/subcategory(page=${totalPages})}"
+								th:href="@{${servletPath}(page=${totalPages})}"
 								aria-label="Next"> <span aria-hidden="true">Next
 										&raquo;</span>
 							</a>

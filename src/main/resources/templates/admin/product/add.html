@@ -79,7 +79,7 @@
 								<label for="exampleInputEmail1" class="form-label">Price</label>
 								<input type="number" class="form-control"
 									placeholder="Enter Price" th:field="*{price}" required
-									min="0.1" step="0.01" />
+									min="0.1" step="0.01"  />
 
 								<p class="text-danger" th:if="${#fields.hasErrors('price')}"
 									th:errors="*{price}"></p>
@@ -88,7 +88,7 @@
 							<div class="mb-3">
 								<label for="exampleInputEmail1" class="form-label">Discount %</label>
 								<input type="number" class="form-control"
-									placeholder="Enter Discount" th:field="*{discount}" min="0" />
+									placeholder="Enter Discount" th:field="*{discount}" min="0" max="100" />
 
 								<p class="text-danger" th:if="${#fields.hasErrors('discount')}"
 									th:errors="*{discount}"></p>
