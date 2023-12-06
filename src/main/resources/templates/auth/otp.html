@@ -11,16 +11,17 @@
 
 <body>
 	<div id="sign-in" class="d-flex align-items-center">
-		<form action="/otpConfirm" method="POST" class="row g-3 signin">
+		<form th:action="@{/auth/otp/confirm}" method="post"
+			th:object="${user}" class="row g-3 signin">
 			<div class="alert alert-success" role="alert" th:text="${error}"
 				th:if="${error}"></div>
 			<div class="alert alert-success" role="alert" th:text="${success}"
 				th:if="${success}"></div>
-
+			<input type="hidden" th:field="*{id}" />
 			<div class="mb-3">
 				<label for="exampleFormControlInput1" class="form-label">OTP
-					Code</label> <input type="text" class="form-control" name="otpCode"
-					placeholder="Enter OTP code">
+					Code</label> <input type="text" class="form-control" th:field="*{otpCode}"
+					placeholder="Enter OTP code" required>
 			</div>
 			<div class="d-grid gap-2">
 				<button class="btn form-btn" type="submit">Continue</button>

@@ -48,6 +48,9 @@ public class User {
 	@Transient
 	private String currentPassword;
 	
+	@Transient
+//	@NotEmpty(message = "OTP is required..!")
+	private String otpCode;
 
 	@Transient
 	private boolean rememberMe;
@@ -154,6 +157,14 @@ public class User {
 
 	public void setUpdatedTime(Timestamp updatedTime) {
 		this.updatedTime = updatedTime;
+	}
+
+	public String getOtpCode() {
+		return otpCode;
+	}
+
+	public void setOtpCode(String otpCode) {
+		this.otpCode = otpCode;
 	}
 	
 	
