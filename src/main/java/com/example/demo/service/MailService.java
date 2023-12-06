@@ -37,7 +37,6 @@ public class MailService {
             helper.setTo(to);
             helper.setSubject(subject);
             String htmlContent = templateEngine.process(templateName, context);
-            System.out.println("htmlContent: " + htmlContent);
             helper.setText(htmlContent, true);
             javaMailSender.send(mimeMessage);
         } catch (MessagingException e) {

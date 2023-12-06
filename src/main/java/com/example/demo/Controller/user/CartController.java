@@ -229,9 +229,9 @@ public class CartController {
 			
 			//send mail to customer
 			String sub = "Thanks For Your Order Recieved!";
-			String body = "Your Order Recieved Successfully...!" + "\n" + 
-						"Transaction ID: " + payment.getTransactionId() +"\n" + 
-					"Please wait for payment confirmation...!";
+//			String body = "Your Order Recieved Successfully...!" + "\n" + 
+//						"Transaction ID: " + payment.getTransactionId() +"\n" + 
+//					"Please wait for payment confirmation...!";
 //			mailService.sendMailToUser(loginUser.getEmail(), sub, body);
 			
 			Context context = new Context();
