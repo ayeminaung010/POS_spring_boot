@@ -47,24 +47,29 @@
 							<div th:if="${#lists.size(showDisProducts) > 0}"
 								class="product__discount__slider owl-carousel">
 								<div th:each="dsProduct : ${showDisProducts}" class="col-lg-4">
-									<a th:href="@{/shop/detail/{id}(id=${dsProduct.id})}">	
-									<div class="product__discount__item">
-										<div class="product__discount__item__pic set-bg"
-											th:data-setbg="${dsProduct.thumbnailImage}">
-										</div>
-										<div class="product__discount__percent">-[[${#numbers.formatInteger(dsProduct.discount,1)}]]%</div>
-										<div class="product__discount__item__text">
-											<span>[[${dsProduct.subCategory.category.categoryName}]]</span>
-											<h5>
-												<a th:href="@{/shop/detail/{id}(id=${dsProduct.id})}">[[${dsProduct.name}]]</a>
-											</h5>
-											<div class="product__item__price">
-												[[ ${#numbers.formatInteger(dsProduct.discountPrice,1)} ]]
-												Ks <span>[[${#numbers.formatInteger(dsProduct.price,1)}
-													]] Ks</span>
+									<a th:href="@{/shop/detail/{id}(id=${dsProduct.id})}">
+										<div class="product__discount__item">
+											<div class="product__discount__item__pic set-bg"
+												th:data-setbg="${dsProduct.thumbnailImage}"></div>
+											<div class="product__discount__percent"
+												th:if="${dsProduct.discount eq 100}">Free</div>
+											<div th:unless="${dsProduct.discount eq 100}">
+												<div class="product__discount__percent"
+													th:text=" ${#numbers.formatInteger(dsProduct.discount, 1)} + '%'"></div>
+											</div>
+
+											<div class="product__discount__item__text">
+												<span>[[${dsProduct.subCategory.category.categoryName}]]</span>
+												<h5>
+													<a th:href="@{/shop/detail/{id}(id=${dsProduct.id})}">[[${dsProduct.name}]]</a>
+												</h5>
+												<div class="product__item__price">
+													[[ ${#numbers.formatInteger(dsProduct.discountPrice,1)} ]]
+													Ks <span>[[${#numbers.formatInteger(dsProduct.price,1)}
+														]] Ks</span>
+												</div>
 											</div>
 										</div>
-									</div>
 									</a>
 								</div>
 
@@ -98,24 +103,24 @@
 					<div th:if="${#lists.size(products) > 0}" class="row">
 						<div th:each="product : ${products}"
 							class="col-lg-4 col-md-6 col-sm-6">
-							<a th:href="@{/shop/detail/{id}(id=${product.id})}">	
-							<div class="product__item">
-								<div class="product__item__pic set-bg"
-									th:data-setbg="@{${product.thumbnailImage}}"></div>
-								<div class="product__item__text">
-									<h6>
-										<a th:href="@{/shop/detail/{id}(id=${product.id})}">[[${product.name}]]</a>
-									</h6>
-									<h5 th:if="${product.discountPrice == 0}">[[${#numbers.formatInteger(product.price,1)}
-										]] Ks</h5>
-									<div th:if="${product.discountPrice != 0}"
-										class="product__item__price">
-										<span>[[
-											${#numbers.formatInteger(product.discountPrice,1)} ]] Ks</span>
-										<del>[[${#numbers.formatInteger(product.price,1)} ]] Ks</del>
+							<a th:href="@{/shop/detail/{id}(id=${product.id})}">
+								<div class="product__item">
+									<div class="product__item__pic set-bg"
+										th:data-setbg="@{${product.thumbnailImage}}"></div>
+									<div class="product__item__text">
+										<h6>
+											<a th:href="@{/shop/detail/{id}(id=${product.id})}">[[${product.name}]]</a>
+										</h6>
+										<h5 th:if="${product.discount == 0}">[[${#numbers.formatInteger(product.price,1)}
+											]] Ks</h5>
+										<div th:if="${product.discount > 0}"
+											class="product__item__price">
+											<span>[[
+												${#numbers.formatInteger(product.discountPrice,1)} ]] Ks</span>
+											<del>[[${#numbers.formatInteger(product.price,1)} ]] Ks</del>
+										</div>
 									</div>
 								</div>
-							</div>
 							</a>
 						</div>
 

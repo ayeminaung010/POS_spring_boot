@@ -75,13 +75,14 @@
 							<span class="productPrice">[[${discountPrice} != null ?
 								${#numbers.formatInteger(discountPrice,1) } :
 								${#numbers.formatInteger(product.price,1)}]]</span> Ks
-							<del th:if="${discountPrice}">
+							<del th:if="${discountPrice ne null}">
 								<small class="originalPrice">[[
 									${#numbers.formatInteger(product.price,1)}]]</small><small>Ks</small>
 							</del>
 						</div>
-						<span th:if="${discountPrice}" class="badge badge-warning">[[${#numbers.formatInteger(product.discount,1,'POINT')}]]
+						<span th:if="${product.discount > 0}" class="badge badge-warning">[[${#numbers.formatInteger(product.discount,1,'POINT')}]]
 							% OFF</span>
+							
 						<p>[[${product.description}]]</p>
 						<div class=" d-flex gap-3">
 							<div class="product__details__quantity">
