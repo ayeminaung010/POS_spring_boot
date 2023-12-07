@@ -48,12 +48,6 @@
 					placeholder="Password"> <small class="text-danger"
 					th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></small>
 			</div>
-			<div class="form-check d-flex  align-items-center gap-2">
-				<input class="form-check-input" type="checkbox" value=""
-					th:field="*{rememberMe}" id="flexCheckChecked"> <label
-					class="form-check-label" for="flexCheckChecked">Remember
-					for 30 days</label>
-			</div>
 			<div class="d-grid gap-2">
 				<button class="btn form-btn" type="submit">Login</button>
 			</div>

@@ -13,7 +13,7 @@
 	<div id="sign-in" class="d-flex align-items-center">
 		<form th:action="@{/auth/otp/confirm}" method="post"
 			th:object="${user}" class="row g-3 signin">
-			<div class="alert alert-success" role="alert" th:text="${error}"
+			<div class="alert alert-danger" role="alert" th:text="${error}"
 				th:if="${error}"></div>
 			<div class="alert alert-success" role="alert" th:text="${success}"
 				th:if="${success}"></div>
@@ -28,7 +28,7 @@
 			</div>
 			<div class=" text-center">
 				<label for="exampleFormControlInput1" class="form-label">Didn't
-					get code?</label> <a href="#">Resend OTP</a>
+					get code?</label> <a th:href="@{/auth/forgotPassword}">Re-Enter Email Address</a>
 			</div>
 
 		</form>

@@ -45,14 +45,7 @@
 					th:if="${#fields.hasErrors('confirmPassword')}"
 					th:errors="*{confirmPassword}"></small>
 			</div>
-			<div class="form-check d-flex  align-items-center gap-2">
-				<input class="form-check-input" type="checkbox"
-					th:field="*{agreeTermAndPolicy}" id="flexCheckChecked"> <label
-					class="form-check-label" for="flexCheckChecked">I agree to
-					the terms & policy</label> <small class="text-danger"
-					th:if="${#fields.hasErrors('agreeTermAndPolicy')}"
-					th:errors="*{agreeTermAndPolicy}"></small>
-			</div>
+
 			<div class="d-grid gap-2">
 				<button class="btn form-btn" type="submit">SignUp</button>
 			</div>

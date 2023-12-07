@@ -20,7 +20,6 @@ import com.example.demo.dto.CartItem;
 import com.example.demo.model.Brand;
 import com.example.demo.model.Category;
 import com.example.demo.model.Order;
-import com.example.demo.model.Payment;
 import com.example.demo.model.Product;
 import com.example.demo.model.SubCategory;
 import com.fasterxml.jackson.core.JsonProcessingException;
