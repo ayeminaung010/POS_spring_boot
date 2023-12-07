@@ -67,18 +67,6 @@ public class User {
 	private Set<Order> orders;
 
 
-
-	@Transient
-	private Boolean agreeTermAndPolicy;
-
-	public Boolean getAgreeTermAndPolicy() {
-		return agreeTermAndPolicy;
-	}
-
-	public void setAgreeTermAndPolicy(Boolean agreeTermAndPolicy) {
-		this.agreeTermAndPolicy = agreeTermAndPolicy;
-	}
-
 	public int getId() {
 		return id;
 	}

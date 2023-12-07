@@ -54,6 +54,7 @@ public class ProductController {
 	    
 		return "admin/product/index";
 	}
+	
 
 	@GetMapping("/product/add")
 	public String addProduct(Model model) {

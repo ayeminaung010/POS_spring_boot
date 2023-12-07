@@ -110,10 +110,15 @@
 									class="fa-brands fa-product-hunt"></i>Products
 							</a></li>
 							<li><a
+								th:class="${servletPath == '/product/discount'} ? 'active' : ''"
+								class="dropdown-item" th:href="@{/product/discount}"> <i
+									class="fa-brands fa-product-hunt"></i>Discount Products
+							</a></li>
+							<!-- <li><a
 								th:class="${servletPath == '/paymenttype'} ? 'active' : ''"
 								class="dropdown-item" th:href="@{/paymenttype}"> <i
 									class="fa-solid fa-file-invoice-dollar"></i>Payment Type
-							</a></li>
+							</a></li> -->
 						</ul>
 					</div>
 

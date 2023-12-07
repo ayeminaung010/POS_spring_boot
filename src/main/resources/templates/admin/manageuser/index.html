@@ -66,7 +66,9 @@
 						        <span th:if="${user.role eq 'USER'}" class="badge rounded-pill text-bg-success">[[${user.role}]]</span>
 							</td>
 							<td >[[${#dates.format(user.createdTime,'dd-MMM-yyyy HH:mm')}]]</td>
-							<td ><a th:if="${user.id !=  #authentication.principal.id}"
+							<td >
+							
+							<!-- <a th:if="${user.id !=  #authentication.principal.id}"
 								th:href="@{/manageuser/update/{id}(id =${user.id})}"
 								class="btn btn-link btn-lg btn-rounded"> <i
 									class="fa-solid fa-pen-to-square"></i>
@@ -76,7 +78,7 @@
 								th:onclick="openDeleteModal(this)"
 								class="btn btn-link text-danger btn-lg btn-rounded">
 								<i class="fa-regular fa-trash-can"></i>
-							</a>
+							</a> -->
 							</td>
 						</tr>
 					</tbody>
