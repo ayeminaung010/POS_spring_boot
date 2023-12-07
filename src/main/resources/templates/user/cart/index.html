@@ -67,8 +67,8 @@
 										th:href="@{/shop/detail/{id}(id=${cartItem.id})}"><h5>[[${cartItem.name}]]</h5></a>
 									</td>
 									<td class="shoping__cart__price"><span
-										class="productPrice">[[${#numbers.formatInteger(cartItem.price,3)}]]</span>
-										<span>_Ks</span></td>
+										class="productPrice">[[${#numbers.formatInteger(cartItem.price,1)}]]</span>
+										<span>Ks</span></td>
 									<td class="shoping__cart__quantity">
 										<div class="quantity">
 											<div class="pro-qty">
@@ -79,7 +79,7 @@
 									</td>
 									<td class="shoping__cart__total"><span
 										class="productTotalPrice">[[${cartItem.price} *
-											${cartItem.quantity} ]]</span> <span>_Ks</span></td>
+											${cartItem.quantity} ]]</span> <span>Ks</span></td>
 									<td class="shoping__cart__item__close"><span
 										class="icon_close removeItemBtn"></span></td>
 								</tr>
@@ -224,6 +224,7 @@
 					
 					//send cart update to backend
 					sendCartToBackend();
+					updateCartUI();
 				} else {
 					Toast.fire({
 						icon: "warning",
@@ -244,6 +245,7 @@
 					sessionStorage.setItem("cart", JSON.stringify(storedCart)); 
 					//send cart update to backend
 					sendCartToBackend();
+					updateCartUI();
 				} else {
 					newVal = 1;
 				}
@@ -285,7 +287,7 @@
 		        calculateSubtotalAndTotal();
 		        
 		        sendCartToBackend();
-		        
+		        updateCartUI();
 		        
 		    }
 		})
@@ -324,6 +326,23 @@
                     
                 }
             });
+		}
+		
+		var cartCount = $(".cartCount");
+		var cartPrice = $(".cart_header_price");
+		function updateCartUI(){
+			var storedCart = JSON.parse(sessionStorage.getItem("cart")) || [];
+			console.log(storedCart);
+			var totalQuantity = 0;
+			var totalPrice = 0;
+			storedCart.map(i => {
+				totalQuantity +=i.quantity
+				totalPrice += i.price * i.quantity;
+			});
+			console.log(totalQuantity);
+			console.log(totalPrice);
+			cartPrice.text(totalPrice);
+			cartCount.text(totalQuantity);
 		}
 		
 		

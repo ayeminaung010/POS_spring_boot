@@ -48,7 +48,6 @@
 							<th scope="col">No</th>
 							<th scope="col">Transaction Id</th>
 							<th scope="col">Payment Type</th>
-							<th scope="col">Status</th>
 							<th scope="col">Created Time</th>
 							<th scope="col">Action</th>
 						</tr>
@@ -58,13 +57,6 @@
 							<td>[[${state.count}]]</td>
 							<td>[[${payment.transactionId}]]</td>
 							<td><a href="#" class=" text-decoration-none fw-medium">[[${payment.paymentType}]]</a>
-							</td>
-							<td><span th:if="${payment.status eq 'PENDING'}"
-								class="badge rounded-pill text-bg-warning">[[${payment.status}]]</span>
-								<span th:if="${payment.status eq 'SUCCESS'}"
-								class="badge rounded-pill text-bg-success">[[${payment.status}]]</span>
-								<span th:if="${payment.status eq 'REJECTED'}"
-								class="badge rounded-pill text-bg-danger">[[${payment.status}]]</span>
 							</td>
 							<td>[[${#dates.format(payment.createdTime,'dd-MMM-yyyyHH:mm')}]]</td>
 							<td>
