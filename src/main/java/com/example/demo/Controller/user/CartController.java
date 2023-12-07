@@ -205,11 +205,11 @@ public class CartController {
 				int remainingStock = product.getStock() - cart.getQuantity();
 				if (remainingStock < 0) {
 					// Handle insufficient stock
-					model.addAttribute("error", "Insufficient stock for product: " + product.getName());
+					model.addAttribute("error", "You can't buy this product .Insufficient stock..! " + product.getName());
 					return "user/cart/address";
 				}
 
-				product.setStock(remainingStock); // logic stock
+//				product.setStock(remainingStock); // logic stock
 
 				orderProducts.setQuantity(cart.getQuantity());
 				orderProducts.setTotalPrice(cart.getPrice() * cart.getQuantity());
@@ -218,7 +218,7 @@ public class CartController {
 				orderProductsList.add(orderProducts);
 
 				// Save the updated product
-				productRepository.save(product);
+//				productRepository.save(product); //update product stock changes
 			}
 
 			// Save all OrderProducts together
@@ -229,10 +229,6 @@ public class CartController {
 			
 			//send mail to customer
 			String sub = "Thanks For Your Order Recieved!";
-//			String body = "Your Order Recieved Successfully...!" + "\n" + 
-//						"Transaction ID: " + payment.getTransactionId() +"\n" + 
-//					"Please wait for payment confirmation...!";
-//			mailService.sendMailToUser(loginUser.getEmail(), sub, body);
 			
 			Context context = new Context();
 	        context.setVariable("orderNumber", order.getOrderNumber());
