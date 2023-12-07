@@ -146,7 +146,7 @@
 						<div class="header__cart">
 							<ul>
 								<li><a th:href="@{/cart}" class="active"><i
-										class="fa fa-shopping-bag"></i> <span>[[${cartItemCount}]]</span></a></li>
+										class="fa fa-shopping-bag"></i> <span class="cartCount">[[${cartItemCount}]]</span></a></li>
 							</ul>
 							<div class="header__cart__price">
 								Total: <span class="cart_header_price">[[${#numbers.formatInteger(getTotalPrice,1)

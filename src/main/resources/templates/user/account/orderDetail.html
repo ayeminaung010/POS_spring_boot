@@ -49,7 +49,7 @@
 			<tr th:each="orderProduct,state : ${orderProducts}">
 				<td>[[${state.count}]]</td>
 				<td>
-					<a th:href="@{/product/details/{id}(id=${orderProduct.product.id})}" class="text-dark text-decoration-none fw-medium text-black">[[${orderProduct.product.name}]]</a>
+					<a th:href="@{/shop/detail/{id}(id=${orderProduct.product.id})}" class="text-dark text-decoration-none fw-medium text-black">[[${orderProduct.product.name}]]</a>
 				</td>
 				<td>
 				<a th:href="@{/product/details/{id}(id=${orderProduct.product.id})}" class="text-decoration-none fw-medium">

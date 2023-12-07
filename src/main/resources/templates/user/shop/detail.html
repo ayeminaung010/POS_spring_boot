@@ -239,6 +239,7 @@
         				}); 
 		                $(".productQty").val(1); //reset quantity in ui
 		                sendCartToBackend(); //send data to backend
+		                updateCartUI();
 		                 
 				} else {
 					var totalQty = foundProduct.quantity + quantity;
@@ -271,6 +272,7 @@
 						sessionStorage.setItem("cart", JSON.stringify(storedCart)); 
 						$(".productQty").val(1); //reset quantity in ui
 						sendCartToBackend(); //send data to backend
+						updateCartUI();
 						Toast.fire({
         					icon: "success",
         					title: "Added to the Cart"
@@ -300,6 +302,23 @@
                         
                     }
                 });
+			}
+			
+			var cartCount = $(".cartCount");
+			var cartPrice = $(".cart_header_price");
+			function updateCartUI(){
+				var storedCart = JSON.parse(sessionStorage.getItem("cart")) || [];
+				console.log(storedCart);
+				var totalQuantity = 0;
+				var totalPrice = 0;
+				storedCart.map(i => {
+					totalQuantity +=i.quantity
+					totalPrice += i.price * i.quantity;
+				});
+				console.log(totalQuantity);
+				console.log(totalPrice);
+				cartPrice.text(totalPrice);
+				cartCount.text(totalQuantity);
 			}
 			
 			/*-------------------

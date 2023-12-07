@@ -57,12 +57,13 @@
 						<span th:if="${order.status eq 'REJECTED'}"
 						class="badge badge-danger">[[${order.status}]]</span></td>
 					<td>[[${#dates.format(order.createdTime,'dd-MMM-yyyyHH:mm')}]]</td>
-					<td><a th:href="@{/user/order/slip/{id}(id=${order.id})}"
-						class="btn btn-link btn-lg btn-rounded"> <i
-							class="fa fa-print" aria-hidden="true"></i>
-					</a> <a th:href="@{/orderhistory/detail/{id}(id=${order.id})}"
+					<td><a th:href="@{/orderhistory/detail/{id}(id=${order.id})}"
 						class="btn btn-link btn-lg btn-rounded"> <i
 							class="fa fa-info-circle" aria-hidden="true"></i>
+					</a> <a th:if="${order.status eq 'SUCCESS'}"
+						th:href="@{/user/order/slip/{id}(id=${order.id})}"
+						class="btn btn-link btn-lg btn-rounded"> <i
+							class="fa fa-print" aria-hidden="true"></i>
 					</a></td>
 				</tr>
 
@@ -74,17 +75,20 @@
 			<ul class="pagination">
 				<li class="page-item"
 					th:class="${currentPage == 1 ? 'disabled' : ''}"><a
-					class="page-link" th:href="@{/user/orderhistory(page=${currentPage - 1})}"
+					class="page-link"
+					th:href="@{/user/orderhistory(page=${currentPage - 1})}"
 					aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
 				</a></li>
 				<li th:each="pageNumber : ${#numbers.sequence(1, totalPages)}"
 					class="page-item"
 					th:class="${pageNumber == currentPage ? 'active' : ''}"><a
-					class="page-link" th:href="@{/user/orderhistory(page=${pageNumber})}"
+					class="page-link"
+					th:href="@{/user/orderhistory(page=${pageNumber})}"
 					th:text="${pageNumber}"></a></li>
 				<li class="page-item"
 					th:class="${currentPage == totalPages ? 'disabled' : ''}"><a
-					class="page-link" th:href="@{/user/orderhistory(page=${currentPage + 1})}"
+					class="page-link"
+					th:href="@{/user/orderhistory(page=${currentPage + 1})}"
 					aria-label="Next"> <span aria-hidden="true">&raquo;</span>
 				</a></li>
 			</ul>
