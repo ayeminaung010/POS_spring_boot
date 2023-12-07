@@ -3,10 +3,9 @@
 }
 html,
 body {
-	height: 100%;
+	height: auto;
 	font-family: "Cairo", sans-serif;
-	-webkit-font-smoothing: antialiased;
-	font-smoothing: antialiased;
+	overflow-x: hidden;
 }
 
 h1,
