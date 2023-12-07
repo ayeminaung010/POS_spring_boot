@@ -9,12 +9,14 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.example.demo.daos.CategoryRepository;
 import com.example.demo.daos.UserRepository;
 import com.example.demo.model.User;
 
 @SpringBootApplication
+@EnableTransactionManagement
 public class PoSprojectApplication {
 	@Autowired
 	UserRepository userRepository;
