@@ -16,12 +16,14 @@ import com.example.demo.daos.OrderRepository;
 import com.example.demo.daos.PaymentRepository;
 import com.example.demo.daos.ProductRepository;
 import com.example.demo.daos.SubCategoryRepository;
+import com.example.demo.daos.UserRepository;
 import com.example.demo.dto.CartItem;
 import com.example.demo.model.Brand;
 import com.example.demo.model.Category;
 import com.example.demo.model.Order;
 import com.example.demo.model.Product;
 import com.example.demo.model.SubCategory;
+import com.example.demo.model.User;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -52,6 +54,9 @@ public class SettingsControllerAdvice {
 
 	@Autowired
 	HttpSession session;
+	
+	@Autowired
+	UserRepository userRepository;
 
 	@Autowired
 	ObjectMapper objectMapper;
@@ -65,6 +70,12 @@ public class SettingsControllerAdvice {
 	public List<Category> getCategories() {
 		List<Category> categories = categoryRepository.findAll();
 		return categories;
+	}
+	
+	@ModelAttribute("userList")
+	public int getUsers() {
+		List<User> users = userRepository.findByRole("USER");
+		return users.size();
 	}
 
 	@ModelAttribute("brands")
