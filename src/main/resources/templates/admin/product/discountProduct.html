@@ -4,8 +4,7 @@
 
 <head>
 <meta charset="UTF-8">
-<title>Manage_User</title>
-
+<title>Discount Product</title>
 <link th:replace="admin/layout/assets :: css" />
 </head>
 
@@ -21,65 +20,62 @@
 			</div>
 			<div id="sub_content">
 
-				<form action="/manageuser" method="get" class="row g-3">
+				<form action="/product/discount" method="get" class="row g-3">
 					<div class="col-auto">
-						<label for="inputPassword2" class="visually-hidden">
+						<label for="inputPassword2" class="visually-hidden">Product
 							Name</label> <input type="text" name="search" th:value="${param.search}" class="form-control"
-							placeholder="Search...">
+							placeholder="Product Name">
 					</div>
 
 					<div class="col-auto">
 						<button type="submit" class="btn btn-primary mb-3">Search</button>
 					</div>
 					<div class="col-auto">
-						<a href="/manageuser" class="btn btn-danger mb-3">Reset</a>
-					</div>
-					<div class="col-auto">
-						<a th:href="@{/manageuser/add}" class="btn btn-info">NEW ADMIN</a>
+						<a href="/product/discount" class="btn btn-danger mb-3">Reset</a>
 					</div>
 				</form>
-				
+
 				<div class="alert alert-success" role="alert" th:text="${success}"
 					th:if="${success}"></div>
-				<div class="alert alert-danger" role="alert" th:text="${error}"
-					th:if="${error}"></div>
 
 				<table class="table table-striped" id="stduentTable">
 					<thead>
 						<tr>
 							<th scope="col">No</th>
 							<th scope="col">Name</th>
-							<th scope="col">Email</th>
-							<th scope="col">Role</th>
-							<th scope="col">Create Time</th>
+							<th scope="col">Price</th>
+							<th scope="col">Stock</th>
+							<th scope="col">Discount %</th>
+							<th scope="col">Thumbnail Image</th>
+							<th scope="col">Actions</th>
 						</tr>
 					</thead>
 					<tbody>
-
-						<tr th:each="user,state : ${userList}">
-							<td >[[${state.count}]]</td>
-							<td >[[${user.name}]]</td>
-							<td >[[${user.email}]]</td>
+						<tr th:each="product,state : ${products}">
+							<td>[[${state.count}]]</td>
+							<td>[[${product.name}]]</td>
+							<td>[[${product.price}]] Ks</td>
 							<td>
-						        <span th:if="${user.role eq 'ADMIN'}" class="badge rounded-pill text-bg-warning">[[${user.role}]]</span>
-						        <span th:if="${user.role eq 'USER'}" class="badge rounded-pill text-bg-success">[[${user.role}]]</span>
+							<span
+								class="productStock text-danger " style="font-weight: bold;" th:if="${product.stock eq 0}">Out
+									Of Stock</span> 
+									<span class="productStock "
+								th:if="${product.stock ne 0}">[[${product.stock}]]</span> 
 							</td>
-							<td >[[${#dates.format(user.createdTime,'dd-MMM-yyyy HH:mm')}]]</td>
-							<td >
-							
-							<!-- <a th:if="${user.id !=  #authentication.principal.id}"
-								th:href="@{/manageuser/update/{id}(id =${user.id})}"
+							<td>[[${product.discount}]]</td>
+							<td><img th:alt="${product.name}" width="80"
+								th:src="@{${product.thumbnailImage}}"></td>
+							<td><a th:href="@{/product/details/{id}(id=${product.id})}"
 								class="btn btn-link btn-lg btn-rounded"> <i
-									class="fa-solid fa-pen-to-square"></i>
-							</a> 
-							<a th:if="${user.id !=  #authentication.principal.id}"
-								th:attr="data-id=${user.id}, data-name=${user.name}" 
+									class="fa-solid fa-circle-info"></i></a>
+							 <!-- <a
+								th:attr="data-productId=${product.id} , data-productName=${product.name}"
 								th:onclick="openDeleteModal(this)"
-								class="btn btn-link text-danger btn-lg btn-rounded">
-								<i class="fa-regular fa-trash-can"></i>
-							</a> -->
-							</td>
+								class="btn btn-link text-danger btn-lg btn-rounded"> <i
+									class="fa-regular fa-trash-can"></i>
+							</a> --></td>
 						</tr>
+
 					</tbody>
 				</table>
 				
@@ -89,67 +85,67 @@
 						<ul class="pagination">
 							<li class="page-item"
 								th:class="${currentPage == 1 ? 'disabled' : ''}"><a
-								class="page-link"
-								th:href="@{/contactmessage(page=1)}"
+								class="page-link" th:href="@{/product/discount(page=1)}"
 								aria-label="Previous"> <span aria-hidden="true">&laquo;
 										Previous</span>
 							</a></li>
 							<li th:each="pageNumber : ${#numbers.sequence(1, totalPages)}"
 								class="page-item"
 								th:class="${pageNumber == currentPage ? 'active' : ''}"><a
-								class="page-link"
-								th:href="@{/contactmessage(page=${pageNumber})}"
+								class="page-link" th:href="@{/product/discount(page=${pageNumber})}"
 								th:text="${pageNumber}"></a></li>
 							<li class="page-item"
 								th:class="${currentPage == totalPages ? 'disabled' : ''}">
 								<a class="page-link"
-								th:href="@{/contactmessage(page=${totalPages})}"
-								aria-label="Next"> <span aria-hidden="true">Next
-										&raquo;</span>
+								th:href="@{/product/discount(page=${totalPages})}" aria-label="Next">
+									<span aria-hidden="true">Next &raquo;</span>
 							</a>
 							</li>
 						</ul>
 					</nav>
 
 				</div>
-
 			</div>
 		</div>
 	</div>
 
-
 	<!-- Delete Modal -->
-	<div class="modal fade" id="deleteModal" tabindex="-1"
+	<!--<div class="modal fade" id="deleteModal" tabindex="-1"
 		aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h1 class="modal-title fs-5" id="exampleModalLabel">Delete
-						User</h1>
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						Product</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
 					Are you sure want to delete? - <span id="deleteName"></span>
 				</div>
 				<div class="modal-footer">
-					<form th:action="@{/manageuser/delete}" method="post" th:object="${user}">
+					<form th:action="@{/product/delete}" method="post"
+						th:object="${product}">
 						<div class="btnGp">
 							<input type="hidden" th:field="*{id}" id="deleteId" />
-							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-							<button type="submit" class="btn btn-danger">Yes, Delete it</button>
+							<button type="button" class="btn btn-secondary"
+								data-bs-dismiss="modal">Close</button>
+							<button type="submit" class="btn btn-danger">Yes, Delete
+								it</button>
 						</div>
 					</form>
 				</div>
 			</div>
 		</div>
-	</div> 
+	</div>-->
 
 	<!-- js   -->
 	<script th:replace="admin/layout/assets :: js"></script>
+
 	<script type="text/javascript">
 		function openDeleteModal(button) {
-			$('#deleteId').val(button.getAttribute("data-id"));
-			$('#deleteName').text(button.getAttribute("data-name"));
+			$('#deleteId').val(button.getAttribute("data-productId"));
+			$('#deleteName').text(button.getAttribute("data-productName"));
 			$('#deleteModal').modal('show');
 		};
 	</script>
