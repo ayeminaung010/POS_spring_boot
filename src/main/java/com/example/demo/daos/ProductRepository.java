@@ -15,9 +15,21 @@ import com.example.demo.model.Product;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Integer> {
-	List<Product> findByDiscountGreaterThan(double discount);
+	Page<Product> findByDiscountGreaterThan(Double discount, Pageable pageable);
+	
+	List<Product> findByDiscountGreaterThan(Double discount);
+	
 	Page<Product> findBySubCategorySubCategoryName(String subCategoryName,Pageable pageable);
 	
-	@Query("SELECT p FROM Product p WHERE LOWER(p.name) LIKE LOWER(CONCAT('%', :query, '%')) OR LOWER(p.description) LIKE LOWER(CONCAT('%', :query, '%'))")
+	@Query("SELECT p FROM Product p WHERE LOWER(p.name) LIKE LOWER(CONCAT('%', :query, '%')) "
+			+ "OR LOWER(p.description) LIKE LOWER(CONCAT('%', :query, '%'))" )
 	Page<Product> searchProducts(@Param("query") String query,Pageable pageable);
+
+	
+	@Query("SELECT p FROM Product p " +
+		       "WHERE (LOWER(p.name) LIKE LOWER(CONCAT('%', :query, '%')) " +
+		       "OR LOWER(p.description) LIKE LOWER(CONCAT('%', :query, '%')) " +
+		       "OR LOWER(CAST(p.discount AS string)) LIKE LOWER(CONCAT('%', :query, '%'))) " +
+		       "AND p.discount > 0")
+		Page<Product> findByDiscountContainingIgnoreCase(@Param("query") String query, Pageable pageable);
 }
