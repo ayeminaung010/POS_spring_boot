@@ -76,8 +76,7 @@
 									th:field="*{paymentType}" class="paymentType" />
 								<div class=" mt-3">
 									<label>Upload Your ScreenShot</label>
-									<!-- <input type="file"
-                                    class=" waveFile" name="screenshot" accept="image/*" required /> -->
+
 									<div class="input-group mb-3">
 										<div class="input-group-prepend">
 											<span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
@@ -113,8 +112,6 @@
 									th:field="*{paymentType}" class="paymentType" />
 								<div class=" mt-2">
 									<label>Upload Your ScreenShot</label>
-									<!-- <input type="file"
-                                    class="form-control kPayFile"  name="screenshot" accept="image/*" required /> -->
 									<div class="input-group mb-3">
 										<div class="input-group-prepend">
 											<span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
@@ -167,6 +164,12 @@
 		});
 		
 
+		// Function to display the uploaded file name
+        $('.custom-file-input').on('change', function() {
+            var fileName = $(this).val().split('\\').pop();
+            $(this).next('.custom-file-label').html(fileName);
+        });
+		
 		generateTranscationID();
 		$(".paymentType").val("WavePay");
 		
