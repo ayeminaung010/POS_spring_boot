@@ -114,6 +114,11 @@
 								class="dropdown-item" th:href="@{/product/discount}"> <i
 									class="fa-brands fa-product-hunt"></i>Discount Products
 							</a></li>
+							<li><a
+								th:class="${servletPath == '/product/outofstock'} ? 'active' : ''"
+								class="dropdown-item" th:href="@{/product/outofstock}"> <i
+									class="fa-brands fa-product-hunt"></i>Out of Stock
+							</a></li>
 							<!-- <li><a
 								th:class="${servletPath == '/paymenttype'} ? 'active' : ''"
 								class="dropdown-item" th:href="@{/paymenttype}"> <i

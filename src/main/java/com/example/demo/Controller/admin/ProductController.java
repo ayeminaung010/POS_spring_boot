@@ -188,6 +188,30 @@ public class ProductController {
 	    
 		return "admin/product/discountProduct";
 	}
+	@GetMapping("/product/outofstock")
+	public String Outofstock(@RequestParam(name = "search", required = false) String query,
+			@RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "createdTime") String sortBy, Integer stock, Model model) {
+		Page<Product> productPage;
+		PageRequest pageRequest = PageRequest.of(page - 1, size, Sort.by(sortBy).descending());
+		if (query != null && !query.isEmpty()) {
+			productPage = productRepository.findByOutofstockContainingIgnoreCase(query.trim(), pageRequest);
+		} else {
+			stock = 0;
+			productPage = productRepository.findByStock(stock, pageRequest);
+		}
+		
+		List<Product> products = productPage.getContent();
+		model.addAttribute("products", products);
+		Product product = new Product();
+		model.addAttribute("product", product);
+		
+	    model.addAttribute("currentPage", productPage.getNumber() + 1);
+	    model.addAttribute("totalPages", productPage.getTotalPages());
+	    
+		return "admin/product/Outofstock";
+	}
 	
 
 }

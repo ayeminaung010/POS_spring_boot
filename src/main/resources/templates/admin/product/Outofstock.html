@@ -4,7 +4,7 @@
 
 <head>
 <meta charset="UTF-8">
-<title>Discount Product</title>
+<title>Out of Stock</title>
 <link th:replace="admin/layout/assets :: css" />
 </head>
 
@@ -20,7 +20,7 @@
 			</div>
 			<div id="sub_content">
 
-				<form action="/product/discount" method="get" class="row g-3">
+				<form action="/product/outofstock" method="get" class="row g-3">
 					<div class="col-auto">
 						<label for="inputPassword2" class="visually-hidden">Product
 							Name</label> <input type="text" name="search" th:value="${param.search}"
@@ -31,7 +31,7 @@
 						<button type="submit" class="btn btn-primary mb-3">Search</button>
 					</div>
 					<div class="col-auto">
-						<a href="/product/discount" class="btn btn-danger mb-3">Reset</a>
+						<a href="/product/outofstock" class="btn btn-danger mb-3">Reset</a>
 					</div>
 				</form>
 
@@ -85,7 +85,7 @@
 						<ul class="pagination">
 							<li class="page-item"
 								th:class="${currentPage == 1 ? 'disabled' : ''}"><a
-								class="page-link" th:href="@{/product/discount(page=1)}"
+								class="page-link" th:href="@{/product/outofstock(page=1)}"
 								aria-label="Previous"> <span aria-hidden="true">&laquo;
 										Previous</span>
 							</a></li>
@@ -93,12 +93,12 @@
 								class="page-item"
 								th:class="${pageNumber == currentPage ? 'active' : ''}"><a
 								class="page-link"
-								th:href="@{/product/discount(page=${pageNumber})}"
+								th:href="@{/product/outofstock(page=${pageNumber})}"
 								th:text="${pageNumber}"></a></li>
 							<li class="page-item"
 								th:class="${currentPage == totalPages ? 'disabled' : ''}">
 								<a class="page-link"
-								th:href="@{/product/discount(page=${totalPages})}"
+								th:href="@{/product/outofstock(page=${totalPages})}"
 								aria-label="Next"> <span aria-hidden="true">Next
 										&raquo;</span>
 							</a>
