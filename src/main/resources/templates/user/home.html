@@ -32,7 +32,7 @@
 		</div>
 	</section>
 	<!-- Categories Section End -->
- 
+
 	<section class="row justify-content-center mt-5">
 		<div class=" col-lg-9">
 			<div class="product__discount">
@@ -46,7 +46,12 @@
 							<div class="product__discount__item">
 								<div class="product__discount__item__pic set-bg"
 									th:data-setbg="${dsProduct.thumbnailImage}"></div>
-								<div class="product__discount__percent">-[[${#numbers.formatInteger(dsProduct.discount,1)}]]%</div>
+								<div class="product__discount__percent"
+									th:if="${dsProduct.discount eq 100}">Free</div>
+								<div th:unless="${dsProduct.discount eq 100}">
+									<div class="product__discount__percent"
+										th:text=" ${#numbers.formatInteger(dsProduct.discount, 1)} + '%'"></div>
+								</div>
 								<div class="product__discount__item__text">
 									<span>[[${dsProduct.subCategory.category.categoryName}]]</span>
 									<h5>
@@ -80,20 +85,11 @@
 					<div class="section-title">
 						<h2>Featured Product</h2>
 					</div>
-					<div class="featured__controls">
-						<ul>
-							<li class="active" data-filter="*">All</li>
-							<li data-filter=".oranges">Oranges</li>
-							<li data-filter=".fresh-meat">Fresh Meat</li>
-							<li data-filter=".vegetables">Vegetables</li>
-							<li data-filter=".fastfood">Fastfood</li>
-						</ul>
-					</div>
 				</div>
 			</div>
 			<div class="row featured__filter">
 				<div th:each="product : ${products}"
-					class="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat">
+					class="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat ">
 					<div class="featured__item">
 						<input type="hidden" class="productId" th:value="${product.id}" />
 						<div class="featured__item__pic set-bg productImg"
@@ -111,9 +107,9 @@
 								<a th:href="@{/shop/detail/{id}(id=${product.id})}"
 									class="productName">[[${product.name}]]</a>
 							</h6>
-							<div th:if="${product.discountPrice == 0}">[[${#numbers.formatInteger(product.price,1)}
+							<div th:if="${product.discount == 0}">[[${#numbers.formatInteger(product.price,1)}
 								]] Ks</div>
-							<div th:if="${product.discountPrice != 0}"
+							<div th:if="${product.discount != 0}"
 								class="product__item__price">
 								<span>[[
 									${#numbers.formatInteger(product.discountPrice,1)} ]] Ks</span>

@@ -3,10 +3,9 @@
 }
 html,
 body {
-	height: 100%;
+	height: auto;
 	font-family: "Cairo", sans-serif;
-	-webkit-font-smoothing: antialiased;
-	font-smoothing: antialiased;
+	overflow-x: hidden;
 }
 
 h1,
@@ -841,6 +840,7 @@ ol {
 
 .featured__item {
 	margin-bottom: 50px;
+	overflow: hidden;
 }
 
 .featured__item:hover .featured__item__pic .featured__item__pic__hover {
@@ -848,7 +848,7 @@ ol {
 }
 
 .featured__item__pic {
-	height: 270px;
+	height: 200px;
 	position: relative;
 	overflow: hidden;
     left: 50%;
@@ -1542,6 +1542,7 @@ ol {
 
 .product__item {
 	margin-bottom: 50px;
+	overflow: hidden;
 }
 
 .product__item:hover .product__item__pic .product__item__pic__hover {

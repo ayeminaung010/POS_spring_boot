@@ -17,9 +17,11 @@ import org.thymeleaf.context.Context;
 import com.example.demo.daos.OrderProductRepository;
 import com.example.demo.daos.OrderRepository;
 import com.example.demo.daos.PaymentRepository;
+import com.example.demo.daos.ProductRepository;
 import com.example.demo.model.Order;
 import com.example.demo.model.OrderProducts;
 import com.example.demo.model.Payment;
+import com.example.demo.model.Product;
 import com.example.demo.service.MailService;
 
 @Controller
@@ -32,6 +34,9 @@ public class OrderController {
 
 	@Autowired
 	PaymentRepository paymentRepository;
+	
+	@Autowired
+	ProductRepository productRepository;
 
 	@Autowired
 	MailService mailService;
@@ -121,10 +126,27 @@ public class OrderController {
 	}
 
 	@PostMapping("/order/accept/{id}")
-	public String orderSuccss(@PathVariable("id") Integer id) {
+	public String orderSuccss(@PathVariable("id") Integer id,Model model) {
 		Order order = orderRepository.getReferenceById(id);
 		order.setStatus("SUCCESS");
 		orderRepository.save(order); // change order status
+		
+		// Handle product stock
+		List<OrderProducts> orderProducts = orderProductRepository.findByOrderId(order.getId());
+		for (OrderProducts orderProducts2 : orderProducts) {
+			Product product = orderProducts2.getProduct();
+			int remainingStock = product.getStock() - orderProducts2.getQuantity();
+			System.out.println("products: " + product);
+			System.out.println("remainingStock: " + remainingStock);
+			if(remainingStock < 0) {
+				// Handle insufficient stock
+				System.out.println("chekcing stock: " + remainingStock);
+				model.addAttribute("error", "Insufficient stock for product: " + product.getName());
+				return "admin/order-product/index";
+			}
+			product.setStock(remainingStock); // logic stock
+			productRepository.save(product); 
+		} 
 
 		Payment payment = paymentRepository.getReferenceById(order.getPayment().getId());
 		payment.setStatus("SUCCESS");

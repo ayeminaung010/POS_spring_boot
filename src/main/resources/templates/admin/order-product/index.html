@@ -76,7 +76,13 @@
 								<span>Status</span>
 							</div>
 							<div class=" col-6">
-								<span>[[${order.status}]]</span>
+								<!-- <span>[[${order.status}]]</span> -->
+								<span th:if="${order.status eq 'PENDING'}"
+									class="badge rounded-pill text-bg-warning">[[${order.status}]]</span>
+								<span th:if="${order.status eq 'SUCCESS'}"
+									class="badge rounded-pill text-bg-success">[[${order.status}]]</span>
+								<span th:if="${order.status eq 'REJECTED'}"
+									class="badge rounded-pill text-bg-danger">[[${order.status}]]</span>
 							</div>
 						</div>
 						<div class="row mt-2">
@@ -111,8 +117,9 @@
 								<span>ScreenShot</span>
 							</div>
 							<div class=" col-6">
-								<span th:if="${order.payment.screenshot ne null}"> <a th:href="${order.payment.screenshot}"
-									target="_blank"> <img alt="" width="60" height="60"
+								<span th:if="${order.payment.screenshot ne null}"> <a
+									th:href="${order.payment.screenshot}" target="_blank"> <img
+										alt="" width="60" height="60"
 										th:src="${order.payment.screenshot}">
 								</a>
 								</span>
@@ -219,6 +226,28 @@
 						</div>
 					</div>
 				</div>
+				<div class=" col-6 ">
+					<div class="card p-3 shadow">
+						<h3 class=" font-weight-bold">User Account</h3>
+						<div class="row mt-2">
+							<div class=" col-6">
+								<span>Name</span>
+							</div>
+							<div class=" col-6">
+								<span>[[${order.user.name}]]</span>
+							</div>
+						</div>
+						<div class="row mt-2">
+							<div class=" col-6">
+								<span>Email Address</span>
+							</div>
+							<div class=" col-6">
+								<span>[[${order.user.email}]]</span>
+							</div>
+						</div>
+					</div>
+				</div>
+
 			</div>
 
 		</div>
@@ -228,15 +257,3 @@
 </body>
 
 </html>
-
-<!-- <tr>
-								<td></td>
-								<td>Order Number</td>
-								<td>[[${order.orderNumber}]]</td>
-								<td>Order Time</td>
-								<td>[[${#dates.format(order.createdTime,'dd-MMM-yyyyHH:mm')}]]</td>
-								<td>Status</td>
-								<td>[[${order.orderNumber}]]</td>
-								<td>Total Price</td>
-								<td>[[${order.totalPrice}]]</td>
-							</tr> -->

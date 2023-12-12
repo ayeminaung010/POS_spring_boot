@@ -110,10 +110,20 @@
 									class="fa-brands fa-product-hunt"></i>Products
 							</a></li>
 							<li><a
+								th:class="${servletPath == '/product/discount'} ? 'active' : ''"
+								class="dropdown-item" th:href="@{/product/discount}"> <i
+									class="fa-brands fa-product-hunt"></i>Discount Products
+							</a></li>
+							<li><a
+								th:class="${servletPath == '/product/outofstock'} ? 'active' : ''"
+								class="dropdown-item" th:href="@{/product/outofstock}"> <i
+									class="fa-brands fa-product-hunt"></i>Out of Stock
+							</a></li>
+							<!-- <li><a
 								th:class="${servletPath == '/paymenttype'} ? 'active' : ''"
 								class="dropdown-item" th:href="@{/paymenttype}"> <i
 									class="fa-solid fa-file-invoice-dollar"></i>Payment Type
-							</a></li>
+							</a></li> -->
 						</ul>
 					</div>
 
@@ -163,7 +173,7 @@
 								class="dropdown-item" th:href="@{/payment/all}"> <i
 									class="fa-solid fa-credit-card"></i>All Payments
 							</a></li>
-							<li><a
+							<!-- <li><a
 								th:class="${servletPath == '/payment/pending'} ? 'active' : ''"
 								class="dropdown-item" th:href="@{/payment/pending}"><i
 									class="fa-solid fa-spinner"></i>Pending Payments </a></li>
@@ -174,7 +184,7 @@
 							<li><a
 								th:class="${servletPath == '/payment/reject'} ? 'active' : ''"
 								class="dropdown-item" th:href="@{/payment/reject}"><i
-									class="fa-solid fa-comment-slash"></i>Reject Payments </a></li>
+									class="fa-solid fa-comment-slash"></i>Reject Payments </a></li> -->
 						</ul>
 					</div>
 
