@@ -144,8 +144,8 @@
 	<!-- js files  -->
 	<script th:replace="user/layout/assets :: js"></script>
 	<script
-		src="https://www.paypal.com/sdk/js?client-id=AX5zEgyqv4j6ahuYoF4-Xzpw89fwIk38P1lGa8oKDDI35RYoOE-BwTa9MOjicsjboxGaWPH11zOJIRIa"></script>
-
+		src="https://www.paypal.com/sdk/js?client-id=AX5zEgyqv4j6ahuYoF4-Xzpw89fwIk38P1lGa8oKDDI35RYoOE-BwTa9MOjicsjboxGaWPH11zOJIRIa&disable-funding=credit,card"></script>
+<!-- &disable-funding=paylater -->
 	<script>
 		var totalPrice = document.querySelector(".cart_header_price").innerHTML;
 		var csrfToken = $("meta[name='_csrf']").attr("content");
