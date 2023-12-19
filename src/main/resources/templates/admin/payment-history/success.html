@@ -77,6 +77,8 @@
 					</tbody>
 				</table>
 				
+				<div th:if="${#lists.size(payments) == 0}" class=" text-center">No Items</div>
+				
 				<!-- Pagination Controls -->
 				<div th:if="${totalPages > 1}">
 					<nav aria-label="Page navigation example">

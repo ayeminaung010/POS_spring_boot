@@ -53,6 +53,10 @@ public class UserController {
 				if (user.getRole().equals("ADMIN")) {
 					return "/admin/home";
 				} else {
+					String cartItemJson = (String) session.getAttribute("cart");
+					if (cartItemJson != null && !cartItemJson.isEmpty()) {
+						return "redirect:/cart/payment";
+					}
 					return "/user/home";
 				}
 			}

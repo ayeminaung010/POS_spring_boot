@@ -66,8 +66,8 @@ public class AuthController {
 				String encodePassword = passwordEncoder.encode(user.getPassword());
 				user.setPassword(encodePassword);
 				userRepository.save(user);
-				redirectAttributes.addFlashAttribute("success", "Register Success ... !");
-				return "/user/login";
+				model.addAttribute("success", "Registration successful..!");
+				return "/login";
 			} else {
 				model.addAttribute("error", "Password does not match.. !");
 				return "/signup";
@@ -90,7 +90,7 @@ public class AuthController {
 	public String sendOTPcode(@ModelAttribute("user") User user, Model model) {
 		
 		String OTP = generateNumericOtp();
-		session.setAttribute("otpCode", OTP); //
+		session.setAttribute("otpCode", OTP); 
 		//find email here
 		String email = user.getEmail();
 		User existUser = userRepository.findByEmail(email);

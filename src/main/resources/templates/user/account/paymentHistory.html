@@ -70,6 +70,11 @@
 		  </tbody>
 
 		</table>
+		
+		<div th:if="${#lists.size(payments) == 0}" class=" text-center">
+			<h4>Empty payment history</h4>
+			<a href="/shop" class="btn btn-main mt-5">Shop Now!</a>
+		</div>
 
 		<!-- Pagination Controls -->
 		<nav th:if="${totalPages > 1}" aria-label="Page navigation example">

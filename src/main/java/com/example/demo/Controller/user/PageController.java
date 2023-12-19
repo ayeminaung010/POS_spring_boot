@@ -61,7 +61,7 @@ public class PageController {
 	public String shopDetail(@PathVariable("id") Integer id, Model model) {
 		Product detailProduct = productRepository.getReferenceById(id);
 		Double discount = detailProduct.getDiscount();
-		if (discount != 0.0) {
+		if (discount != 0.0 && discount >= 1.0) {
 			double discountPrice = calculateDiscountPrice(discount, detailProduct.getPrice());
 			model.addAttribute("discountPrice", discountPrice);
 		}
