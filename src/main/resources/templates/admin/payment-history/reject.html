@@ -66,16 +66,15 @@
 								class="badge rounded-pill text-bg-danger">[[${payment.status}]]</span>
 							</td>
 							<td>[[${#dates.format(payment.createdTime,'dd-MMM-yyyyHH:mm')}]]</td>
-							<td>
-								<a th:href="@{/payment/detail/{id}(id=${payment.id})}" 
-									class="btn btn-link btn-lg btn-rounded">
-									<i class="fa-solid fa-circle-info"></i>
-								</a> 
-							</td>
+							<td><a th:href="@{/payment/detail/{id}(id=${payment.id})}"
+								class="btn btn-link btn-lg btn-rounded"> <i
+									class="fa-solid fa-circle-info"></i>
+							</a></td>
 						</tr>
 					</tbody>
 				</table>
-
+				<div th:if="${#lists.size(payments) == 0}" class=" text-center">No
+					Items</div>
 				<!-- Pagination Controls -->
 				<div th:if="${totalPages > 1}">
 					<nav aria-label="Page navigation example">

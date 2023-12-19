@@ -2,7 +2,6 @@ package com.example.demo.Controller.admin;
 
 import java.security.SecureRandom;
 
-import org.antlr.v4.runtime.misc.TestRig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -141,11 +140,6 @@ public class AuthController {
 			model.addAttribute("error", "New Password and Confirm Password do not match..!!");
 			return "/auth/reset-password";
 		}
-	}
-	
-	@PostMapping("/custom-logout")
-	public String loginProcessing() {
-		return "/hii";
 	}
 
 	// generate otp code

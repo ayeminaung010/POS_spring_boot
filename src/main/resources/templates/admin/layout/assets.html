@@ -10,10 +10,10 @@
 
 <body>
 	<div th:fragment="css">
-	<!-- 	font google  -->
+		<!-- 	font google  -->
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		
+
 		<!-- 	font google  -->
 		<link rel="stylesheet" th:href="@{/admin/css/bootstrap.min.css}" />
 		<link rel="stylesheet"
@@ -48,32 +48,11 @@
 	<div th:fragment="sideBar">
 		<div id="group_1">
 			<div class="concured_ttl d-flex align-items-center">
-				<a th:href="@{/admin/home}"><i class="fa-solid fa-store"></i><span >ACE
+				<a th:href="@{/admin/home}"><i class="fa-solid fa-store"></i><span>ACE
 						SHOP</span></a>
 			</div>
 			<div id="list_wrap">
 				<div class="top_list">
-					<!-- <ul>
-						<li><a th:href="@{/admin/home}"
-							th:class="${servletPath == '/admin/home'} ? 'active' : ''"><i
-								class="fa-solid fa-gauge"></i>Dashboard</a></li>
-						<li><a th:href="@{/category}"
-							th:class="${servletPath == '/category'} ? 'active' : ''"><i
-								class="fa-solid fa-list-check"></i>Category</a></li>
-						<li><a th:href="@{/subcategory}"
-							th:class="${servletPath == '/subcategory'} ? 'active' : ''"><i
-								class="fa-solid fa-table-list"></i>Sub Category</a></li>
-						<li><a th:href="@{/brand}"
-							th:class="${servletPath == '/brand'} ? 'active' : ''"><i
-								class="fa-brands fa-slack"></i>Brand</a></li>
-						<li><a th:href="@{/product}"
-							th:class="${servletPath == '/product'} ? 'active' : ''"><i
-								class="fa-brands fa-product-hunt"></i>Products</a></li>
-						<li><a th:href="@{/paymenttype}"
-							th:class="${servletPath == '/paymenttype'} ? 'active' : ''"><i
-								class="fa-brands fa-gratipay"></i>Payment Type</a></li>
-					</ul> -->
-
 					<div>
 						<a th:href="@{/admin/home}"
 							th:class="${servletPath == '/admin/home'} ? 'active' : ''"><i
@@ -104,7 +83,7 @@
 								class="dropdown-item" th:href="@{/brand}"> <i
 									class="fa-brands fa-slack"></i>Brand
 							</a></li>
-							<li><a
+							<!-- <li><a
 								th:class="${servletPath == '/product'} ? 'active' : ''"
 								class="dropdown-item" th:href="@{/product}"> <i
 									class="fa-brands fa-product-hunt"></i>Products
@@ -118,7 +97,7 @@
 								th:class="${servletPath == '/product/outofstock'} ? 'active' : ''"
 								class="dropdown-item" th:href="@{/product/outofstock}"> <i
 									class="fa-brands fa-product-hunt"></i>Out of Stock
-							</a></li>
+							</a></li> -->
 							<!-- <li><a
 								th:class="${servletPath == '/paymenttype'} ? 'active' : ''"
 								class="dropdown-item" th:href="@{/paymenttype}"> <i
@@ -126,6 +105,33 @@
 							</a></li> -->
 						</ul>
 					</div>
+					<div class="dropdown" id="product">
+						<a class="btn " data-bs-toggle="collapse" href="#productManage"
+							role="button" aria-expanded="true"
+							aria-controls="collapseExample"> <i
+							class="fa-brands fa-product-hunt"></i>Product Management<i
+							class="fa fa-caret-down"></i>
+						</a>
+					</div>
+
+					<div class="collapse" id="productManage">
+						<ul class="list-group bg-primary-subtle bg-opacity-75">
+							<li><a
+								th:class="${servletPath == '/product'} ? 'active' : ''"
+								class="dropdown-item" th:href="@{/product}"><i
+									class="fa-solid fa-list-check"></i>All Products </a></li>
+							<li><a
+								th:class="${servletPath == '/product/discount'} ? 'active' : ''"
+								class="dropdown-item" th:href="@{/product/discount}"><i
+									class="fa-solid fa-tags"></i>Discount Products </a></li>
+							<li><a
+								th:class="${servletPath == '/product/outofstock'} ? 'active' : ''"
+								class="dropdown-item" th:href="@{/product/outofstock}"><i
+									class="fa-solid fa-circle-exclamation"></i>Out of Stock
+									Products </a></li>
+						</ul>
+					</div>
+
 
 					<div class="dropdown" id="order">
 						<a class="btn " data-bs-toggle="collapse" href="#orderManage"

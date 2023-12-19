@@ -69,6 +69,10 @@
 
 			</tbody>
 		</table>
+		<div th:if="${#lists.size(orders) == 0}" class=" text-center">
+			<h4>Empty Order</h4>
+			<a href="/shop" class="btn btn-main mt-5">Shop Now!</a>
+		</div>
 
 		<!-- Pagination Controls -->
 		<nav th:if="${totalPages > 1}" aria-label="Page navigation example">
