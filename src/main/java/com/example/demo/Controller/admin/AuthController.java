@@ -2,6 +2,7 @@ package com.example.demo.Controller.admin;
 
 import java.security.SecureRandom;
 
+import org.antlr.v4.runtime.misc.TestRig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -66,8 +67,8 @@ public class AuthController {
 				String encodePassword = passwordEncoder.encode(user.getPassword());
 				user.setPassword(encodePassword);
 				userRepository.save(user);
-				redirectAttributes.addFlashAttribute("success", "Register Success ... !");
-				return "/user/login";
+				model.addAttribute("success", "Registration successful..!");
+				return "/login";
 			} else {
 				model.addAttribute("error", "Password does not match.. !");
 				return "/signup";
@@ -90,7 +91,7 @@ public class AuthController {
 	public String sendOTPcode(@ModelAttribute("user") User user, Model model) {
 		
 		String OTP = generateNumericOtp();
-		session.setAttribute("otpCode", OTP); //
+		session.setAttribute("otpCode", OTP); 
 		//find email here
 		String email = user.getEmail();
 		User existUser = userRepository.findByEmail(email);
@@ -140,6 +141,11 @@ public class AuthController {
 			model.addAttribute("error", "New Password and Confirm Password do not match..!!");
 			return "/auth/reset-password";
 		}
+	}
+	
+	@PostMapping("/custom-logout")
+	public String loginProcessing() {
+		return "/hii";
 	}
 
 	// generate otp code

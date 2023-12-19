@@ -46,29 +46,13 @@
 
 					<div class="row">
 						<div class="col-lg-8 col-md-6">
-							<div class="row">
-								<div class="col-lg-6">
-									<div class="checkout__input">
-										<p>
-											First Name<span>*</span>
-										</p>
-										<input type="text" th:field="*{firstName}">
-										<p class="text-danger"
-											th:if="${#fields.hasErrors('firstName')}"
-											th:errors="*{firstName}"></p>
-									</div>
-								</div>
-								<div class="col-lg-6">
-									<div class="checkout__input">
-										<p>
-											Last Name<span>*</span>
-										</p>
-										<input type="text" th:field="*{lastName}">
-										<p class="text-danger"
-											th:if="${#fields.hasErrors('lastName')}"
-											th:errors="*{lastName}"></p>
-									</div>
-								</div>
+							<div class="checkout__input">
+								<p>
+									Name<span>*</span>
+								</p>
+								<input type="text" th:field="*{name}">
+								<p class="text-danger" th:if="${#fields.hasErrors('name')}"
+									th:errors="*{name}"></p>
 							</div>
 							<div class="checkout__input">
 								<p>

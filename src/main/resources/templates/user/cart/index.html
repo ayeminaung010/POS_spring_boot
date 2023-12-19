@@ -167,7 +167,8 @@
 				//check user auth or not 
 				var username = $("#username").text();
 				if(username == ""){
-					$("#AnonymousModal").modal('show');
+					/* $("#AnonymousModal").modal('show'); */
+					window.location.href = "/login";
 				}
 				
 				if(username != "" && storedCart != [] && storedCart != null){
