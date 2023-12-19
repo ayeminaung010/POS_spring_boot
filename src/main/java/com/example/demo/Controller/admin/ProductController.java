@@ -174,7 +174,7 @@ public class ProductController {
 		if (query != null && !query.isEmpty()) {
 			productPage = productRepository.findByDiscountContainingIgnoreCase(query.trim(), pageRequest);
 		} else {
-			discount = 0.0;
+			discount = 1.0;
 			productPage = productRepository.findByDiscountGreaterThan(discount, pageRequest);
 		}
 		

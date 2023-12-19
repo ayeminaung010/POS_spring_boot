@@ -71,6 +71,7 @@
 						</tr>
 					</tbody>
 				</table>
+				<div th:if="${#lists.size(subcategories) == 0}" class=" text-center">No Items</div>
 
 				<!-- Pagination Controls -->
 				<div th:if="${totalPages > 1}">

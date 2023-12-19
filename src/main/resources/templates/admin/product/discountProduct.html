@@ -50,7 +50,7 @@
 							<th scope="col">Actions</th>
 						</tr>
 					</thead>
-					<tbody>
+					<tbody th:if="${products}">
 						<tr th:each="product,state : ${products}">
 							<td>[[${state.count}]]</td>
 							<td>[[${product.name}]]</td>
@@ -77,7 +77,9 @@
 						</tr>
 
 					</tbody>
+
 				</table>
+				<div th:if="${#lists.size(products) == 0}" class=" text-center">No discount products</div>
 
 				<!-- Pagination Controls -->
 				<div th:if="${totalPages > 1}">

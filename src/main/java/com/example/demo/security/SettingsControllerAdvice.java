@@ -106,13 +106,13 @@ public class SettingsControllerAdvice {
 	
 	@ModelAttribute("discountProducts")
 	public List<Product> getDisProducts() {
-		List<Product> products = productRepository.findByDiscountGreaterThan(0.0);
+		List<Product> products = productRepository.findByDiscountGreaterThan(1.0);
 		return products;
 	}
 	
 	@ModelAttribute("showDisProducts")
 	public List<Product> getShowDisProducts() {
-		List<Product> products = productRepository.findByDiscountGreaterThan(0.0);
+		List<Product> products = productRepository.findByDiscountGreaterThan(1.0);
 	    for (Product product : products) {
 	        double discount = product.getDiscount();
 	        double discountPrice = calculateDiscountPrice(discount, product.getPrice());
