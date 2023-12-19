@@ -15,8 +15,7 @@ public class Address {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	@NotEmpty(message = "Name required...!")
-	private String firstName;
-	private String lastName;
+	private String name;
 	@NotEmpty(message = "Address required...!")
 	private String address1;
 	@NotEmpty(message = "City required...!")
@@ -79,17 +78,11 @@ public class Address {
 	}
 	
 	
-	public String getFirstName() {
-		return firstName;
+	public String getName() {
+		return name;
 	}
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-	public String getLastName() {
-		return lastName;
-	}
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
+	public void setName(String name) {
+		this.name = name;
 	}
 	public Order getOrder() {
 		return order;
