@@ -18,10 +18,16 @@
 				<div th:replace="admin/layout/assets :: header"></div>
 
 			</div>
+			<div class="alert alert-success" role="alert" th:text="${success}"
+					th:if="${success}"></div>
+
+			<div class="alert alert-danger" role="alert" th:text="${error}"
+				th:if="${error}"></div>
+				
 			<a onclick="history.back()" class="btn btn-dark rounded-0 my-3">
 				<i class="fa-solid fa-chevron-left"></i> Back
 			</a>
-
+			
 			<table class="table table-striped" id="stduentTable">
 				<thead>
 					<tr>
