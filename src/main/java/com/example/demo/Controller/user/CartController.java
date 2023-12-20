@@ -239,6 +239,7 @@ public class CartController {
 
 			// add here
 			return "user/cart/successOrder";
+			
 		} catch (Exception e) {
 			// Log the error and handle accordingly
 			System.out.println("Order Error: " + e);
