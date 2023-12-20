@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -139,11 +138,8 @@ public class OrderController {
 		for (OrderProducts orderProducts2 : orderProducts) {
 			Product product = orderProducts2.getProduct();
 			int remainingStock = product.getStock() - orderProducts2.getQuantity();
-			System.out.println("products: " + product);
-			System.out.println("remainingStock: " + remainingStock);
 			if(remainingStock < 0) {
 				// Handle insufficient stock
-				System.out.println("chekcing stock: " + remainingStock);
 				model.addAttribute("error", "Insufficient stock for product: " + product.getName());
 				return "admin/order-product/index";
 			}
@@ -171,7 +167,7 @@ public class OrderController {
 	}
 
 	@PostMapping("/order/reject/{id}")
-	public String orderReject(@PathVariable("id") Integer id) {
+	public String orderReject(@PathVariable("id") Integer id,RedirectAttributes redirectAttributes) {
 		Order order = orderRepository.getReferenceById(id);
 		order.setStatus("REJECTED");
 		orderRepository.save(order);
@@ -190,6 +186,7 @@ public class OrderController {
 		context.setVariable("totalPrice", order.getTotalPrice());
 
 		mailService.sendEmailWithHtmlTemplate(email, sub, "mail/order/reject", context);
+		redirectAttributes.addFlashAttribute("error", "Order Rejected..!!");
 		return "redirect:/order/detail/" + id;
 	}
 }
