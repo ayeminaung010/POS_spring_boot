@@ -39,9 +39,16 @@
 
 
 	<div class="container mt-5">
+		<div class="alert alert-success" role="alert" th:text="${success}"
+			th:if="${success}"></div>
+
+		<div class="alert alert-danger" role="alert" th:text="${error}"
+			th:if="${error}"></div>
 		<div class="text-center mb-3">
 			<h4 class=" font-weight-medium">Select Your Payment Method</h4>
 		</div>
+		
+			
 		<div class="row mt-5">
 			<div class="col-3">
 				<div class="nav flex-column nav-pills" id="v-pills-tab"
@@ -62,7 +69,7 @@
 					<div class="tab-pane fade show active" id="v-pills-wave"
 						role="tabpanel" aria-labelledby="v-pills-home-tab">
 						<div class="">
-							<form th:action="@{/cart/payment/process}"
+							<form th:action="@{/cart/order/payment/processing}"
 								enctype="multipart/form-data" method="post"
 								th:object="${payment}">
 								<div class=" text-center">
@@ -145,7 +152,7 @@
 	<script th:replace="user/layout/assets :: js"></script>
 	<script
 		src="https://www.paypal.com/sdk/js?client-id=AX5zEgyqv4j6ahuYoF4-Xzpw89fwIk38P1lGa8oKDDI35RYoOE-BwTa9MOjicsjboxGaWPH11zOJIRIa&disable-funding=credit,card"></script>
-<!-- &disable-funding=paylater -->
+	<!-- &disable-funding=paylater -->
 	<script>
 		var totalPrice = document.querySelector(".cart_header_price").innerHTML;
 		var csrfToken = $("meta[name='_csrf']").attr("content");
@@ -196,7 +203,7 @@
 		}
 		
 		 function navigateToNextPage() {
-		        window.location.href = "/cart/address";
+		        window.location.href = "/cart/order-success";
 		    }
 
 		 //paypal config
@@ -243,8 +250,12 @@
 										                    console.log(data);
 										                    if(data.status){
 										                    	navigateToNextPage(); 
+										                    }else{
+										                    	location.href = "/cart/order-failed";
 										                    }
+										                    
 										                }
+										                
 										            });
 													
 												});

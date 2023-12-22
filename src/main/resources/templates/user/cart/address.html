@@ -36,7 +36,7 @@
 		<div class="container">
 			<div class="checkout__form">
 				<h4>Billing Details</h4>
-				<form th:action="@{/cart/order}" method="post"
+				<form th:action="@{/cart/address/store}" method="post"
 					th:object="${address}">
 					<div class="alert alert-success" role="alert" th:text="${success}"
 						th:if="${success}"></div>
@@ -114,7 +114,7 @@
 								</div>
 								<ul th:each="entry : ${orderedItem}">
 									<li>[[${entry.key}]]<span>[[
-											${#numbers.formatInteger(entry.value,3)} ]] _Ks</span></li>
+											${#numbers.formatInteger(entry.value,1)} ]] Ks</span></li>
 								</ul>
 								<div class="checkout__order__subtotal">
 									Delivery Fee <span>5000_Ks</span>

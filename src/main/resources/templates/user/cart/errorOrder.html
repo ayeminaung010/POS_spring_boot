@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Order Successful</title>
+<!-- css -->
+<link th:replace="user/layout/assets :: css" />
+</head>
+<body>
+
+	<!-- header -->
+	<div th:replace="user/layout/assets :: header"></div>
+
+	<!-- Breadcrumb Section Begin -->
+	<section class="breadcrumb-section set-bg"
+		th:data-setbg="@{/client/img/breadcrumb.jpg}">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12 text-center">
+					<div class="breadcrumb__text">
+						<h2>Shopping Payment</h2>
+						<div class="breadcrumb__option">
+							<a href="/cart">Cart</a> <span>Payment</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- Breadcrumb Section End -->
+
+	<div class=" text-center my-5" id="order_fail">
+		<h2>Your Order is Failed!</h2>
+		<div class=" d-flex justify-content-center gap-3 mt-3 ">
+			<a href="/cart" class="btn btn-primary ms-2 mt-5">Back to Cart Item</a>
+		</div>
+	</div>
+
+	<!-- js files  -->
+	<script th:replace="user/layout/assets :: js"></script>
+</body>
+</html>

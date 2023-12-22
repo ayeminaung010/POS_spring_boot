@@ -55,7 +55,7 @@ public class UserController {
 				} else {
 					String cartItemJson = (String) session.getAttribute("cart");
 					if (cartItemJson != null && !cartItemJson.isEmpty()) {
-						return "redirect:/cart/payment";
+						return "redirect:/cart";
 					}
 					return "/user/home";
 				}
