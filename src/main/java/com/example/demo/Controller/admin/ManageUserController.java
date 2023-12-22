@@ -40,7 +40,7 @@ public class ManageUserController {
 		PageRequest pageRequest = PageRequest.of(page - 1, size, Sort.by(sortBy).descending());
 		
 		if (query != null && !query.isEmpty()) {
-			usersPage = userRepo.findByNameContainingIgnoreCase(query.trim(), pageRequest);
+			usersPage = userRepo.searchUser(query.trim(), pageRequest);
 		} else {
 			usersPage = userRepo.findAll(pageRequest);
 		}

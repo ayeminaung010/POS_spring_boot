@@ -212,7 +212,8 @@ public class CartController {
 			if (cartItemJson == null || cartItemJson.isEmpty()) {
 				// Handle the case where the cart is empty
 				model.addAttribute("error", "Your cart is empty.");
-				return "user/cart/address";
+				model.addAttribute("payment",new Payment());
+				return "user/cart/index";
 			}
 
 			List<CartItem> cartItem = objectMapper.readValue(cartItemJson, new TypeReference<List<CartItem>>() {
@@ -254,7 +255,8 @@ public class CartController {
 				if (remainingStock < 0) {
 					// Handle insufficient stock
 					model.addAttribute("error", "You can't buy this product .Insufficient stock..! " + product.getName());
-					return "user/cart/address";
+					model.addAttribute("payment",new Payment());
+					return "user/cart/payment";
 				}
 
 				orderProducts.setQuantity(cart.getQuantity());

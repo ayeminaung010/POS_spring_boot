@@ -55,6 +55,9 @@
 										th:src="${payment.screenshot}">
 								</a>
 					</span>
+					<span th:if="${payment.screenshot eq null}">
+						---
+					</span>
 				</td>
 			</tr>
 		    
