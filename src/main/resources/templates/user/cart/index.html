@@ -99,14 +99,14 @@
 					<div class="shoping__checkout">
 						<h5>Cart Total</h5>
 						<ul>
-							<li>SubTotal <span>_Ks</span> <span class="subTotal">[[
-									${#numbers.formatInteger(totalPrice,3)} ]]</span>
+							<li>SubTotal <span> Ks</span> <span class="subTotal">[[
+									${#numbers.formatInteger(totalPrice,3)} ]] </span>
 							</li>
-							<li>Delivery Fee <span>_Ks</span> <span class="">
-									5000</span>
+							<li>Delivery Fee <span> Ks</span> <span class="">
+									5000 </span>
 							</li>
-							<li>Total <span>_Ks</span> <span class="totalPrice">[[${totalPrice}
-									+ 5000]]</span></li>
+							<li>Total <span> Ks</span> <span class="totalPrice">[[${totalPrice}
+									+ 5000]] </span></li>
 						</ul>
 
 						<a sec:authorize="isAuthenticated()"
